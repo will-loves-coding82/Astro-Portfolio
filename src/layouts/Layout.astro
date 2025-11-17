@@ -225,57 +225,6 @@ import Footer from "../components/Footer.astro";
 				},
 			},
 		);
-
-				/* Scroll triggger custom pinning
-		 * The end parameter uses a function that gets called whenever the ScrollTrigger refreshes and calculates its positions
-		 * (typically upon creation and any time the scroller resizes)
-		 */
-		// ScrollTrigger.create({
-		// 	trigger: "progress",
-		// 	start: "top-=400px top",
-		// 	onUpdate: (self) => {
-		// 		progressBar!.value = self.progress
-		// 	},
-		// 	end: () => `+=${panelHeightPx * 2 + PANEL_GAP * 3}px`, // default panel height * 2 panels + total flex gap spacing
-		// 	pinnedContainer: "#pin-container",
-		// 	pin: true,
-		// 	pinSpacing: false,
-		// });
-		// ScrollTrigger.create({
-		// 	trigger: "#panel-1",
-		// 	start: `top-=${panelPinOffsetPx} top`,
-		// 	end: () => `+=${panelHeightPx * 2 + PANEL_GAP * 3}px`, // default panel height * 2 panels + total flex gap spacing
-		// 	pinnedContainer: "#pin-container",
-		// 	pin: true,
-		// 	pinSpacing: false,
-		// });
-		// ScrollTrigger.create({
-		// 	trigger: "#panel-2",
-		// 	start: `top-=${panelPinOffsetPx} top`,
-		// 	end: () => `+=${panelHeightPx + PANEL_GAP * 2}px`,
-		// 	pinnedContainer: "#pin-container",
-		// 	pin: true,
-		// 	pinSpacing: false,
-		// });
-		// ScrollTrigger.create({
-		// 	trigger: "#panel-3",
-		// 	start: `top-=${panelPinOffsetPx} top`,
-		// 	end: () => `+=${PANEL_GAP}px`,
-		// 	pinnedContainer: "#pin-container",
-		// 	pin: true,
-		// 	pinSpacing: false,
-		// });
-
-		// ScrollTrigger.create({
-		// 	trigger: "#pin-container",
-		// 	start: () => `+=${panelHeightPx * 2}px`,
-		// 	scrub: 1,
-		// 	animation: gsap.fromTo(
-		// 		"#pin-container",
-		// 		{ opacity: 1 },
-		// 		{ opacity: 0 },
-		// 	),
-		// });
 	}
 </script>
 
@@ -286,11 +235,6 @@ import Footer from "../components/Footer.astro";
 		<meta name="viewport" content="width=device-width" />
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<!-- <link rel="stylesheet" href="/styles/global.css" /> -->
-		<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-		<!-- <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@1,400;1,600&display=swap" rel="stylesheet"> -->
-
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
 		<ClientRouter />

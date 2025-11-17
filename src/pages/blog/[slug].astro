@@ -23,48 +23,6 @@ const { Content } = await render(post);
 ---
 
 
-<script>
-
-  import { gsap } from "gsap";
-  import { SplitText } from "gsap/SplitText";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { ScrollSmoother } from "gsap/ScrollSmoother";
-  import { Flip } from "gsap/Flip";
-
-	document.addEventListener("astro:page-load", setUpAnimations);
-
-
-  function setUpAnimations() {	
-		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
-
-  }
-
-  // Resize window listener
-  window.addEventListener("resize", () => {
-    ScrollTrigger.refresh();
-  });
-
-  // document.addEventListener("astro:page-load", () =>{
-  //     const backButton = document.querySelector("button#back")
-  //     backButton?.addEventListener('click', (e) => {
-  //       e.preventDefault()
-  //       history.back()
-  //     })
-  // })
-
-  // gsap.from("img", {
-	// 		duration: 3,
-	// 		yPercent: 10,
-	// 		opacity: 0,
-	// 		ease: "expo.out",
-	// 		scrollTrigger: { trigger: "img" },
-	// });
-  
-
-
-
-</script>
-
 
 <Layout>
     <div id="smooth-content">

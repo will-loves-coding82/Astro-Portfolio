@@ -8,7 +8,7 @@
     /* Root font size. All relative units use this as their reference */
     overflow-x: hidden;
     overflow-y: scroll;
-
+    
     --background-primary: #0f0f0f;
     --background-secondary: #1d1d1d;
     --background-footer: #141414;

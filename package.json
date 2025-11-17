@@ -16,6 +16,7 @@
     "@lucide/astro": "^0.553.0",
     "@tailwindcss/vite": "^4.1.16",
     "astro": "^5.15.3",
+    "astro-collection-search": "^0.1.0",
     "astro-keyboard-controls": "^1.0.0",
     "astro-pagefind": "^1.8.5",
     "gsap": "^3.13.0",
