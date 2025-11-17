@@ -1,0 +1,134 @@
+---
+import '../styles/global.css';
+import '@fontsource/crimson-text'
+import KeyboardControls from 'astro-keyboard-controls';
+import {ArrowRight} from "@lucide/astro";
+
+
+const desktopLinkStyle = "primary-body text-(--color-gray) px-3 py-1 w-fit rounded-lg hover:text-white hover:bg-gray-500/50 transition-color duration-500";
+const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-all duration-300 text-center sm:text-left"
+---
+
+<style>
+
+.nav-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.disabled-interaction {
+    pointer-events: none; /* Prevents mouse events like clicks, hovers */
+    user-select: none;   /* Prevents text selection */
+    opacity: 0.6;        /* Optional: Visually indicate disabled state */
+    cursor: default;     /* Optional: Change cursor to default */
+}
+</style>
+
+
+<script src="../scripts/gsap.min.js"></script>
+
+<script>
+
+    document.addEventListener("astro:page-load", () =>{
+
+        const menuButton = document.querySelector("button#toggle-menu") as HTMLElement;
+        const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
+        const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
+
+        menuButton?.addEventListener('mousedown', (e) => {
+            
+            e.preventDefault()
+
+            // Animates the sidebar translating in/out the view
+            // By default, it is translated far to the right
+            sideBarMenu.classList.toggle('translate-x-full');
+
+            if (sideBarMenu.classList.contains('translate-x-full')) {
+                smoothWrapper.toggleAttribute('inert', false);
+                smoothWrapper.classList.remove('opacity-50');
+                smoothWrapper.classList.remove('blur-sm');
+            }
+            else {
+                smoothWrapper.toggleAttribute('inert', true);
+                smoothWrapper.classList.add('opacity-50');
+                smoothWrapper.classList.add('blur-sm');
+            }
+        })
+
+        window.addEventListener("resize", () => {
+			var width = window.innerWidth;
+            var sideBarHidden = sideBarMenu.style.visibility == "hidden";
+            var sideBarTranslatedFull = sideBarMenu.classList.contains('translate-x-full');
+
+            if (width >= 1024|| sideBarTranslatedFull) {
+                smoothWrapper.toggleAttribute('inert', false);
+                smoothWrapper.classList.remove('opacity-50');
+                smoothWrapper.classList.remove('blur-sm');
+            }
+            if (width < 1024 && !sideBarTranslatedFull && !sideBarHidden) {
+                smoothWrapper.toggleAttribute('inert', true);
+                smoothWrapper.classList.add('opacity-50');
+                smoothWrapper.classList.add('blur-sm');
+            }
+		});
+    })
+</script>
+
+
+<nav id="desktop-nav" class="fixed z-100 w-full flex justify-between h-20 items-center px-8 box-border bg-(--background-primary) border-b-2 border-(--background-secondary) opacity-[95%] xl:px-40">
+    
+    <a class="primary-header-3 text-white text-left w-24" href="/">MYUNG</a>
+
+    <menu class="hidden gap-8 items-center w-fit lg:flex">
+        <a class={desktopLinkStyle} href="/about/">About</a>
+        <a class={desktopLinkStyle} href="/projects/">Projects</a>
+        <a class={desktopLinkStyle} href="/gallery">Gallery</a> 
+        <a class={desktopLinkStyle} href="/blog">Blog</a> 
+    </menu>
+
+    <menu class="w-24 flex justify-end gap-8">
+        <KeyboardControls selector="#controls #search" key="k" />
+        <span id="controls w-fit">
+            <button id="search" class="text-white">k</button>
+        </span>
+        <button id="toggle-menu" class="hover:cursor-pointer lg:hidden">
+            menu
+        </button>
+    </menu>
+</nav>
+
+<menu>
+
+
+<section id="side-bar-menu" class="fixed right-0 z-10 h-screen w-full bg-(--background-primary) sm:w-[45vw] border-l-2 border-(--background-secondary) translate-x-full  transition-all duration-500 ease-in-out lg:hidden">
+    <menu class="flex flex-col gap-12 w-fit h-screen mt-32 sm:text-left px-8">
+
+        <span class="group flex items-center">
+            <ArrowRight size={24} class="mr-2 rounded-full w-0 opacity-0 group-hover:w-[24px] group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+            <a class={sideBarLinkStyle}  href="/about">About</a>
+        </span>
+
+         <span class="group flex items-center">
+            <ArrowRight size={24} class="mr-2 rounded-full w-0 opacity-0 group-hover:w-[24px] group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+            <a class={sideBarLinkStyle}  href="/projects">Projects</a>
+        </span>
+
+         <span class="group flex items-center">
+            <ArrowRight size={24} class="mr-2 rounded-full w-0 opacity-0 group-hover:w-[24px] group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+            <a class={sideBarLinkStyle}  href="/gallery">Gallery</a>
+        </span>
+
+         <span class="group flex items-center">
+            <ArrowRight size={24} class="mr-2 rounded-full w-0 opacity-0 group-hover:w-[24px] group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+            <a class={sideBarLinkStyle}  href="/blog">Blog</a>
+        </span>
+
+        <!-- <a class={sideBarLinkStyle}  href="/about/">About</a>
+        <a class={sideBarLinkStyle}  href="/projects/">Projects</a>
+        <a class={sideBarLinkStyle}  href="/gallery">Gallery</a> 
+        <a class={sideBarLinkStyle}  href="/blog">Blog</a>  -->
+    </menu>
+</section>
+
+

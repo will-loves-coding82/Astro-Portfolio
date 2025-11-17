@@ -1,0 +1,110 @@
+---
+// src/pages/blog/[slug].astro
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+// import Button from '../../components/Button.astro';
+ 
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+ 
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  return blogPosts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+
+<script>
+
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { ScrollSmoother } from "gsap/ScrollSmoother";
+  import { Flip } from "gsap/Flip";
+
+	document.addEventListener("astro:page-load", setUpAnimations);
+
+
+  function setUpAnimations() {	
+		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
+
+  }
+
+  // Resize window listener
+  window.addEventListener("resize", () => {
+    ScrollTrigger.refresh();
+  });
+
+  // document.addEventListener("astro:page-load", () =>{
+  //     const backButton = document.querySelector("button#back")
+  //     backButton?.addEventListener('click', (e) => {
+  //       e.preventDefault()
+  //       history.back()
+  //     })
+  // })
+
+  // gsap.from("img", {
+	// 		duration: 3,
+	// 		yPercent: 10,
+	// 		opacity: 0,
+	// 		ease: "expo.out",
+	// 		scrollTrigger: { trigger: "img" },
+	// });
+  
+
+
+
+</script>
+
+
+<Layout>
+    <div id="smooth-content">
+
+      <main data-lag class="flex flex-col w-full px-8 max-w-4xl mx-auto">
+    
+        <article class="my-40 w-full max-w-4xl mx-auto">
+          
+          <a id="back" href="/blog" class="primary-body text-(--color-gray) text-left hover:cursor-pointer">blog / {post.id}</a>
+
+          <header class="flex flex-col gap-20">
+
+            <hgroup class="mt-8">
+              <h1 class="primary-header-1 max-w-xl">{post.data.title}</h1>
+
+              <span class="inline-flex gap-3 mt-8">
+                {post.data.tags.map((tag)=> (
+                  <p class="primary-body  text-(--color-gray) px-4 py-1 bg-(--background-secondary) w-fit rounded-lg">{tag}</p>
+                ))}
+              </span>
+              
+            </hgroup>
+
+            <hgroup>
+              <h3 class="primary-header-3 text-white">Overview</h3>
+              <p class="text-(--color-gray)">{post.data.description}</p>
+            </hgroup>
+            
+          </header>
+       
+          <hr class="my-8 text-(--line-gray)">
+
+          <Image src={post.data.cover} alt="cover image for blog" fit="fill" width=400 height=300 class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
+
+          <div id="content" class="primary-body text-white mt-24">
+            <Content />
+          </div>
+
+        </article>
+      </main>
+    <div id="smooth-content">
+
+</Layout>

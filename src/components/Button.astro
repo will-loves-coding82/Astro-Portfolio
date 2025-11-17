@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+const {variant} = Astro.props;
+
+enum Variant {
+    light = "light", 
+    dark = "dark",
+    back = "back"
+}
+
+const DEFAULT="bg-(--background-secondary) w-fit primary-body text-white px-4 py-2 hover:cursor-pointer"
+const LIGHT="w-fit primary-body text-white px-4 py-2 hover:cursor-pointer"
+
+var buttonStyling = DEFAULT
+
+switch (variant) {
+    case Variant.light: {
+        buttonStyling = LIGHT
+    }
+    default: {
+        break;
+    }
+
+}
+---
+
+<button class={buttonStyling}>
+    <slot/>
+</button>

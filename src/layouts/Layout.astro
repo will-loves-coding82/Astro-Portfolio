@@ -1,0 +1,318 @@
+---
+import "../styles/global.css";
+import NavBar from "../components/NavBar.astro";
+import ClientRouter from "astro/components/ClientRouter.astro";
+import Footer from "../components/Footer.astro";
+---
+<script src="../scripts/gsap.min.js"></script>
+
+<script>
+	const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
+		document.addEventListener("astro:after-preparation", () =>{
+		sideBarMenu.classList.add('hidden');
+	})
+</script>
+
+<script>
+	import { gsap } from "gsap";
+	import { SplitText } from "gsap/SplitText";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { ScrollSmoother } from "gsap/ScrollSmoother";
+	import { Flip } from "gsap/Flip";
+
+	const LARGE_PANEL_PX = 440;
+	const SMALL_PANEL_PX = 300;
+	const PANEL_GAP = 24;
+
+	const LARGE_PIN_OFFSET_PX = 240;
+	const SMALL_PIN_OFFSET_PX = 120;
+
+	var hero = "#hero";
+	var myBackground= "#my-background";
+	var projectsHeader = "#projects-header";
+	var projectCover = ".project-cover"
+
+	let panelHeightPx = LARGE_PANEL_PX;
+	let panelPinOffsetPx = SMALL_PIN_OFFSET_PX;
+	let width = window.innerWidth;
+
+	document.addEventListener("astro:page-load", setUpAnimations);
+
+	// Animations are set up in the order that they appear on the page
+	function setUpAnimations() {	
+		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
+
+		ScrollSmoother.create({
+			smooth: 2, // how long (in seconds) it takes to "catch up" to the native scroll position
+			effects: true, // looks for data-speed and data-lag attributes on elements
+			smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
+			normalizeScroll: true,
+		});
+
+		// Initialize panel height
+		panelHeightPx = window.innerWidth < 640 ? SMALL_PANEL_PX : LARGE_PANEL_PX;
+
+		// Resize window listener
+		window.addEventListener("resize", () => {
+			var width = window.innerWidth;
+			panelHeightPx = width < 640 ? SMALL_PANEL_PX : LARGE_PANEL_PX;
+
+			panelPinOffsetPx = width < 640 ? SMALL_PIN_OFFSET_PX : LARGE_PIN_OFFSET_PX;
+			// Recalculate pin positions
+			ScrollTrigger.refresh();
+		});
+
+
+		// Make the name in the navbar appear slowly
+		ScrollTrigger.create({
+			trigger: "#my-background",
+			start: "top-=300px top",
+			scrub: 1,
+			animation: gsap.fromTo(
+				"#nav-bar-name",
+				{ opacity: 0 },
+				{ opacity: 1 },
+			),
+			// slowly make an html p element appear as you scroll into the trigger
+		});
+
+		let splitHero = SplitText.create(hero, {
+			type: "words",
+			autoSplit: true,
+		});
+
+		let backgroundText = SplitText.create(myBackground, {
+			type: "words, lines",
+			autoSplit: true,
+			reduceWhiteSpace: false,
+		});
+
+		let splitProjectHeader = SplitText.create(projectsHeader, {
+			type: "lines",
+			autoSplit: true,
+		});
+
+		gsap.from(backgroundText.lines, {
+			duration: 2,
+			yPercent: 100,
+			opacity: 0,
+			stagger: 0.05,
+			ease: "expo.out",
+			scrollTrigger: { trigger: myBackground },
+		});
+
+
+		gsap.from(splitProjectHeader.lines, {
+			duration: 1.5,
+			rotationX: -100,
+			filter: "blur(20px)",
+			transformOrigin: "50% 50% -160px",
+			opacity: 0,
+			stagger: 0.15,
+			ease: "power3.out",
+			scrollTrigger: {trigger: projectsHeader, start: "top-=600px"}
+		});
+
+		gsap.from(splitHero.words, {
+			duration: 1,
+			y: 50,
+			autoAlpha: 0,
+			stagger: 0.08,
+			scrub: 1,
+			scrollTrigger: { trigger: hero },
+		});
+
+
+
+		for (let i = 1; i <= 3; i++) {
+			let tooltip = document.querySelector(`#project-tooltip-${i}`) as HTMLElement;
+			let projectImage = document.querySelector(`#project-image-${i}`) as HTMLElement;
+			let container = projectImage.getBoundingClientRect();
+
+			gsap.set(tooltip, {opacity: 0, scale: 0, xPercent: -50, yPercent: -50});
+
+			let xTo = gsap.quickTo(tooltip, "x", {duration: 0.6, ease: "expo.out"});
+			let yTo = gsap.quickTo(tooltip, "y", {duration: 0.6, ease: "expo.out"});
+
+			projectImage.addEventListener("mouseenter", (e: MouseEvent) => {
+				 gsap.to(tooltip, {
+					duration: 0.3,
+					opacity: 1,
+					scale: 1,
+					transformOrigin: "center center"
+				});
+			});
+
+			projectImage.addEventListener("mousemove", (e: any) => {
+				let x = e.clientX;
+				let y = e.clientY;
+				// get the position of the element you applied the handler to
+				let pos = e.target!.getBoundingClientRect();
+				// subtract the position of the element (rounded up to the next
+				// integer) from the mouse position and return it.
+				xTo(x + 64);
+				yTo(y - pos.y + 64);
+			});
+
+	
+			projectImage.addEventListener("mouseleave", (e: MouseEvent) => {
+				// tooltip.classList.add("opacity-0")
+				gsap.to(tooltip, {
+					duration: 0.3,
+					opacity: 0,
+					scale: 0
+				});
+			});
+		
+		}		
+
+		// Image carousel horizontal scroll animation
+		ScrollTrigger.create({
+			trigger: "#carousel",
+			start: () => (width < 640 ? "top-=700px top" : "top-=900px top"),
+			end: () =>
+				width < 640 ? "bottom+=800px bottom" : "bottom+=900px bottom",
+			scrub: 1,
+			animation: gsap.fromTo("#carousel", { x: -200 }, { x: 200 }),
+		});
+
+		gsap.fromTo(
+			"#gallery-header",
+			{
+				xPercent: -100,
+				opacity: 0,
+				filter: "blur(10px)",
+				scrollTrigger: {
+					trigger: "#gallery-header",
+					start: "top-=940px top",
+					scrub: 1,
+				},
+			},
+			{
+				duration: 1,
+				xPercent: 0,
+				opacity: 1,
+				filter: "blur(0px)",
+				ease: "expo.out",
+				scrollTrigger: {
+					trigger: "#gallery-header",
+					start: "top-=940px top",
+					scrub: 1,
+				},
+			},
+		);
+
+		gsap.fromTo(
+			"#gallery-button",
+			{
+				yPercent: 100,
+				opacity:0,
+				scrollTrigger: {
+					trigger: "#gallery-header",
+					start: "top-=880px top",
+					scrub: 1,
+				},
+			},
+			{
+				duration: 1,
+				yPercent: 0,
+				opacity: 1,
+				ease: "expo.out",
+				scrollTrigger: {
+					trigger: "#gallery-header",
+					start: "top-=880px top",
+					scrub: 1,
+				},
+			},
+		);
+
+				/* Scroll triggger custom pinning
+		 * The end parameter uses a function that gets called whenever the ScrollTrigger refreshes and calculates its positions
+		 * (typically upon creation and any time the scroller resizes)
+		 */
+		// ScrollTrigger.create({
+		// 	trigger: "progress",
+		// 	start: "top-=400px top",
+		// 	onUpdate: (self) => {
+		// 		progressBar!.value = self.progress
+		// 	},
+		// 	end: () => `+=${panelHeightPx * 2 + PANEL_GAP * 3}px`, // default panel height * 2 panels + total flex gap spacing
+		// 	pinnedContainer: "#pin-container",
+		// 	pin: true,
+		// 	pinSpacing: false,
+		// });
+		// ScrollTrigger.create({
+		// 	trigger: "#panel-1",
+		// 	start: `top-=${panelPinOffsetPx} top`,
+		// 	end: () => `+=${panelHeightPx * 2 + PANEL_GAP * 3}px`, // default panel height * 2 panels + total flex gap spacing
+		// 	pinnedContainer: "#pin-container",
+		// 	pin: true,
+		// 	pinSpacing: false,
+		// });
+		// ScrollTrigger.create({
+		// 	trigger: "#panel-2",
+		// 	start: `top-=${panelPinOffsetPx} top`,
+		// 	end: () => `+=${panelHeightPx + PANEL_GAP * 2}px`,
+		// 	pinnedContainer: "#pin-container",
+		// 	pin: true,
+		// 	pinSpacing: false,
+		// });
+		// ScrollTrigger.create({
+		// 	trigger: "#panel-3",
+		// 	start: `top-=${panelPinOffsetPx} top`,
+		// 	end: () => `+=${PANEL_GAP}px`,
+		// 	pinnedContainer: "#pin-container",
+		// 	pin: true,
+		// 	pinSpacing: false,
+		// });
+
+		// ScrollTrigger.create({
+		// 	trigger: "#pin-container",
+		// 	start: () => `+=${panelHeightPx * 2}px`,
+		// 	scrub: 1,
+		// 	animation: gsap.fromTo(
+		// 		"#pin-container",
+		// 		{ opacity: 1 },
+		// 		{ opacity: 0 },
+		// 	),
+		// });
+	}
+</script>
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<!-- <link rel="stylesheet" href="/styles/global.css" /> -->
+		<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+		<!-- <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@1,400;1,600&display=swap" rel="stylesheet"> -->
+
+		<meta name="generator" content={Astro.generator} />
+		<title>Portfolio</title>
+		<ClientRouter />
+	</head>
+
+	<body class="flex flex-col justify-between">
+		<NavBar/>
+		<section id="smooth-wrapper" class="transition-all duration-400" >
+			<div id="smooth-content">
+				<slot />
+				<Footer/>
+			</div>
+		</section>	
+	</body>
+
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

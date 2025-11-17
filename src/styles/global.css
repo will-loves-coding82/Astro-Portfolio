@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind enables direct usage of css variables for inline styling
+ * https://tailwindcss.com/docs/upgrade-guide#variables-in-arbitrary-values
+ */
+:root {
+    /* Root font size. All relative units use this as their reference */
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    --background-primary: #0f0f0f;
+    --background-secondary: #1d1d1d;
+    --background-footer: #141414;
+
+    --color-gray: #8f8f8f;
+    --line-gray: rgba(255, 255, 255, 0.03);
+
+
+    /* Font sizes */
+    --primary-title-1: 5rem;
+    --primary-link: 1rem;
+
+    --gap-xs: 0.5rem;
+    --gap-sm: 1rem;
+    --gap-md: 2rem;
+    --gap-lg: 4rem;
+
+    /* Padding values */
+    --padding-xs: 1rem;
+    --padding-sm: 1.5rem;
+    --padding-md: 2rem;
+    --padding-md: 4rem;
+    --padding-lg: 8rem;
+    --padding-xl: 12rem;
+    --padding-2xl: 24rem;
+    --padding-3xl: 36rem;
+
+
+     /* Margin values */
+    --margin-xs: 1rem;
+    --margin-sm: 1.5rem;
+    --margin-md: 2rem;
+    --margin-md: 4rem;
+    --margin-lg: 8rem;
+    --margin-xl: 12rem;
+    --margin-2xl: 24rem;
+    --margin-3xl: 36rem;
+
+    /* Screen width values */
+    --xs: 320px;
+    --sm: 640px;
+    --md: 768px;
+    --lg: 1024px;
+    --xl: 1280px;
+    --2xl: 1536px;
+}
+
+html {
+    background-color: var(--background-primary);
+    overflow-y: hidden;
+    font-size: 16px;
+    color: #fffcf5;
+}
+
+pre { white-space: pre-wrap; word-wrap: break-word;}
+
+@media screen and (max-width: 680px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+
+.primary-title {
+    font-family: "Helvetica", "Arial";
+    font-size: 4.5rem;
+    line-height: 5rem;
+}
+
+.primary-header-1 {
+    font-family: "Helvetica", "Arial";
+    font-size: 3rem;
+    line-height: 3rem;
+}
+
+.primary-header-2 {
+    font-family: "Helvetica", "Arial";
+    font-size: 2.2rem;
+    line-height: 2.2rem;
+}
+
+.primary-header-3 {
+    font-family: "Helvetica", "Arial";
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+}
+
+
+.primary-body {
+    font-family: "Helvetica", "Arial";
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+@media screen and (max-width: 1340px) {
+    .primary-title {
+        font-size: 3.5rem;
+        line-height: 3.5rem;
+    }
+
+    .primary-header-1 {
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+    }
+
+    .primary-header-2 {
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+    }
+
+}
+
+.secondary-title {
+    font-family: "Crimson Text", serif;
+    font-size: 6rem;
+    line-height: 6rem;
+}
+
+.secondary-header-1 {
+    font-family: "Crimson Text", serif;
+    font-size: 3.5rem;
+    line-height: 3.5rem;
+}
+
+.secondary-header-2 {
+    font-family: "Crimson Text", serif;
+    font-size: 2.2rem;
+    line-height: 2.2rem;
+}
+
+@media screen and (max-width: 1340px) {
+    .secondary-title {
+        font-size: 4rem;
+        line-height: 4rem;
+    }
+
+    .secondary-header-1 {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+    }
+}
+
+
+/* General styling */
+.card {
+    background-color: var(--background-secondary);
+    color: white;
+}
+
+.search-bar {
+    background-color: var(--background-secondary);
+    color: white;
+}
+
+
+#smooth-content {
+    background-image: linear-gradient(
+            var(--line-gray) 2px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            var(--line-gray) 1px,
+            transparent 1px
+        ),
+        linear-gradient(var(--line-gray) 1px, transparent 1px),
+        linear-gradient(
+            90deg,
+            var(--line-gray) 1px,
+            transparent 1px
+        );
+    background-size:
+        296px 400px, /* Size for secondary horizontal lines */ 
+        296px 400px; /* Size for secondary vertical lines  */
+    background-position:
+        calc(50% - 148px) calc(50% - 200px),
+        /* Horizontal lines - centered at 50% minus half the grid size */
+        calc(50% - 148px) calc(50% - 200px);
+}
