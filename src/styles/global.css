@@ -6,8 +6,6 @@
  */
 :root {
     /* Root font size. All relative units use this as their reference */
-    overflow-x: hidden;
-    overflow-y: scroll;
     
     --background-primary: #0f0f0f;
     --background-secondary: #1d1d1d;
@@ -54,13 +52,29 @@
     --lg: 1024px;
     --xl: 1280px;
     --2xl: 1536px;
+
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--color-gray);
+    --pagefind-ui-text: var(--color-gray);
+    --pagefind-ui-background: var(--background-primary);
+    --pagefind-ui-border: var(--background-secondary);
+    --pagefind-ui-tag: #1d63b9 !important;
+    --pagefind-ui-border-width: 2px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-image-border-radius: 4px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: "Helvetica";
+
 }
 
 html {
     background-color: var(--background-primary);
-    overflow-y: hidden;
     font-size: 16px;
     color: #fffcf5;
+}
+
+dialog::-webkit-scrollbar {
+  scrollbar-width: none; /* Hides the scrollbar */
 }
 
 pre { white-space: pre-wrap; word-wrap: break-word;}
@@ -163,6 +177,7 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
     color: white;
 }
 
+/*
 
 #smooth-content {
     background-image: linear-gradient(
@@ -181,10 +196,11 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
             transparent 1px
         );
     background-size:
-        296px 400px, /* Size for secondary horizontal lines */ 
-        296px 400px; /* Size for secondary vertical lines  */
+        296px 400px, // Size for secondary horizontal lines
+        296px 400px; // Size for secondary vertical lines 
     background-position:
         calc(50% - 148px) calc(50% - 200px),
-        /* Horizontal lines - centered at 50% minus half the grid size */
+        // Horizontal lines - centered at 50% minus half the grid size 
         calc(50% - 148px) calc(50% - 200px);
 }
+*/

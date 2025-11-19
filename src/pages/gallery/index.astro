@@ -51,7 +51,7 @@ const images = await Astro.glob<{default: ImageMetadata}>('../../../public/image
             trigger: "#pinned-images-container",
             pin: true, 
             start: 'top-=200px top',
-            end: 'bottom+=4400px bottom',
+            end: 'bottom+=4600px bottom',
             // markers: true
         })
     });
@@ -77,44 +77,50 @@ const images = await Astro.glob<{default: ImageMetadata}>('../../../public/image
 
 
 <Layout >
-	<hgroup class="flex flex-col justify-between mx-auto items-center w-full px-12 py-80 lg:pt-[296px]">
-        <h1 class="primary-title text-white">Visual Gallery</h1>
-        <p class="primary-header-3 text-(--color-gray) mt-2">A collection of personally selected digital art and photos over the years.</p>
-    </hgroup>
+    <main id="smooth-content">
+        
+        <section data-lag class="flex flex-col w-full px-8 mx-auto pt-20 xl:px-0">
 
-    <section class="w-full px-8 flex justify-center xl:justify-evenly gap-80 items-start mx-auto max-w-[1368px]">
+            <hgroup class="py-32 max-w-5xl mx-auto">
+                <h1 class="secondary-title text-white text-left md:text-center w-full">Visual Gallery</h1>
+                <p class="primary-header-3 text-(--color-gray) mt-4 text-left md:text-center w-full">A collection of personally selected digital art and photos over the years.</p>
+            </hgroup>
+        </section>
 
-        <ul id="scrollable-images-container" class="flex flex-col max-w-xl gap-12">
-            {images.map((image, idx) => (
-                <Image 
-                    data-lag={idx % 2 == 0 ? "0.2" : "0"} 
-                    id={`scrollable-${idx}`}
-                    src={image} 
-                    alt="" 
-                    loading="lazy" 
-                    style={`transform: translateX(${idx % 2 == 0 ? '100px' : '-100px'});`}
-                    class={`peer scrollable-image object-contain h-full rounded-lg ${idx % 2 == 0 ? 'translate-right' : 'translate-left'}`}
-                    />
-            ))}  
-        </ul>
+        <section class="w-full px-8 mt-24 flex justify-center xl:justify-evenly gap-80 items-start mx-auto max-w-[1368px]">
 
-
-        <div id="pinned-images-container" class="hidden max-w-[80px] xl:block">
-            <ul>
+            <ul id="scrollable-images-container" class="flex flex-col max-w-xl gap-12">
                 {images.map((image, idx) => (
                     <Image 
-                        id={`pinned-`+idx} 
+                        data-lag={idx % 2 == 0 ? "0.2" : "0"} 
+                        id={`scrollable-${idx}`}
                         src={image} 
                         alt="" 
                         loading="lazy" 
-                        style={`transform: translateX(${idx % 2 == 0 ? '8px' : '-8px'}); z-index:${idx % 2 == 0 ? 10 : 0};`}
-                        class={`pinned-image hover:cursor-pointer opacity-100 relative object-contain h-full rounded-lg mt-[-4px]`}
-                    />  
-            ))}    
+                        style={`transform: translateX(${idx % 2 == 0 ? '100px' : '-100px'});`}
+                        class={`peer scrollable-image object-contain h-full rounded-lg ${idx % 2 == 0 ? 'translate-right' : 'translate-left'}`}
+                    />
+                ))}  
             </ul>
 
-        </div>
 
-    </section>
+            <div id="pinned-images-container" class="hidden max-w-[80px] xl:block">
+                <ul>
+                    {images.map((image, idx) => (
+                        <Image 
+                            id={`pinned-`+idx} 
+                            src={image} 
+                            alt="" 
+                            loading="lazy" 
+                            style={`transform: translateX(${idx % 2 == 0 ? '8px' : '-8px'}); z-index:${idx % 2 == 0 ? 10 : 0};`}
+                            class={`pinned-image hover:cursor-pointer opacity-100 relative object-contain h-full rounded-lg mt-[-4px]`}
+                        />  
+                ))}    
+                </ul>
+
+            </div>
+
+        </section>
+    </main>
 </Layout>
 

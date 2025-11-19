@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from "astro:content";
 import { BLOG_COLLECTION, BLOG_URL } from "../../constants.ts"; // Add this import
 import BlogCard from "../../components/BlogCard.astro";
-import { Grid2x2, List, Rows3, TextAlignJustify } from "@lucide/astro";
+import { CircleIcon, Grid2x2, List, Rows3, TextAlignJustify } from "@lucide/astro";
 
 const allBlogPosts = await getCollection(BLOG_COLLECTION)
 allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -117,29 +117,36 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
                     <span class="hidden w-fit gap-4 lg:flex">
                         <label class="hover:cursor-pointer">
                             <input name="desktop-view" checked data-view="list" class="view-toggle peer sr-only list-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-                            <TextAlignJustify id="desktop-grid-icon"  class="opacity-50 peer-checked:opacity-100" size={24}/>
+                            <TextAlignJustify id="desktop-grid-icon"  class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
                         </label>
                         <label class="hover:cursor-pointer">
                             <input name="desktop-view" data-view="grid" class="view-toggle peer sr-only grid-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-                            <Grid2x2 id="desktop-grid-icon" class="opacity-50 peer-checked:opacity-100" size={24}/>
+                            <Grid2x2 id="desktop-grid-icon" class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
                         </label>
                     </span>
                 </div>
 
 
-                <ul id="blog-list" class="opacity-100 flex flex-col gap-16 w-full min-h-[600px] max-w-5xl mx-auto transition-opacity duration-500 ">
-                    {allBlogPosts.map((post) => <BlogCard post={post} />)}
+                <ul id="blog-list" class="opacity-100 flex flex-col gap-8 w-full min-h-[600px] max-w-5xl mx-auto transition-opacity duration-500 ">
+                    {allBlogPosts.map((post) => (
+                        <BlogCard post={post} />
+                        <hr class="border-dashed text-(--color-gray)"/>
+                    ))}
                 </ul>
 
                 <div id="blog-grid" class="hidden md:hidden lg:hidden flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     {allBlogPosts.map((post) => 
-                        <a class="w-full" href={BLOG_URL+post.id}>
+                        <a class="w-full group" href={BLOG_URL+post.id}>
                             <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="200" height="400" class="object-cover object-center !m-0 aspect-square block w-full  h-[340px] md:h-[240px] rounded-xl"/>
                             <hgroup class="mt-2">
-                                <h3 class="primary-header-3 text-white">{post.data.title}</h3>
-								<p class="primary-body text-(--color-gray)">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
+                                <span class="flex items-center">
+                                    <CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+                                    <h3 class="text-white primary-header-3">{post.data.title}</h3>
+                                </span>								
+                                <p class="primary-body text-(--color-gray)">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
                             </hgroup>
                         </a>
+
                     )}
                 </div>
 
@@ -155,11 +162,11 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     <span class="flex w-fit gap-4 lg:hidden">
         <label class="hover:cursor-pointer">
             <input name="mobile-view" checked data-view="list" class="view-toggle peer sr-only list-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-            <TextAlignJustify id="mobile-list-icon" class="opacity-50 peer-checked:opacity-100" size={24}/>
+            <TextAlignJustify id="mobile-list-icon" class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
         </label>
         <label class="hover:cursor-pointer">
             <input name="mobile-view" data-view="grid" class="view-toggle peer sr-only grid-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-            <Grid2x2 id="mobile-grid-icon" class="opacity-50 peer-checked:opacity-100" size={24}/>
+            <Grid2x2 id="mobile-grid-icon" class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
         </label>
     </span>
 </div>

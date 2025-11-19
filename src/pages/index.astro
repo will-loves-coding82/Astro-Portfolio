@@ -69,7 +69,7 @@ blogPosts = blogPosts.slice(0,3);
 <Layout>
 		
 	<section class="flex flex-col justify-between mx-auto items-center h-screen w-full px-8 pb-[4rem] pt-20">
-		<header
+		<hgroup
 			data-speed="0.7"
 			data-lag
 			id="hero"
@@ -79,10 +79,11 @@ blogPosts = blogPosts.slice(0,3);
 				<span class="flip-name secondary-title">William</span>
 				<br /> Software Development <br /> Digital Art
 			</h1>
-		</header>
 
-		<p class="primary-body mt-20 text-(--color-gray)">
-			Scroll for more
+		</hgroup>
+
+		<p class="primary-body px-3 py-1 w-fit rounded-lg text-white bg-gray-500/50">
+			Resume
 		</p>
 	</section>
 
@@ -109,7 +110,7 @@ blogPosts = blogPosts.slice(0,3);
 
 		<pre
 			id="my-background"
-			class="mt-4 primary-header-3 text-left w-full lg:max-w-sm lg:mt-0">
+			class="mt-4 primary-header-3 text-(--color-gray) text-left w-full lg:max-w-sm lg:mt-0">
 I started drawing throughout my childhood years and with my age, my obsession with design continued to evolve - from typography, to prints, and roald dahl- esque illustrations. Even though I'm not a professional, I enjoy experimenting with new styles and genres to keep my creative juices flowing.
 <br />
 By the time I entered college, I had very little background in programming. However I quickly gained traction by enrolling in computer science classes and free coding courses on web development. I eventually took on roles redesigning websites for large campus organizations which offered both creative freedom and the chance to improve my fluency in tech stacks. and eventually made my way into an internship program building software solutions for real world clients.                     
@@ -198,7 +199,7 @@ By the time I entered college, I had very little background in programming. Howe
 
 
 
-		<div class="flex flex-col gap-16 w-full relative">
+		<div class="flex flex-col gap-8 md:gap-16 w-full relative">
 			<p id="project-tooltip-1" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
 			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
@@ -291,8 +292,8 @@ By the time I entered college, I had very little background in programming. Howe
 			
 		<section class="flex flex-col w-full gap-8 mt-12 lg:gap-24">
 
-			<article class="px-8 flex flex-start w-full justify-between gap-16  transition-opacity duration-400 ease-in-out">
-				<Image src={blogPosts[0].data.cover} alt="cover image for blog" fit="fill" width=400 height=300 class="hidden object-cover object-center !m-0 aspect-square block w-full h-[380px] max-w-2xl rounded-xl lg:block"/>
+			<!-- <article class="px-8 flex flex-start w-full justify-between gap-16 transition-opacity duration-400 ease-in-out">
+				<Image src={blogPosts[0].data.cover} alt="cover image for blog" fit="fill" width=400 height=300 class="hidden object-cover object-center !m-0 aspect-square block w-full h-[380px] max-w-3xl rounded-xl lg:block"/>
 				<a href={BLOG_URL + blogPosts[0].id}> 
 					<section class="flex flex-col group hover:cursor-pointer gap-2 lg:mt-24">
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Latest</p>
@@ -301,10 +302,10 @@ By the time I entered college, I had very little background in programming. Howe
 						<p class="text-blue-300 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-in-out">{new Date(blogPosts[0].data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
 					</section>
 				</a>
-			</article>
+			</article> -->
 
-			<ul class="flex flex-col gap-8">
-				{blogPosts.slice(1,).map((post,idx) => (
+			<ul class="flex flex-col gap-4 transition-all duration-300">
+				{blogPosts.slice(0,).map((post,idx) => (
 					<a href={BLOG_URL + post.id}>
 						<li id={post.id} class="group hover:cursor-pointer px-8 flex w-full justify-between items-center opacity-60 hover:opacity-100">
 							<section class="gap-2">
@@ -318,6 +319,8 @@ By the time I entered college, I had very little background in programming. Howe
 							</a>
 						</li>
 					</a>
+
+					<hr class="border-dashed mx-8 text-(--color-gray)"/>
 					
 				))}
 			</ul>

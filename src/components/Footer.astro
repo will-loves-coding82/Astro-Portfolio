@@ -1,10 +1,38 @@
 ---
 import "../styles/global.css";
+const footerBodyStyle = "primary-body text-(--color-gray) font-thin hover:text-white transition-all duration-400";
+
 ---
 
-<footer data-lag class="bg-black w-full mt-32 py-32 lg:px-40">
-    <section>
-        <p class="text-white">About</p>
-    </section>
+<footer data-lag class="flex flex-col bg-(--background-secondary) mt-32 py-16 px-8 lg:flex-row lg:-py-32 lg:px-40">
+
+    <span class="flex flex-col gap-16 lg:gap-54 w-full lg:flex-row">
+        <article class="flex flex-col gap-4">
+            <h3 class="primary-header-3 text-white">Los Angeles</h3>
+            <div class="flex flex-col gap-2">
+                <p class={footerBodyStyle} >williammmm.kim@gmail.com</p>
+                <p class={footerBodyStyle} >818-970-4252</p> 
+            </div>
+        </article>
+
+        <article class="flex flex-col gap-4">
+            <h3 class="primary-header-3 text-white">Website</h3>
+            <div class="flex flex-col gap-2">
+                <a class={footerBodyStyle} href="/about/">About</a>
+                <a class={footerBodyStyle} href="/projects/">Projects</a>
+                <a class={footerBodyStyle} href="/gallery">Gallery</a> 
+                <a class={footerBodyStyle} href="/blog">Blog</a> 
+            </div>
+        </article>
+    </span>
+
+    <article class="flex w-full justify-end gap-4 mt-40">
+        <div class="inline-flex gap-4">
+            <p class={footerBodyStyle} >Linkedin</p>
+            <p class={footerBodyStyle} >Github</p> 
+        </div>
+    </article>
+
+    
 
 </footer>

@@ -22,24 +22,19 @@ import Footer from "../components/Footer.astro";
 
 	const LARGE_PANEL_PX = 440;
 	const SMALL_PANEL_PX = 300;
-	const PANEL_GAP = 24;
-
 	const LARGE_PIN_OFFSET_PX = 240;
 	const SMALL_PIN_OFFSET_PX = 120;
 
 	var hero = "#hero";
 	var myBackground= "#my-background";
 	var projectsHeader = "#projects-header";
-	var projectCover = ".project-cover"
-
-	let panelHeightPx = LARGE_PANEL_PX;
-	let panelPinOffsetPx = SMALL_PIN_OFFSET_PX;
 	let width = window.innerWidth;
 
 	document.addEventListener("astro:page-load", setUpAnimations);
 
 	// Animations are set up in the order that they appear on the page
 	function setUpAnimations() {	
+
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
 
 		ScrollSmoother.create({
@@ -49,19 +44,43 @@ import Footer from "../components/Footer.astro";
 			normalizeScroll: true,
 		});
 
-		// Initialize panel height
-		panelHeightPx = window.innerWidth < 640 ? SMALL_PANEL_PX : LARGE_PANEL_PX;
+		const smoother = ScrollSmoother.get();
+		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
+	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
 
-		// Resize window listener
-		window.addEventListener("resize", () => {
-			var width = window.innerWidth;
-			panelHeightPx = width < 640 ? SMALL_PANEL_PX : LARGE_PANEL_PX;
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key == "k") {
+                searchDialog.classList.toggle("block");
+				
+				if (searchDialog.classList.contains("block")) {
+					smoother!!.paused(true);
+				    smoothWrapper.toggleAttribute('inert', true);
+					smoothWrapper.classList.add('opacity-50');
+					smoothWrapper.classList.add('blur-sm');
+				}
+				else {
+					smoother!!.paused(false);
+			        smoothWrapper.toggleAttribute('inert', false);
+					smoothWrapper.classList.remove('opacity-50');
+                	smoothWrapper.classList.remove('blur-sm');
+				}
+            }
+            
+        })
+		
+		function disableScroll() {
+			window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+			window.addEventListener('touchmove', preventDefault, false); // mobile
+		}
 
-			panelPinOffsetPx = width < 640 ? SMALL_PIN_OFFSET_PX : LARGE_PIN_OFFSET_PX;
-			// Recalculate pin positions
-			ScrollTrigger.refresh();
-		});
+		function enableScroll() {
+			window.removeEventListener('DOMMouseScroll', preventDefault, false);
+			window.removeEventListener('touchmove', preventDefault, false);
+		}
 
+		function preventDefault(e: any) {
+			e.preventDefault();
+		}
 
 		// Make the name in the navbar appear slowly
 		ScrollTrigger.create({
@@ -110,7 +129,7 @@ import Footer from "../components/Footer.astro";
 			opacity: 0,
 			stagger: 0.15,
 			ease: "power3.out",
-			scrollTrigger: {trigger: projectsHeader, start: "top-=600px"}
+			scrollTrigger: {trigger: projectsHeader, start: "top-=400px"}
 		});
 
 		gsap.from(splitHero.words, {
@@ -228,6 +247,12 @@ import Footer from "../components/Footer.astro";
 	}
 </script>
 
+<script is:inline>
+	document.addEventListener('astro:page-load', (event) => {
+		new PagefindUI({ element: "#search-dialog", showSubResults: true });
+	});
+</script>
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -237,12 +262,19 @@ import Footer from "../components/Footer.astro";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
+		<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+		<script is:inline src="/pagefind/pagefind-ui.js"></script>
+		
 		<ClientRouter />
 	</head>
 
 	<body class="flex flex-col justify-between">
+		<dialog 
+			id="search-dialog" 
+			class="fixed bg-(--background-secondary) overflow-y-scroll p-8 mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] h-[88vh] w-[92vw] lg:h-[80vh] lg:w-[50vw] m-8 rounded-2xl z-20 m-8"
+		/>
 		<NavBar/>
-		<section id="smooth-wrapper" class="transition-all duration-400" >
+		<section id="smooth-wrapper" class="transition-all duration-400">
 			<div id="smooth-content">
 				<slot />
 				<Footer/>
