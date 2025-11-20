@@ -100,61 +100,57 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 </style>
 
 <Layout>
-        <main id="smooth-content">
-            <section data-lag class="flex flex-col w-full px-8 mx-auto pt-20 xl:px-0">
-                <header class="py-32 max-w-5xl mx-auto">
-                    <h1 id="hero" class="primary-title text-center max-w-2xl mx-auto">
-                        Stories and <span class="secondary-title">Perspectives</span> from William
-                    </h1>
-                </header>
-            </section>
+    <section data-lag class="flex flex-col w-full px-8 mx-auto pt-20 xl:px-0">
+        <header class="py-32 max-w-5xl mx-auto">
+            <h1 id="hero" class="primary-title text-center max-w-2xl mx-auto">
+                Stories and <span class="secondary-title">Perspectives</span> from William
+            </h1>
+        </header>
+    </section>
 
-            <section class="px-8 xl:px-0">
+    <section class="px-8 xl:px-0">
 
-                <div id="options" class="flex justify-between gap-16  w-full max-w-5xl mx-auto pb-12 items-center">
-                    <!-- <input id="search-blogs-input" placeholder="search" class="bg-(--background-secondary) p-3 rounded-lg w-full"/> -->
-
-                    <span class="hidden w-fit gap-4 lg:flex">
-                        <label class="hover:cursor-pointer">
-                            <input name="desktop-view" checked data-view="list" class="view-toggle peer sr-only list-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-                            <TextAlignJustify id="desktop-grid-icon"  class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
-                        </label>
-                        <label class="hover:cursor-pointer">
-                            <input name="desktop-view" data-view="grid" class="view-toggle peer sr-only grid-radio-btn opacity-50 checked:opacity-100" type="radio"/>
-                            <Grid2x2 id="desktop-grid-icon" class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
-                        </label>
-                    </span>
-                </div>
+        <div id="options" class="flex justify-between gap-16  w-full max-w-5xl mx-auto pb-12 items-center">
+            <span class="hidden w-fit gap-4 lg:flex">
+                <label class="hover:cursor-pointer">
+                    <input name="desktop-view" checked data-view="list" class="view-toggle peer sr-only list-radio-btn opacity-50 checked:opacity-100" type="radio"/>
+                    <TextAlignJustify id="desktop-grid-icon"  class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
+                </label>
+                <label class="hover:cursor-pointer">
+                    <input name="desktop-view" data-view="grid" class="view-toggle peer sr-only grid-radio-btn opacity-50 checked:opacity-100" type="radio"/>
+                    <Grid2x2 id="desktop-grid-icon" class="opacity-50 peer-checked:opacity-100 transition-all duration-300" size={24}/>
+                </label>
+            </span>
+        </div>
 
 
-                <ul id="blog-list" class="opacity-100 flex flex-col gap-8 w-full min-h-[600px] max-w-5xl mx-auto transition-opacity duration-500 ">
-                    {allBlogPosts.map((post) => (
-                        <BlogCard post={post} />
-                        <hr class="border-dashed text-(--color-gray)"/>
-                    ))}
-                </ul>
+        <ul id="blog-list" class="opacity-100 flex flex-col gap-8 w-full min-h-[600px] max-w-5xl mx-auto transition-opacity duration-500 ">
+            {allBlogPosts.map((post) => (
+                <BlogCard post={post} />
+                <hr class="border-dashed text-(--color-gray)"/>
+            ))}
+        </ul>
 
-                <div id="blog-grid" class="hidden md:hidden lg:hidden flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    {allBlogPosts.map((post) => 
-                        <a class="w-full group" href={BLOG_URL+post.id}>
-                            <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="200" height="400" class="object-cover object-center !m-0 aspect-square block w-full  h-[340px] md:h-[240px] rounded-xl"/>
-                            <hgroup class="mt-2">
-                                <span class="flex items-center">
-                                    <CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
-                                    <h3 class="text-white primary-header-3">{post.data.title}</h3>
-                                </span>								
-                                <p class="primary-body text-(--color-gray)">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
-                            </hgroup>
-                        </a>
+        <div id="blog-grid" class="hidden md:hidden lg:hidden flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {allBlogPosts.map((post) => 
+                <a class="w-full group" href={BLOG_URL+post.id}>
+                    <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="200" height="400" class="object-cover object-center !m-0 aspect-square block w-full  h-[340px] md:h-[240px] rounded-xl"/>
+                    <hgroup class="mt-2">
+                        <span class="flex items-center">
+                            <CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
+                            <h3 class="text-white primary-header-3">{post.data.title}</h3>
+                        </span>								
+                        <p class="primary-body text-(--color-gray)">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
+                    </hgroup>
+                </a>
 
-                    )}
-                </div>
+            )}
+        </div>
 
 
-            </section>
+    </section>
             
 
-        </main>
 </Layout>
 
 

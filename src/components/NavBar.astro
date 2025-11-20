@@ -22,9 +22,6 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
         opacity: 0.6;        /* Optional: Visually indicate disabled state */
         cursor: default;     /* Optional: Change cursor to default */
     }
-
-
-
 </style>
 
 
@@ -46,10 +43,10 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
 
         searchButton.addEventListener("click", (e) => {
-            searchDialog.classList.toggle("block");
+            searchDialog.classList.toggle("hidden");
             sideBarMenu.classList.add('translate-x-full');
 
-            if (searchDialog.classList.contains("block")) {
+            if (!searchDialog.classList.contains("hidden")) {
                 smoother!!.paused(true);
                 smoothWrapper.toggleAttribute('inert', true);
                 smoothWrapper.classList.add('opacity-50');

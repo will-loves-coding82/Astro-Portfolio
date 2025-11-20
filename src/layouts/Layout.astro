@@ -5,14 +5,6 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 import Footer from "../components/Footer.astro";
 ---
 <script src="../scripts/gsap.min.js"></script>
-
-<script>
-	const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
-		document.addEventListener("astro:after-preparation", () =>{
-		sideBarMenu.classList.add('hidden');
-	})
-</script>
-
 <script>
 	import { gsap } from "gsap";
 	import { SplitText } from "gsap/SplitText";
@@ -20,17 +12,12 @@ import Footer from "../components/Footer.astro";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
 	import { Flip } from "gsap/Flip";
 
-	const LARGE_PANEL_PX = 440;
-	const SMALL_PANEL_PX = 300;
-	const LARGE_PIN_OFFSET_PX = 240;
-	const SMALL_PIN_OFFSET_PX = 120;
 
+	document.addEventListener("astro:page-load", setUpAnimations);
 	var hero = "#hero";
 	var myBackground= "#my-background";
 	var projectsHeader = "#projects-header";
 	let width = window.innerWidth;
-
-	document.addEventListener("astro:page-load", setUpAnimations);
 
 	// Animations are set up in the order that they appear on the page
 	function setUpAnimations() {	
@@ -47,53 +34,40 @@ import Footer from "../components/Footer.astro";
 		const smoother = ScrollSmoother.get();
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
 	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
+		const escapeDialog = document.querySelector("#escape-dialog") as HTMLButtonElement;
+
+		escapeDialog.addEventListener("click", () => {
+			toggleDialogView();
+		})
 
         document.addEventListener("keydown", (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key == "k") {
-                searchDialog.classList.toggle("block");
-				
-				if (searchDialog.classList.contains("block")) {
-					smoother!!.paused(true);
-				    smoothWrapper.toggleAttribute('inert', true);
-					smoothWrapper.classList.add('opacity-50');
-					smoothWrapper.classList.add('blur-sm');
-				}
-				else {
-					smoother!!.paused(false);
-			        smoothWrapper.toggleAttribute('inert', false);
-					smoothWrapper.classList.remove('opacity-50');
-                	smoothWrapper.classList.remove('blur-sm');
-				}
+				toggleDialogView();
             }
-            
+
+			if (e.key == "Escape") {
+				e.preventDefault();
+				toggleDialogView();
+			}
         })
-		
-		function disableScroll() {
-			window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-			window.addEventListener('touchmove', preventDefault, false); // mobile
+
+		function toggleDialogView() {
+			searchDialog.classList.toggle("hidden");
+				
+			if (!searchDialog.classList.contains("hidden")) {
+				smoother!!.paused(true);
+				smoothWrapper.toggleAttribute('inert', true);
+				smoothWrapper.classList.add('opacity-50');
+				smoothWrapper.classList.add('blur-sm');
+			}
+			else {
+				smoother!!.paused(false);
+				smoothWrapper.toggleAttribute('inert', false);
+				smoothWrapper.classList.remove('opacity-50');
+				smoothWrapper.classList.remove('blur-sm');
+			}
 		}
 
-		function enableScroll() {
-			window.removeEventListener('DOMMouseScroll', preventDefault, false);
-			window.removeEventListener('touchmove', preventDefault, false);
-		}
-
-		function preventDefault(e: any) {
-			e.preventDefault();
-		}
-
-		// Make the name in the navbar appear slowly
-		ScrollTrigger.create({
-			trigger: "#my-background",
-			start: "top-=300px top",
-			scrub: 1,
-			animation: gsap.fromTo(
-				"#nav-bar-name",
-				{ opacity: 0 },
-				{ opacity: 1 },
-			),
-			// slowly make an html p element appear as you scroll into the trigger
-		});
 
 		let splitHero = SplitText.create(hero, {
 			type: "words",
@@ -165,17 +139,13 @@ import Footer from "../components/Footer.astro";
 			projectImage.addEventListener("mousemove", (e: any) => {
 				let x = e.clientX;
 				let y = e.clientY;
-				// get the position of the element you applied the handler to
 				let pos = e.target!.getBoundingClientRect();
-				// subtract the position of the element (rounded up to the next
-				// integer) from the mouse position and return it.
 				xTo(x + 64);
 				yTo(y - pos.y + 64);
 			});
 
 	
 			projectImage.addEventListener("mouseleave", (e: MouseEvent) => {
-				// tooltip.classList.add("opacity-0")
 				gsap.to(tooltip, {
 					duration: 0.3,
 					opacity: 0,
@@ -220,38 +190,60 @@ import Footer from "../components/Footer.astro";
 				},
 			},
 		);
-
-		gsap.fromTo(
-			"#gallery-button",
-			{
-				yPercent: 100,
-				opacity:0,
-				scrollTrigger: {
-					trigger: "#gallery-header",
-					start: "top-=880px top",
-					scrub: 1,
-				},
-			},
-			{
-				duration: 1,
-				yPercent: 0,
-				opacity: 1,
-				ease: "expo.out",
-				scrollTrigger: {
-					trigger: "#gallery-header",
-					start: "top-=880px top",
-					scrub: 1,
-				},
-			},
-		);
 	}
 </script>
 
-<script is:inline>
-	document.addEventListener('astro:page-load', (event) => {
-		new PagefindUI({ element: "#search-dialog", showSubResults: true });
+<script>
+	
+	const pagefind = await import("../../public/pagefind/pagefind.js");
+	pagefind.init();
+
+	interface Data {
+		url: string,
+		excerpt: string,
+		meta: {
+			title: string,
+			image: string
+		}
+	}
+	
+	document.addEventListener('astro:page-load', async(event) => {
+		const searchInput = document.querySelector("input#search-input") as HTMLInputElement;
+		const searchResultsList = document.querySelector("ul#search-results") as HTMLElement;
+
+		searchInput?.addEventListener("input", async(e: any) => {
+			while (searchResultsList.firstChild) {
+				searchResultsList.removeChild(searchResultsList.firstChild);
+			}
+
+			pagefind.preload(e.target.value);
+			const search = await pagefind.search(e.target.value, 300);
+			const results = await search.results;
+			results.forEach(async (result: any) => {
+				const data = await result.data() as Data;
+				console.log(data)
+
+				let article = document.createElement("article");
+				article.innerHTML = `
+					<a href=${data.url.replace("/public", "")}>
+
+						<h3 class='primary-header-3 text-white'>${data.meta.title}</h3>
+					</a>
+					<p class='primary-body text-(--color-gray) line-clamp-1 overflow-ellipsis'>${data.excerpt}</p>
+				`
+				searchResultsList.appendChild(article)
+			})
+		})
 	});
 </script>
+
+<script>
+	const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
+		document.addEventListener("astro:after-preparation", () =>{
+		sideBarMenu.classList.add('hidden');
+	})
+</script>
+
 
 <!doctype html>
 <html lang="en">
@@ -271,14 +263,23 @@ import Footer from "../components/Footer.astro";
 	<body class="flex flex-col justify-between">
 		<dialog 
 			id="search-dialog" 
-			class="fixed bg-(--background-secondary) overflow-y-scroll p-8 mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] h-[88vh] w-[92vw] lg:h-[80vh] lg:w-[50vw] m-8 rounded-2xl z-20 m-8"
-		/>
+			class="fixed bg-(--background-secondary) hidden flex flex-col justify-between overflow-hidden justify-between mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-56%] h-[90vh] w-[92vw] lg:h-[80vh] lg:w-[50vw] lg:translate-y-[-50%] m-8 rounded-xl z-1000 m-8"
+		>
+			<span class="inline-flex justify-between items-center gap-8 w-full p-5">
+				<input id="search-input" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
+				<button id="escape-dialog" class="w-fit h-fit py-[2px] px-[6px]  rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer">esc</button>
+			</span>
+			<hr class="w-full text-gray-200"/>
+			<ul id="search-results" class="flex flex-col gap-8 pt-4 pb-32 overflow-scroll h-full pt-8 px-5"></ul>
+			<section class="fixed bottom-0 w-full bt-1 border-gray-200 p-4 flex mt-full bg-(--background-secondary)"><p class="text-white text-right w-full">Powered by Pagefind</p></section>
+		</dialog>
+
 		<NavBar/>
 		<section id="smooth-wrapper" class="transition-all duration-400">
-			<div id="smooth-content">
+			<main id="smooth-content">
 				<slot />
 				<Footer/>
-			</div>
+			</main>
 		</section>	
 	</body>
 
