@@ -1,6 +1,6 @@
 ---
-import '../styles/global.css';
-import '@fontsource/crimson-text'
+import "../styles/global.css";
+import "@fontsource/crimson-text"
 import {ArrowRight, Command, Search, PanelRight} from "@lucide/astro";
 
 
@@ -31,9 +31,9 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     
     document.addEventListener("astro:page-load", () =>{
+        gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
     	const smoother = ScrollSmoother.get();
         const menuButton = document.querySelector("button#toggle-menu") as HTMLElement;
@@ -44,19 +44,19 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
 
         searchButton.addEventListener("click", (e) => {
             searchDialog.classList.toggle("hidden");
-            sideBarMenu.classList.add('translate-x-full');
+            sideBarMenu.classList.add("translate-x-full");
 
             if (!searchDialog.classList.contains("hidden")) {
                 smoother!!.paused(true);
-                smoothWrapper.toggleAttribute('inert', true);
-                smoothWrapper.classList.add('opacity-50');
-                smoothWrapper.classList.add('blur-sm');
+                smoothWrapper.toggleAttribute("inert", true);
+                smoothWrapper.classList.add("opacity-50");
+                smoothWrapper.classList.add("blur-sm");
             }
             else {
                 smoother!!.paused(false);
-                smoothWrapper.toggleAttribute('inert', false);
-                smoothWrapper.classList.remove('opacity-50');
-                smoothWrapper.classList.remove('blur-sm');
+                smoothWrapper.toggleAttribute("inert", false);
+                smoothWrapper.classList.remove("opacity-50");
+                smoothWrapper.classList.remove("blur-sm");
             }
         })
 
@@ -65,38 +65,37 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
             // Animates the sidebar translating in/out the view
             // By default, it is translated far to the right
             searchDialog.classList.remove("block");
-            sideBarMenu.classList.toggle('translate-x-full');
+            sideBarMenu.classList.toggle("translate-x-full");
 
-            if (!sideBarMenu.classList.contains('translate-x-full')) {
+            if (!sideBarMenu.classList.contains("translate-x-full")) {
                 smoother!!.paused(true);
-                smoothWrapper.toggleAttribute('inert', true);
-                smoothWrapper.classList.add('opacity-50');
-                smoothWrapper.classList.add('blur-sm');
+                smoothWrapper.toggleAttribute("inert", true);
+                smoothWrapper.classList.add("opacity-50");
+                smoothWrapper.classList.add("blur-sm");
                 
             }
             else {
                 smoother!!.paused(false);
-                smoothWrapper.toggleAttribute('inert', false);
-                smoothWrapper.classList.remove('opacity-50');
-                smoothWrapper.classList.remove('blur-sm');
+                smoothWrapper.toggleAttribute("inert", false);
+                smoothWrapper.classList.remove("opacity-50");
+                smoothWrapper.classList.remove("blur-sm");
             }
         })
-
 
         window.addEventListener("resize", () => {
 			var width = window.innerWidth;
             var sideBarHidden = sideBarMenu.style.visibility == "hidden";
-            var sideBarTranslatedFull = sideBarMenu.classList.contains('translate-x-full');
+            var sideBarTranslatedFull = sideBarMenu.classList.contains("translate-x-full");
 
             if (width >= 1024|| sideBarTranslatedFull) {
-                smoothWrapper.toggleAttribute('inert', false);
-                smoothWrapper.classList.remove('opacity-50');
-                smoothWrapper.classList.remove('blur-sm');
+                smoothWrapper.toggleAttribute("inert", false);
+                smoothWrapper.classList.remove("opacity-50");
+                smoothWrapper.classList.remove("blur-sm");
             }
             if (width < 1024 && !sideBarTranslatedFull && !sideBarHidden) {
-                smoothWrapper.toggleAttribute('inert', true);
-                smoothWrapper.classList.add('opacity-50');
-                smoothWrapper.classList.add('blur-sm');
+                smoothWrapper.toggleAttribute("inert", true);
+                smoothWrapper.classList.add("opacity-50");
+                smoothWrapper.classList.add("blur-sm");
             }
 		});
     })
@@ -104,7 +103,6 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
 
 
 <nav id="desktop-nav" class="fixed z-100 w-full flex justify-between h-20 items-center px-8 box-border bg-(--background-primary) border-b-2 border-(--background-secondary) opacity-[95%] xl:px-40">
-    
     <a class="primary-header-3 text-white text-left w-24" href="/">MYUNG</a>
 
     <menu class="hidden gap-8 items-center w-fit lg:flex">

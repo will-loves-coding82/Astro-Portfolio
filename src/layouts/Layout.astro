@@ -3,6 +3,7 @@ import "../styles/global.css";
 import NavBar from "../components/NavBar.astro";
 import ClientRouter from "astro/components/ClientRouter.astro";
 import Footer from "../components/Footer.astro";
+import  PageFindLogo  from "../assets/pagefind-dark.svg";
 ---
 <script src="../scripts/gsap.min.js"></script>
 <script>
@@ -14,10 +15,7 @@ import Footer from "../components/Footer.astro";
 
 
 	document.addEventListener("astro:page-load", setUpAnimations);
-	var hero = "#hero";
-	var myBackground= "#my-background";
-	var projectsHeader = "#projects-header";
-	let width = window.innerWidth;
+	
 
 	// Animations are set up in the order that they appear on the page
 	function setUpAnimations() {	
@@ -31,6 +29,7 @@ import Footer from "../components/Footer.astro";
 			normalizeScroll: true,
 		});
 
+		let width = window.innerWidth;
 		const smoother = ScrollSmoother.get();
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
 	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
@@ -68,19 +67,18 @@ import Footer from "../components/Footer.astro";
 			}
 		}
 
-
-		let splitHero = SplitText.create(hero, {
+		let splitHero = SplitText.create("#hero", {
 			type: "words",
 			autoSplit: true,
 		});
 
-		let backgroundText = SplitText.create(myBackground, {
+		let backgroundText = SplitText.create("#my-background", {
 			type: "words, lines",
 			autoSplit: true,
 			reduceWhiteSpace: false,
 		});
 
-		let splitProjectHeader = SplitText.create(projectsHeader, {
+		let splitProjectHeader = SplitText.create("#projects-header", {
 			type: "lines",
 			autoSplit: true,
 		});
@@ -91,9 +89,8 @@ import Footer from "../components/Footer.astro";
 			opacity: 0,
 			stagger: 0.05,
 			ease: "expo.out",
-			scrollTrigger: { trigger: myBackground },
+			scrollTrigger: { trigger: "#my-background" },
 		});
-
 
 		gsap.from(splitProjectHeader.lines, {
 			duration: 1.5,
@@ -103,7 +100,7 @@ import Footer from "../components/Footer.astro";
 			opacity: 0,
 			stagger: 0.15,
 			ease: "power3.out",
-			scrollTrigger: {trigger: projectsHeader, start: "top-=400px"}
+			scrollTrigger: {trigger: "#projects-header", start: "top-=400px"}
 		});
 
 		gsap.from(splitHero.words, {
@@ -112,22 +109,18 @@ import Footer from "../components/Footer.astro";
 			autoAlpha: 0,
 			stagger: 0.08,
 			scrub: 1,
-			scrollTrigger: { trigger: hero },
+			scrollTrigger: { trigger: "#hero" },
 		});
-
-
 
 		for (let i = 1; i <= 3; i++) {
 			let tooltip = document.querySelector(`#project-tooltip-${i}`) as HTMLElement;
 			let projectImage = document.querySelector(`#project-image-${i}`) as HTMLElement;
-			let container = projectImage.getBoundingClientRect();
 
 			gsap.set(tooltip, {opacity: 0, scale: 0, xPercent: -50, yPercent: -50});
-
 			let xTo = gsap.quickTo(tooltip, "x", {duration: 0.6, ease: "expo.out"});
 			let yTo = gsap.quickTo(tooltip, "y", {duration: 0.6, ease: "expo.out"});
 
-			projectImage.addEventListener("mouseenter", (e: MouseEvent) => {
+			projectImage?.addEventListener("mouseenter", (e: MouseEvent) => {
 				 gsap.to(tooltip, {
 					duration: 0.3,
 					opacity: 1,
@@ -136,7 +129,7 @@ import Footer from "../components/Footer.astro";
 				});
 			});
 
-			projectImage.addEventListener("mousemove", (e: any) => {
+			projectImage?.addEventListener("mousemove", (e: any) => {
 				let x = e.clientX;
 				let y = e.clientY;
 				let pos = e.target!.getBoundingClientRect();
@@ -145,7 +138,7 @@ import Footer from "../components/Footer.astro";
 			});
 
 	
-			projectImage.addEventListener("mouseleave", (e: MouseEvent) => {
+			projectImage?.addEventListener("mouseleave", (e: MouseEvent) => {
 				gsap.to(tooltip, {
 					duration: 0.3,
 					opacity: 0,
@@ -193,8 +186,8 @@ import Footer from "../components/Footer.astro";
 	}
 </script>
 
+
 <script>
-	
 	const pagefind = await import("../../public/pagefind/pagefind.js");
 	pagefind.init();
 
@@ -208,10 +201,12 @@ import Footer from "../components/Footer.astro";
 	}
 	
 	document.addEventListener('astro:page-load', async(event) => {
-		const searchInput = document.querySelector("input#search-input") as HTMLInputElement;
 		const searchResultsList = document.querySelector("ul#search-results") as HTMLElement;
 
-		searchInput?.addEventListener("input", async(e: any) => {
+		document.body.addEventListener("input", async(e: any) => {
+			if (e.target.id !== 'search-input') return;
+
+			// Clear the results in the UI
 			while (searchResultsList.firstChild) {
 				searchResultsList.removeChild(searchResultsList.firstChild);
 			}
@@ -224,9 +219,9 @@ import Footer from "../components/Footer.astro";
 				console.log(data)
 
 				let article = document.createElement("article");
-				article.innerHTML = `
+				article.innerHTML = 
+				`
 					<a href=${data.url.replace("/public", "")}>
-
 						<h3 class='primary-header-3 text-white'>${data.meta.title}</h3>
 					</a>
 					<p class='primary-body text-(--color-gray) line-clamp-1 overflow-ellipsis'>${data.excerpt}</p>
@@ -244,34 +239,31 @@ import Footer from "../components/Footer.astro";
 	})
 </script>
 
-
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
-		<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-		<script is:inline src="/pagefind/pagefind-ui.js"></script>
-		
 		<ClientRouter />
 	</head>
 
 	<body class="flex flex-col justify-between">
 		<dialog 
 			id="search-dialog" 
-			class="fixed bg-(--background-secondary) hidden flex flex-col justify-between overflow-hidden justify-between mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-56%] h-[90vh] w-[92vw] lg:h-[80vh] lg:w-[50vw] lg:translate-y-[-50%] m-8 rounded-xl z-1000 m-8"
+			class="fixed bg-(--background-secondary) border-t-2 border-gray-500/50 hidden flex flex-col justify-between overflow-hidden justify-between mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-56%] h-[90vh] w-[92vw] lg:h-[80vh] lg:w-[50vw] lg:translate-y-[-50%] m-8 rounded-xl z-1000 m-8"
 		>
 			<span class="inline-flex justify-between items-center gap-8 w-full p-5">
 				<input id="search-input" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
-				<button id="escape-dialog" class="w-fit h-fit py-[2px] px-[6px]  rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer">esc</button>
+				<button id="escape-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
 			</span>
-			<hr class="w-full text-gray-200"/>
+			<hr class="w-full text-gray-500/50"/>
 			<ul id="search-results" class="flex flex-col gap-8 pt-4 pb-32 overflow-scroll h-full pt-8 px-5"></ul>
-			<section class="fixed bottom-0 w-full bt-1 border-gray-200 p-4 flex mt-full bg-(--background-secondary)"><p class="text-white text-right w-full">Powered by Pagefind</p></section>
+			<section class="fixed bottom-0 w-full border-t-1 border-gray-500/50 p-5 flex mt-full bg-(--background-secondary)">
+				<PageFindLogo height={32} width={120} class="ml-full w-fit"/>
+			</section>
 		</dialog>
 
 		<NavBar/>
