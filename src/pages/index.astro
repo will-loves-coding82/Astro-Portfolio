@@ -1,16 +1,16 @@
 ---
 import "../styles/global.css";
-import sandiego from "../../public/images/home/sandiego.png";
-import solo from "../../public/images/home/solo.png";
-import vgdc from "../../public/images/home/vgdc.png";
-import arrow from "../../public/images/home/arrow.png";
-import falling from "../../public/images/home/falling.png";
-import kick from "../../public/images/home/kick.png";
-import cartoon from "../../public/images/home/cartoon.png";
-import cambria from "../../public/images/home/cambria.png";
-import korea1 from "../../public/images/home/korea-1.png";
-import korea2 from "../../public/images/home/korea-2.png";
-import monterray from "../../public/images/home/monterray.png";
+import sandiego from "../../public/images/gallery/sandiego.png";
+import solo from "../../public/images/projects/solo.png";
+import vgdc from "../../public/images/projects/vgdc.png";
+import stacked from "../../public/images/projects/stacked.png";
+import arrow from "../../public/images/gallery/arrow.png";
+import falling from "../../public/images/gallery/falling.png";
+import cartoon from "../../public/images/gallery/cartoon.png";
+import cambria from "../../public/images/gallery/cambria.png";
+import korea1 from "../../public/images/gallery/korea-1.png";
+import korea2 from "../../public/images/gallery/korea-2.png";
+import monterray from "../../public/images/gallery/monterray.png";
 
 import {ArrowRight, CircleIcon} from "@lucide/astro";
 import { Image } from "astro:assets";
@@ -69,7 +69,7 @@ blogPosts = blogPosts.slice(0,3);
 <Layout>
 		
 	<section class="flex flex-col justify-between mx-auto items-center h-screen w-full px-8 pb-[4rem] pt-20">
-		<hgroup
+		<header
 			data-speed="0.7"
 			data-lag
 			id="hero"
@@ -80,11 +80,11 @@ blogPosts = blogPosts.slice(0,3);
 				<br /> Software Development <br /> Digital Art
 			</h1>
 
-		</hgroup>
+		</header>
 
-		<p class="primary-body px-3 py-1 w-fit rounded-lg text-white bg-gray-500/50">
-			Resume
-		</p>
+		<a target="_blank" href="../../public/William_Kim_SWE.pdf">
+			<p class="primary-body px-3 py-1 w-fit rounded-lg text-white bg-gray-500/50 ml-2 mt-4">Resume</p>
+		</a>
 	</section>
 
 	<section
@@ -122,21 +122,15 @@ By the time I entered college, I had very little background in programming. Howe
 
 		<span class="flex flex-col justify-center mx-auto gap-8 px-8 w-full lg:flex-row lg:justify-between lg:items-end 2xl:px-40">
 			<header id="gallery-header" class="flex flex-col gap-4 text-center lg:text-left">
-				<p class="primary-header-3 text-blue-300 mb-2">Gallery</p>
+				<p class="secondary-header-2 text-(--color-gray) mb-2">Gallery</p>
 				<h3	class="primary-header-1 text-white max-w-4xl mx-auto">
 					A collection of personally selected digital art
 					and photos over the years.
 				</h3>
-				<!-- <button id="gallery-button" class="primary-body text-white py-2 px-3 bg-(--background-secondary) text-(--color-gray) rounded-lg h-fit w-fit mx-auto lg:mx-0">
-				<p class=" text-white">see more</p>
-			</button> -->
 			</header>
-
-			
 		</span>
 
 		<figure id="carousel" class="flex mx-auto justify-center gap-4 h-[200px] mt-24 lg:h-[300px] mx-auto">
-
 			<Image
 				src={arrow}
 				alt="arrow"
@@ -162,12 +156,6 @@ By the time I entered college, I had very little background in programming. Howe
 				class="rounded-md h-full w-fit z-0"
 			/>
 			<Image
-				src={kick}
-				alt="kick"
-				fit="cover"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
 				src={cambria}
 				alt="cambria"
 				fit="contain"
@@ -187,7 +175,6 @@ By the time I entered college, I had very little background in programming. Howe
 			/>
 		</figure>
 	</section>
-
 
 	<div class="mt-[340px] lg:mt-[400px] flex flex-col justify-center mx-auto">
 		<header class="max-w-lg lg:max-w-5xl mx-auto px-8">
@@ -251,7 +238,7 @@ By the time I entered college, I had very little background in programming. Howe
 
 			<p id="project-tooltip-3" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[440px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Stacked Habits</h2>
@@ -264,11 +251,11 @@ By the time I entered college, I had very little background in programming. Howe
 				</summary>
 
 				<Image
-					src={vgdc}
-					alt="solo running app"
+					src={stacked}
+					alt="stacked ai habit tracker app"
 					fit="fill"
 					id="project-image-3"
-					class="rounded-2xl w-full h-full mx-auto hover:cursor-pointer max-w-4xl 2xl:order-last"
+					class="rounded-2xl w-full h-full mx-auto brightness-150 hover:cursor-pointer max-w-4xl 2xl:order-last"
 				/>
 			</article>
 				
@@ -276,9 +263,7 @@ By the time I entered college, I had very little background in programming. Howe
 
 	</div>
 
-	
 	<section class="flex flex-col w-full mx-auto px-8 min-h-[600px] mt-[200px] 2xl:px-40">
-
 		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-8 py-4">
 			<span class="flex items-center">
 				<CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
@@ -291,19 +276,6 @@ By the time I entered college, I had very little background in programming. Howe
 		</section>
 			
 		<section class="flex flex-col w-full gap-8 mt-12 lg:gap-24">
-
-			<!-- <article class="px-8 flex flex-start w-full justify-between gap-16 transition-opacity duration-400 ease-in-out">
-				<Image src={blogPosts[0].data.cover} alt="cover image for blog" fit="fill" width=400 height=300 class="hidden object-cover object-center !m-0 aspect-square block w-full h-[380px] max-w-3xl rounded-xl lg:block"/>
-				<a href={BLOG_URL + blogPosts[0].id}> 
-					<section class="flex flex-col group hover:cursor-pointer gap-2 lg:mt-24">
-						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Latest</p>
-						<h3 class="primary-header-2">{blogPosts[0].data.title}</h3>
-						<p class="primary-body text-(--color-gray) text-ellipsis line-clamp-2 mt-2 lg:max-w-md">{blogPosts[0].data.description}</p>
-						<p class="text-blue-300 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-in-out">{new Date(blogPosts[0].data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
-					</section>
-				</a>
-			</article> -->
-
 			<ul class="flex flex-col gap-4 transition-all duration-300">
 				{blogPosts.slice(0,).map((post,idx) => (
 					<a href={BLOG_URL + post.id}>
@@ -311,7 +283,7 @@ By the time I entered college, I had very little background in programming. Howe
 							<section class="gap-2">
 								<h3 class="primary-header-3">{post.data.title}</h3>
 								<p class="primary-body text-(--color-gray) text-ellipsis line-clamp-2 mt-2 lg:max-w-md">{post.data.description}</p>
-								<p class="text-blue-300 mt-2 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-in-out">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
+								<p class="text-blue-400 mt-2 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-in-out">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
 							</section>
 
 							<a href={BLOG_URL + post.id} class="primary-body text-white py-2 px-3 mb-8 bg-(--background-secondary) text-(--color-gray) rounded-lg h-fit w-fit hidden lg:block">
@@ -319,9 +291,7 @@ By the time I entered college, I had very little background in programming. Howe
 							</a>
 						</li>
 					</a>
-
 					<hr class="border-dashed mx-8 text-(--color-gray)"/>
-					
 				))}
 			</ul>
 

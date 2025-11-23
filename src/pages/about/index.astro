@@ -1,12 +1,121 @@
 ---
 import "../../styles/global.css";
-
+import {Image} from "astro:assets";
+import korea from "../../../public/images/gallery/korea-2.png";
 import Layout from "../../layouts/Layout.astro";
+import Circle from "@lucide/astro/icons/circle";
 ---
 
 
 <Layout >
-	<section class="flex flex-col justify-between mx-auto items-center h-screen w-full px-12 pb-[4rem] pt-[200px] lg:pt-[296px]">
-    <h1 class="primary-header-1 text-white">About me</h1>
+	<section class="relative h-[540px] overflow-hidden w-full pt-32 px-8 lgl:px-40 xl:h-[90vh]">
+
+        <header class="absolute top-1/2 left-1/2 translate-x-[-50%] w-full mx-auto max-w-lg text-center z-1">
+            <h1 class="primary-title text-white">About <span class="secondary-title">Me</span></h1>
+            <p class="bottom-0">Los Angeles, CA</p>
+        </header>
+
+        <div class="w-full h-full mx-auto flex flex-col justify-center rounded-xl overflow-hidden" >
+            <Image
+                id="san-diego"
+                fit="cover"
+                class="w-full rounded-xl opacity-70"
+                src={korea}
+                alt="photo of me at UCSD"
+            />
+        </div>
+    </section>
+
+
+    <section class="flex flex-col w-full px-8 mb-80 mt-40 gap-24 xl:px-40 xl:flex-row xl:justify-between">
+
+        <header class="w-full max-w-lg">
+            <h1 class="secondary-header-1">Work Experience</h1>
+            <p class="text-(--color-gray) mt-4 ml-2">
+                I'm a software developer intern for the Research Division Services at the San Diego Supercomputer Center, where
+                I've had the opportunity to provide solutions for real clients while honing my skills in both technology and communication
+                with stakeholders.
+            </p>
+
+            <a target="_blank" href="../../../public/William_Kim_SWE.pdf">
+                <p class="primary-body px-3 py-1 w-fit rounded-lg text-white bg-gray-500/50 ml-2 mt-4">Resume</p>
+            </a>
+        </header>
+
+        <ul class="flex flex-col w-full xl:max-w-md xl:justify-center xl:mt-0">
+            <li>
+                <article class="flex gap-4"> 
+                    <p class="translate-y-[-8px]">2023</p>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <Circle class="rounded-full mx-auto transition-all duration-300" size={8}/>
+                        <div class="h-48 border-l-1 border-dashed border-(--color-gray) mx-auto" />
+                    </div>  
+                    <section class="max-w-sm translate-y-[-12px]">
+                        <h3 class="primary-header-3">Alzheimer's Disease Research Center</h3>
+                        <p class="primary-body text-(--color-gray) mt-2">
+                            Supported database migrations from Microsoft AccessDB to PostgreSQL using pgadmin. 
+                            Created queries and API routes to handle patient data.
+                        </p>
+                    </section>
+                </article>
+
+            </li>
+
+            <li>
+                <article class="flex items-start gap-4"> 
+                    <p class="translate-y-[-8px]">2024</p>
+                    <div class="flex flex-col justify-center">
+                        <Circle class="bg-(background-secondary)rounded-full mx-auto" size={8}/>
+                        <div class="h-72 border-l-1 border-dashed border-(--color-gray) mx-auto" />
+                    </div>  
+                    <section class="max-w-sm translate-y-[-12px]">
+                        <h3 class="primary-header-3">NeuroRes Mobile Application</h3>
+                        <p class="primary-body text-(--color-gray) mt-2">
+                            Worked with websockets to enable real-time communication between 
+                            UCSD neurology residents. Updated and improved UI features on Android 
+                            and iOS platforms for journal searching and pdf viewing. Performed 
+                            E2E & integration testing to maintain code quality in our CI pipeline. Worked closely with 
+                            my dev lead to set up a Linux VM for a developer sandbox environment.
+                        </p>
+                    </section>
+                </article>
+            </li>
+
+             <li>
+                <article class="flex items-start gap-4 h-48"> 
+                    <p class="translate-y-[-8px]">2025</p>
+                    <div class="flex flex-col justify-center">
+                        <Circle class="bg-(background-secondary) rounded-full mx-auto" size={8}/>
+                    </div>  
+                    <section class="max-w-sm translate-y-[-12px]">
+                        <h3 class="primary-header-3">Institute for Genomic Medicine</h3>
+                        <p class="primary-body text-(--color-gray) mt-2">
+                            Set up a Postgres schema to transfer user profiles and genome sequencing data from MySQL. 
+                            Created a containerized golang backend system with OIDC/Oauth2 login flows that integrate with 
+                            Globus IAM. Set up custom session management and middleware to protect endpoints and
+                            routes across different browser targets. Maintaining our Gitlab wiki with API
+                            documentation, developer workflows, and best practices.
+                        </p>
+                    </section>
+                </article>
+            </li>
+
+        </ul>
+    </section>
+
+    <section class="flex flex-col w-full mt-40 px-8 xl:px-40">
+        <h2 class="primary-header-2 my-4">Education</h2>
+        <p class="primary-body text-(--color-gray)">
+            University of California, San Diego <br/>
+            B.S Machine Learning & Computation NeuroScience <br/>
+            Minor in Computer Science
+        </p>
+    </section>
+
+     <section class="flex flex-col w-full mt-40 px-8 xl:px-40">
+        <h2 class="primary-header-2 my-4">Certifications</h2>
+        <a class="primary-body text-(--color-gray)">Coursera Introduction to CUDA Programming</a>
+        <a class="primary-body text-(--color-gray)"> Google Cloud Platform Professional Machine Learning Engineer</a>
+        <a class="primary-body text-(--color-gray)"> FreeCodeCamp Responsive Web Design</a>
     </section>
 </Layout>
