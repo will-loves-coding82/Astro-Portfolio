@@ -34,7 +34,7 @@ const { Content } = await render(post);
 
           <header class="flex flex-col gap-20">
 
-            <hgroup class="mt-8">
+            <header class="mt-8">
               <h1 class="primary-header-1 max-w-xl">{post.data.title}</h1>
 
               <span class="inline-flex gap-3 mt-8">
@@ -43,12 +43,12 @@ const { Content } = await render(post);
                 ))}
               </span>
               
-            </hgroup>
+            </header>
 
-            <hgroup>
+            <header>
               <h3 class="primary-header-3 text-white">Overview</h3>
               <p class="text-(--color-gray)">{post.data.description}</p>
-            </hgroup>
+            </header>
             
           </header>
        

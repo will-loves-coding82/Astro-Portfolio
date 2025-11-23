@@ -106,7 +106,7 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
 .primary-header-1 {
     font-family: "Helvetica", "Arial";
     font-size: 3rem;
-    line-height: 3rem;
+    line-height: 3.5rem;
 }
 
 .primary-header-2 {
@@ -118,7 +118,7 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
 .primary-header-3 {
     font-family: "Helvetica", "Arial";
     font-size: 1.4rem;
-    line-height: 1.8rem;
+    line-height: 2rem;
 }
 
 
@@ -148,7 +148,7 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
 
 .secondary-title {
     font-family: "Crimson Text", serif;
-    font-size: 6rem;
+    font-size: 5rem;
     line-height: 6rem;
 }
 

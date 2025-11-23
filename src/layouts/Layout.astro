@@ -108,7 +108,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			y: 50,
 			autoAlpha: 0,
 			stagger: 0.08,
-			scrub: 1,
+			scrub: true,
 			scrollTrigger: { trigger: "#hero" },
 		});
 
@@ -154,7 +154,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			start: () => (width < 640 ? "top-=700px top" : "top-=900px top"),
 			end: () =>
 				width < 640 ? "bottom+=800px bottom" : "bottom+=900px bottom",
-			scrub: 1,
+			scrub: true,
 			animation: gsap.fromTo("#carousel", { x: -200 }, { x: 200 }),
 		});
 
@@ -167,7 +167,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 				scrollTrigger: {
 					trigger: "#gallery-header",
 					start: "top-=940px top",
-					scrub: 1,
+					scrub: true,
 				},
 			},
 			{
@@ -179,7 +179,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 				scrollTrigger: {
 					trigger: "#gallery-header",
 					start: "top-=940px top",
-					scrub: 1,
+					scrub: true,
 				},
 			},
 		);
@@ -214,20 +214,28 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			pagefind.preload(e.target.value);
 			const search = await pagefind.search(e.target.value, 300);
 			const results = await search.results;
-			results.forEach(async (result: any) => {
-				const data = await result.data() as Data;
-				console.log(data)
 
-				let article = document.createElement("article");
-				article.innerHTML = 
-				`
-					<a href=${data.url.replace("/public", "")}>
-						<h3 class='primary-header-3 text-white'>${data.meta.title}</h3>
-					</a>
-					<p class='primary-body text-(--color-gray) line-clamp-1 overflow-ellipsis'>${data.excerpt}</p>
-				`
-				searchResultsList.appendChild(article)
-			})
+			if (results.length == 0 && e.target.value.length > 0) {
+				let message = document.createElement("p");
+				message.innerHTML = `<p class="text-(--color-gray)">No results found</p>`
+				searchResultsList.appendChild(message)
+			}
+
+			else {
+				results.forEach(async (result: any) => {
+					const data = await result.data() as Data;
+					let article = document.createElement("article");
+
+					article.innerHTML = 
+					`
+						<a href=${data.url.replace("/public", "")}>
+							<h3 class='primary-header-3 text-white'>${data.meta.title}</h3>
+						</a>
+						<p class='primary-body text-(--color-gray) line-clamp-1 overflow-ellipsis'>${data.excerpt}</p>
+					`
+					searchResultsList.appendChild(article)
+				})
+			}
 		})
 	});
 </script>
