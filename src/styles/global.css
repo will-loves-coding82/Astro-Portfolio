@@ -74,7 +74,6 @@ html {
 }
 
 
-
 [type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     background-color: white;
@@ -88,7 +87,12 @@ html {
     outline: none;
 }
 
-pre { white-space: pre-wrap; word-wrap: break-word;}
+pre { 
+    font-size: 0.8rem;
+    padding: 12px;
+    border-radius: 12px;
+    overflow-x: auto;
+}
 
 @media screen and (max-width: 680px) {
     html {
@@ -125,8 +129,10 @@ pre { white-space: pre-wrap; word-wrap: break-word;}
 .primary-body {
     font-family: "Helvetica", "Arial";
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 1.6rem;
+    font-weight: 100;
 }
+
 
 @media screen and (max-width: 1340px) {
     .primary-title {

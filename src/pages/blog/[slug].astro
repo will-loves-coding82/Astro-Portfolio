@@ -1,11 +1,8 @@
 ---
-// src/pages/blog/[slug].astro
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-// import Button from '../../components/Button.astro';
- 
+import Layout from '../../layouts/Layout.astro'; 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
@@ -21,9 +18,6 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-
-
-
 <Layout>
 
       <section data-lag class="flex flex-col w-full px-8 max-w-4xl mx-auto">
@@ -47,16 +41,16 @@ const { Content } = await render(post);
 
             <header>
               <h3 class="primary-header-3 text-white">Overview</h3>
-              <p class="text-(--color-gray)">{post.data.description}</p>
+              <p class="text-(--color-gray) max-w-lg">{post.data.description}</p>
             </header>
             
           </header>
        
           <hr class="my-8 text-(--line-gray)">
 
-          <Image src={post.data.cover} alt="cover image for blog" fit="fill" width=400 height=300 class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
+          <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="400" height="300" class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
 
-          <div id="content" class="primary-body text-white mt-24">
+          <div id="content" class="primary-body text-white mt-12">
             <Content />
           </div>
 
