@@ -81,10 +81,6 @@ blogPosts = blogPosts.slice(0,3);
 			</h1>
 
 		</header>
-
-		<a target="_blank" href="../../public/William_Kim_SWE.pdf">
-			<p class="primary-body px-3 py-1 w-fit rounded-lg text-white bg-gray-500/50 ml-2 mt-4">Resume</p>
-		</a>
 	</section>
 
 	<section
@@ -96,12 +92,12 @@ blogPosts = blogPosts.slice(0,3);
 			<h2 class="secondary-header-1">Background</h2>
 
 			<div
-				class="w-full h-[480px] overflow-hidden rounded-lg my-12 md:h-[540px] lg:w-[340px] lg:h-fit"
+				class="w-full h-[480px] overflow-hidden rounded-lg my-12 lg:w-[340px] lg:h-fit"
 			>
 				<Image
 					id="san-diego"
 					fit="fill"
-					class="hover:scale-125 transition-all duration-500 sm:translate-y-[-200px] lg:translate-0"
+					class="hover:scale-125 transition-all h-full  duration-500 sm:translate-y-[-200px] lg:translate-0"
 					src={sandiego}
 					alt="photo of me at UCSD"
 				/>
@@ -205,14 +201,16 @@ blogPosts = blogPosts.slice(0,3);
 
 
 
-		<div class="flex flex-col gap-8 md:gap-16 w-full relative">
+		<div class="flex flex-col gap-16 md:gap-24 w-full relative">
 			<p id="project-tooltip-1" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[400px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Solo Running</h2>
-					<p class="primary-body text-(--color-gray)">Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.</p>
+					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
+						Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.
+					</p>
 					<span class="flex gap-4">
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">iOS</p>
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">SwiftUI</p>
@@ -231,11 +229,15 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-2" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[480px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">VGDC Website</h2>
-					<p class="primary-body text-(--color-gray)">Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.</p>
+					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
+						Served as the website director for the Video Game Development Club at UCSD. Collaborated with a small team 
+						to create a Next.js website with a markdown blog system, events, and member profiles. Integrated Motion animations
+						for client side interactivity.					
+					</p>
 					<span class="flex gap-4">
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Next.js</p>
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">React</p>
@@ -257,11 +259,14 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-3" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[440px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[400px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Stacked Habits</h2>
-					<p class="primary-body text-(--color-gray)">Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.</p>
+					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
+						Web application built with Supabase and ChatGPT LLM Tooling that allows users to query information about their habits
+						with a conversational chatbot. Integrates Supabase Auth and PostgreSQL to manage users and their data.					
+					</p>
 					<span class="flex gap-4">
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Next.js</p>
 						<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Supabase</p>
@@ -283,7 +288,7 @@ blogPosts = blogPosts.slice(0,3);
 	</div>
 
 	<section class="flex flex-col w-full mx-auto px-4 min-h-[600px] mt-[200px] 2xl:px-40">
-		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-4 py-4">
+		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-4 py-2">
 			<span class="flex items-center">
 				<CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
 				<h2 class="primary-header-3 text-white transition-all duration-300 ease-in-out">Blog</h2>
@@ -310,7 +315,7 @@ blogPosts = blogPosts.slice(0,3);
 							</a>
 						</li>
 					</a>
-					<hr class="border-dashed mx-8 text-(--color-gray)"/>
+					<hr class="border-dashed mx-4 text-(--color-gray)"/>
 				))}
 			</ul>
 
