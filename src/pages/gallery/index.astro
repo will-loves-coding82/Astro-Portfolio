@@ -78,7 +78,7 @@ const images = await Astro.glob<{default: ImageMetadata}>('../../../public/image
 
 <Layout >
     
-    <section data-lag class="flex flex-col w-full px-8 mx-auto pt-20 xl:px-0">
+    <section data-lag class="flex flex-col w-full px-4 mx-auto pt-20 xl:px-0">
 
         <header class="py-32 max-w-5xl mx-auto">
             <h1 class="secondary-title text-white text-left md:text-center w-full">Visual Gallery</h1>
@@ -86,7 +86,7 @@ const images = await Astro.glob<{default: ImageMetadata}>('../../../public/image
         </header>
     </section>
 
-    <section class="w-full px-8 mt-24 flex justify-center xl:justify-evenly xl:gap-80 items-start mx-auto max-w-[1368px]">
+    <section class="w-full px-4 mt-24 flex justify-center xl:justify-evenly xl:gap-80 items-start mx-auto max-w-[1368px]">
 
         <ul id="scrollable-images-container" class="flex flex-col md:max-w-xl max-w-2xl gap-12">
             {images.map((image, idx) => (

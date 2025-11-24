@@ -68,7 +68,7 @@ blogPosts = blogPosts.slice(0,3);
 
 <Layout>
 		
-	<section class="flex flex-col justify-between mx-auto items-center h-screen w-full px-8 pb-[4rem] pt-20">
+	<section class="flex flex-col justify-between mx-auto items-center h-screen w-full px-4 pb-[4rem] pt-20">
 		<header
 			data-speed="0.7"
 			data-lag
@@ -89,7 +89,7 @@ blogPosts = blogPosts.slice(0,3);
 
 	<section
 		data-speed="0.8"
-		class="flex flex-col justify-center mt-[400px] h-[70vh] max-w-5xl mx-auto px-8 lg:flex-row lg:gap-24 lg:px-0"
+		class="flex flex-col justify-center mt-[400px] h-[70vh] max-w-5xl mx-auto px-4 lg:flex-row lg:gap-24 lg:px-0"
 	>
 		<header class="text-left">
 			<h2 class="primary-header-1">My</h2>
@@ -139,7 +139,7 @@ blogPosts = blogPosts.slice(0,3);
 
 	<section class="mt-[600px] lg:mt-[400px]">
 
-		<span class="flex flex-col justify-center mx-auto gap-8 px-8 w-full lg:flex-row lg:justify-between lg:items-end 2xl:px-40">
+		<span class="flex flex-col justify-center mx-auto gap-8 px-4 w-full lg:flex-row lg:justify-between lg:items-end 2xl:px-40">
 			<header id="gallery-header" class="flex flex-col gap-4 text-center lg:text-left">
 				<p class="secondary-header-2 text-(--color-gray) mb-2">Gallery</p>
 				<h3	class="primary-header-1 text-white max-w-4xl mx-auto">
@@ -196,7 +196,7 @@ blogPosts = blogPosts.slice(0,3);
 	</section>
 
 	<div class="mt-[340px] lg:mt-[400px] flex flex-col justify-center mx-auto">
-		<header class="max-w-lg lg:max-w-5xl mx-auto px-8">
+		<header class="max-w-lg lg:max-w-5xl mx-auto px-4">
 			<h2 id="projects-header" class="primary-header-1 text-center lg:w-full">
 				I've built <span class="secondary-header-1 italic">several</span> projects across mobile
 				and web <span class="secondary-header-1 italic"> development</span>.
@@ -208,7 +208,7 @@ blogPosts = blogPosts.slice(0,3);
 		<div class="flex flex-col gap-8 md:gap-16 w-full relative">
 			<p id="project-tooltip-1" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Solo Running</h2>
@@ -231,7 +231,7 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-2" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[540px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">VGDC Website</h2>
@@ -257,7 +257,7 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-3" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[440px] w-full mx-auto px-8 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between h-[440px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
 
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Stacked Habits</h2>
@@ -282,8 +282,8 @@ blogPosts = blogPosts.slice(0,3);
 
 	</div>
 
-	<section class="flex flex-col w-full mx-auto px-8 min-h-[600px] mt-[200px] 2xl:px-40">
-		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-8 py-4">
+	<section class="flex flex-col w-full mx-auto px-4 min-h-[600px] mt-[200px] 2xl:px-40">
+		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-4 py-4">
 			<span class="flex items-center">
 				<CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
 				<h2 class="primary-header-3 text-white transition-all duration-300 ease-in-out">Blog</h2>
@@ -298,7 +298,7 @@ blogPosts = blogPosts.slice(0,3);
 			<ul class="flex flex-col gap-4 transition-all duration-300">
 				{blogPosts.slice(0,).map((post,idx) => (
 					<a href={BLOG_URL + post.id}>
-						<li id={post.id} class="group hover:cursor-pointer px-8 flex w-full justify-between items-center opacity-60 hover:opacity-100">
+						<li id={post.id} class="group hover:cursor-pointer px-4 flex w-full justify-between items-center opacity-60 hover:opacity-100">
 							<section class="gap-2">
 								<h3 class="primary-header-3">{post.data.title}</h3>
 								<p class="primary-body text-(--color-gray) text-ellipsis line-clamp-2 mt-2 lg:max-w-md">{post.data.description}</p>
