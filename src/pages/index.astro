@@ -89,7 +89,7 @@ blogPosts = blogPosts.slice(0,3);
 
 	<section
 		data-speed="0.8"
-		class="flex flex-col justify-center mt-[400px] max-w-5xl mx-auto px-8 lg:flex-row lg:gap-24 lg:px-0"
+		class="flex flex-col justify-center mt-[400px] h-[70vh] max-w-5xl mx-auto px-8 lg:flex-row lg:gap-24 lg:px-0"
 	>
 		<header class="text-left">
 			<h2 class="primary-header-1">My</h2>
@@ -108,17 +108,36 @@ blogPosts = blogPosts.slice(0,3);
 			</div>
 		</header>
 
-		<pre
-			id="my-background"
-			class="mt-4 primary-header-3 text-(--color-gray) text-left w-full lg:max-w-sm lg:mt-0">
-I started drawing throughout my childhood years and with my age, my obsession with design continued to evolve - from typography, to prints, and roald dahl- esque illustrations. Even though I'm not a professional, I enjoy experimenting with new styles and genres to keep my creative juices flowing.
-<br />
-By the time I entered college, I had very little background in programming. However I quickly gained traction by enrolling in computer science classes and free coding courses on web development. I eventually took on roles redesigning websites for large campus organizations which offered both creative freedom and the chance to improve my fluency in tech stacks. and eventually made my way into an internship program building software solutions for real world clients.                     
-	</pre>
+		<article class="mt-4 primary-body text-white text-left w-full lg:max-w-sm lg:mt-0">
+			<p>
+				I'm a recent graduate from UCSD with a deep interest in design, technology, and machine learning. 
+				From a young age, I've always had an appetite for creating and shaping my ideas into reality - 
+				from my first lego set to my first computer program. That curiosity has continued to push me to 
+				explore new concepts in other mediums that I work with such as digital art and coding.
+			</p>
+			<br class="h-[24px]"/>
+			<p>
+				In college, I found that working with others on meaningful projects provided ample opportunity for
+				new challenges and growth. The late nights of research and iterative development were cumbersome but
+				showed me that results require both discipline and risk. These qualities eventually paved the way
+				for my involvement in campus clubs where I took on major roles redesigning web apps and building
+				real solutions for UCSD health organizations through SDSC.
+			</p>
+			<br class="h-[24px]"/>
+			<p>
+				These days, you'll still find me working on exciting projects in collaboration with other SDSC interns. On the side, I spend 
+				my time completing certification courses to ramp up my professional skills in cloud services & computing. 
+				While it's not easy, learning never stops!
+			</p>
+		</article>
+
+	
+
+
 </section>
 	
 
-	<section class="mt-[340px] lg:mt-[400px]">
+	<section class="mt-[600px] lg:mt-[400px]">
 
 		<span class="flex flex-col justify-center mx-auto gap-8 px-8 w-full lg:flex-row lg:justify-between lg:items-end 2xl:px-40">
 			<header id="gallery-header" class="flex flex-col gap-4 text-center lg:text-left">
@@ -227,7 +246,7 @@ By the time I entered college, I had very little background in programming. Howe
 
 				<Image
 					src={vgdc}
-					alt="solo running app"
+					alt="vgdc website"
 					fit="fill"
 					id="project-image-2"
 					class="rounded-2xl w-full h-full mx-auto hover:cursor-pointer max-w-4xl 2xl:order-last"

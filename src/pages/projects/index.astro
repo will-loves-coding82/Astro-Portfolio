@@ -5,6 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 
 import solo from "../../../public/images/projects/solo.png";
 import acm from "../../../public/images/projects/acm-portal.png";
+import vgdc from "../../../public/images/projects/vgdc.png";
 import bloomBook from "../../../public/images/projects/bloom-book.png";
 import tabeMaps from "../../../public/images/projects/tabemaps-1.png";
 import twoFrameBracket from "../../../public/images/projects/twoframe-bracket.png";
@@ -26,7 +27,7 @@ import stacked from "../../../public/images/projects/stacked.png";
     <section class="flex flex-col gap-24 w-full px-8 xl:px-40">
 
 
-		<article class="flex flex-col gap-4 w-full justify-between lg:flex-row">
+		<article id="solo" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Solo Running App</h2>
 				<p class="primary-body text-(--color-gray)">Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.</p>
@@ -49,7 +50,7 @@ import stacked from "../../../public/images/projects/stacked.png";
 		</article>
 
 
-		<article class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
+		<article id="twoframe" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">TwoFrame.gg</h2>
 				<p class="primary-body text-(--color-gray)">
@@ -75,14 +76,17 @@ import stacked from "../../../public/images/projects/stacked.png";
 		</article>
 
 
-		<article class="flex flex-col gap-4 w-full justify-between lg:flex-row">
+		<article id="stacked" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Stacked AI Habit Tracker</h2>
-				<p class="primary-body text-(--color-gray)">Solo is a personal running app complete with native GPS tracking, Live Activities, and historical trends.</p>
+				<p class="primary-body text-(--color-gray)">
+					Web application built with Supabase and ChatGPT LLM Tooling that allows users to query information about their habits
+					with a conversational chatbot. Integrates Supabase Auth and PostgreSQL to manage users and their data.
+				</p>
 				<span class="flex gap-4">
-					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">iOS</p>
-					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">SwiftUI</p>
-					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">XCode</p>
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Supabase</p>
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Next.js</p>
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">HeroUI</p>
 				</span>
 			</header>
 
@@ -98,8 +102,33 @@ import stacked from "../../../public/images/projects/stacked.png";
 		</article>
 
 
+		<article id="vgdc" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
+			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
+				<h2 class="primary-header-2">VGDC Website</h2>
+				<p class="primary-body text-(--color-gray)">
+					Served as the website director for the Video Game Development Club at UCSD. Collaborated with a small team 
+					to create a Next.js website with a markdown blog system, events, and member profiles. Integrated Motion animations
+					for client side interactivity.
+				</p>
+				<span class="flex gap-4">
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Next.js</p>
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">React Markdown</p>
+					<p class="primary-body w-fit text-white py-2 px-3 bg-(--background-secondary) rounded-lg">Motion</p>
+				</span>
+			</header>
 
-		<article class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
+			<div class="rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Image
+					src={vgdc}
+					alt="vgdc website"
+					fit="contain"
+					id="project-image-4"
+					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+				/>
+			</div>
+		</article>
+
+		<article id="acm" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">ACM AI Website</h2>
 				<p class="primary-body text-(--color-gray)">Redesigned the club's website across 5+ pages using React and AntUI. Created prototypes in Figma for a competitions dashboard, which were later used for the 2025 StarChess tournament. </p>
@@ -122,7 +151,7 @@ import stacked from "../../../public/images/projects/stacked.png";
 		</article>
 
 
-		<article class="flex flex-col gap-4 w-full justify-between lg:flex-row">
+		<article id="tabemaps" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">TabeMaps</h2>
 				<p class="primary-body text-(--color-gray)">A group passion project that I helped design to enable users find restaurants in Japan. Created a custom search UI with several options to sort by price, ratings, and cuisine. Integrated Google Places API to provide geospatial searching with our MongoDB database.</p>
@@ -144,7 +173,7 @@ import stacked from "../../../public/images/projects/stacked.png";
 			</div>
 		</article>
 
-		<article class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
+		<article id="bloom-book" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Bloom Book</h2>
 				<p class="primary-body text-(--color-gray)">
