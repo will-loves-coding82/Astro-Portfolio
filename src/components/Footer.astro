@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const footerBodyStyle = "primary-body text-(--color-gray) font-thin hover:text-white transition-all duration-400";
+const footerBodyStyle = "primary-body text-(--color-gray) font-thin hover:cursor-pointer hover:text-white transition-all duration-400";
 
 ---
 
@@ -10,7 +10,7 @@ const footerBodyStyle = "primary-body text-(--color-gray) font-thin hover:text-w
         <article class="flex flex-col gap-4">
             <h3 class="primary-header-3 text-white">Los Angeles</h3>
             <div class="flex flex-col gap-2">
-                <p class={footerBodyStyle} >williammmm.kim@gmail.com</p>
+                <a class={footerBodyStyle} href="mailto:williammmm.kim@gmail.com" >williammmm.kim@gmail.com</a>
                 <p class={footerBodyStyle} >818-970-4252</p> 
             </div>
         </article>
@@ -28,8 +28,8 @@ const footerBodyStyle = "primary-body text-(--color-gray) font-thin hover:text-w
 
     <article class="flex w-full justify-end gap-4 mt-40">
         <div class="inline-flex gap-4">
-            <p class={footerBodyStyle} >Linkedin</p>
-            <p class={footerBodyStyle} >Github</p> 
+            <a class={footerBodyStyle} target="_blank" href="https://www.linkedin.com/in/william-anthony-kim/">Linkedin</a>
+            <a class={footerBodyStyle} target="_blank" href="https://github.com/will-loves-coding82">Github</a> 
         </div>
     </article>
 
