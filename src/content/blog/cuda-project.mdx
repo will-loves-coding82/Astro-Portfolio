@@ -50,7 +50,7 @@ ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(X, Y, Z, cmap=cm.inferno, linewidth=0, antialiased=False)
 ```
 
-<Image src="/images/blog/cuda-project/gaussian_plot.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 max-h-[440px] rounded-xl"/>
+<Image src="/images/blog/cuda-project/gaussian_plot.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 max-h-[480px] rounded-xl"/>
 
 <br/>
 
@@ -91,7 +91,7 @@ aggregated pixel values.
 <br/>
 
 <p>
-With the basics covered, let's move onto memory. Below is the setup for the memory allocations for the CPU (<span class="variable-name-1">`h_img`</span>) and Device GPU 
+With the basics covered, let's move onto memory. Below is the setup for the memory allocations for the Device GPU 
 (<span class="variable-name-1">`d_img`</span> and <span class="variable-name-1">`d_blur`</span>). We're just making sure our program reserves the correct amount of space 
 for the input and output images. You'll also see some new variables called <span class="variable-name-2">`H_out`</span> and <span class="variable-name-2">`W_out`</span>
 which correspond to the output image dimensions after performing (valid-padding) convolution.
@@ -112,7 +112,6 @@ int H_out = height - KERNEL_SIZE + 1;
 int W_out = width - KERNEL_SIZE + 1;   
 
 // Memory Allocations
-uchar* h_img = (uchar*) malloc(sizeof(uchar) * num_pixels);
 cudaMalloc(&d_img, num_pixels * sizeof(uchar));
 cudaMalloc(&d_blur, H_out * W_out * sizeof(uchar));
 cudaMemcpy(d_img, img.data, num_pixels * sizeof(unsigned char), cudaMemcpyHostToDevice);
