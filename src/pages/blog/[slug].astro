@@ -39,16 +39,18 @@ const { Content } = await render(post);
               
             </header>
 
-            <header>
+            <!-- <header>
               <h3 class="primary-header-3 text-white">Overview</h3>
               <p class="text-(--color-gray) max-w-lg">{post.data.description}</p>
-            </header>
+            </header> -->
             
           </header>
        
-          <hr class="my-8 text-(--line-gray)">
-
-          <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="400" height="300" class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
+          <hr class="my-4 text-(--line-gray)">
+<!-- 
+          {post.data.cover && 
+            <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="700" height="400" class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
+          } -->
 
           <div id="content" class="primary-body text-white mt-12">
             <Content />
