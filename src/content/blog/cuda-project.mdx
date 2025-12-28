@@ -50,7 +50,7 @@ ax = fig.add_subplot(111, projection='3d')
 surf = ax.plot_surface(X, Y, Z, cmap=cm.inferno, linewidth=0, antialiased=False)
 ```
 
-<Image src="/images/blog/cuda-project/gaussian_plot.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 h-[440px] rounded-xl"/>
+<Image src="/images/blog/cuda-project/gaussian_plot.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 max-h-[440px] rounded-xl"/>
 
 <br/>
 
@@ -58,7 +58,7 @@ Using this kernel, we perform a sliding window operation across the entire image
 aggregate the result in the output image pixel. You can think of this as giving more importance to pixels closer to the mean of the curve, enabling 
 us to filter out high frequency noise/detail and creating a smoother image. It's a simple and elegant algorithm.
 <br/>
-<Image src="/images/blog/cuda-project/2D_convolution.svg" alt="2D convolution" width="700" height="400" class="bg-white w-full h-[300px] rounded-xl"/>
+<Image src="/images/blog/cuda-project/2D_convolution.svg" alt="2D convolution" width="700" height="400" class="bg-white w-full max-h-[340px] rounded-xl"/>
 
 
 <br/>
@@ -78,7 +78,7 @@ larger groups called blocks and blocks are organized in a grid.
 </p>
 
 <br/>
-<Image src="/images/blog/cuda-project/cuda_threads.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 h-[440px] rounded-xl"/>
+<Image src="/images/blog/cuda-project/cuda_threads.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 max-h-[440px] rounded-xl"/>
 
 <br/>
 
@@ -210,7 +210,7 @@ and even a bit darker - which I imagine is due to averaging light/dark pixel val
 fractional values. Pretty neat!
 </p>
 
-<Image src="/images/blog/cuda-project/pug_before_after.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 h-[440px] rounded-xl"/>
+<Image src="/images/blog/cuda-project/pug_before_after.png" alt="design guide" fit="cover" width="700" height="400" class="w-full my-4 max-h-[440px] rounded-xl"/>
 
 <br/>
 
