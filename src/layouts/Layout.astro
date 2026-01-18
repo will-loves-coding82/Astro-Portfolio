@@ -31,9 +31,9 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		const smoother = ScrollSmoother.get();
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
 	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
-		const escapeDialog = document.querySelector("#escape-dialog") as HTMLButtonElement;
+		const escapeSearchDialog = document.querySelector("#escape-search-dialog") as HTMLButtonElement;
 
-		escapeDialog.addEventListener("click", () => {
+		escapeSearchDialog.addEventListener("click", () => {
 			toggleDialogView();
 		})
 
@@ -52,14 +52,12 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			searchDialog.classList.toggle("hidden");
 				
 			if (!searchDialog.classList.contains("hidden")) {
-				smoother!!.paused(true);
-				smoothWrapper.toggleAttribute('inert', true);
+				smoother?.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
 			}
 			else {
-				smoother!!.paused(false);
-				smoothWrapper.toggleAttribute('inert', false);
+				smoother?.paused(false);
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
 			}
@@ -263,9 +261,11 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		>
 			<span class="inline-flex justify-between items-center gap-8 w-full p-5">
 				<input id="search-input" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
-				<button id="escape-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
+				<button id="escape-search-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
 			</span>
 			<hr class="w-full text-gray-500/50"/>
+
+			{/* List to display search results  */}
 			<ul id="search-results" class="flex flex-col gap-8 pt-4 pb-32 overflow-scroll h-full pt-8 px-5"></ul>
 			<section class="fixed bottom-0 w-full border-t-1 border-gray-500/50 p-5 flex mt-full bg-(--background-secondary)">
 				<PageFindLogo height={32} width={120} class="ml-full w-fit"/>

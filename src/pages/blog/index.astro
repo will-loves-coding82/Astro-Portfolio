@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from "astro:content";
 import { BLOG_COLLECTION, BLOG_URL } from "../../constants.ts"; // Add this import
 import BlogCard from "../../components/BlogCard.astro";
-import { CircleIcon, Grid2x2, List, Rows3, TextAlignJustify } from "@lucide/astro";
+import { CircleIcon, Grid2x2, TextAlignJustify } from "@lucide/astro";
 
 const allBlogPosts = await getCollection(BLOG_COLLECTION)
 allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());

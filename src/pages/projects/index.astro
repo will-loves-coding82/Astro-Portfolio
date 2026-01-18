@@ -3,18 +3,124 @@ import "../../styles/global.css";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 
-import solo from "../../../public/images/projects/solo.png";
-import acm from "../../../public/images/projects/acm-portal.png";
+import solo from "../../../public/images/projects/solo-running.png";
+import acm from "../../../public/images/projects/acm-ai-portal.png";
 import vgdc from "../../../public/images/projects/vgdc.png";
 import bloomBook from "../../../public/images/projects/bloom-book.png";
 import tabeMaps from "../../../public/images/projects/tabemaps-1.png";
 import twoFrameBracket from "../../../public/images/projects/twoframe-bracket.png";
-import stacked from "../../../public/images/projects/stacked.png";
+import stacked from "../../../public/images/projects/stacked-habits.png";
+import { ChevronLeft, ChevronRight, X } from "@lucide/astro";
+
+const images = Object.values(
+    import.meta.glob<{ default: ImageMetadata }>('../../../public/images/projects/*', { eager: true })
+).map(file => file.default);
 
 ---
 
+<script type="module" define:vars={{images}}>
+	import { gsap } from "../../../node_modules/gsap";
+	import { SplitText } from "../../../node_modules/gsap/SplitText";
+	import { ScrollTrigger } from "../../../node_modules/gsap/ScrollTrigger";
+	import { ScrollSmoother } from "../../../node_modules/gsap/ScrollSmoother";
+
+	document.addEventListener("astro:page-load", () => {
+		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
+		ScrollSmoother.create({
+			smooth: 2, // how long (in seconds) it takes to "catch up" to the native scroll position
+			effects: true, // looks for data-speed and data-lag attributes on elements
+		});
+
+		const smoother = ScrollSmoother.get();
+		const smoothWrapper = document.querySelector("#smooth-wrapper");
+
+		const projectPreviews = document.querySelectorAll(".project-preview")
+		const projectDialog = document.querySelector("#project-dialog")
+		const projectGallery = document.querySelector("ul#project-preview-gallery");
+
+		const projectName =document.querySelector("#project-name");
+		const escapeProjectDialog = document.querySelector("#escape-project-dialog");
+
+		escapeProjectDialog.addEventListener("click", () => {
+			toggleProjectDialogView();
+		})
+
+		projectPreviews.forEach(preview => {
+			preview.addEventListener("click", (e) => {
+				const clickedElement = e.target.closest(".project-preview"); // Ensure we get the parent with data-project
+				const project = clickedElement?.dataset.project; // Safely access data-project
+
+				if (project) {
+					toggleProjectDialogView(project);
+				} else {
+					console.error("No project data found for clicked element.");
+				}
+			});
+		});
+
+		function toggleProjectDialogView(project) {
+			projectDialog.classList.toggle("hidden");
+			projectName.innerText = project;
+
+			if (!projectDialog.classList.contains("hidden")) {
+				smoother.paused(true);
+				smoothWrapper.classList.add('opacity-50');
+				smoothWrapper.classList.add('blur-sm');
+			}
+			else {
+				smoother.paused(false);
+				smoothWrapper.classList.remove('opacity-50');
+				smoothWrapper.classList.remove('blur-sm');
+			}
+
+
+			// Filter images based on the project name
+			const projectImages = images.filter(image => image.src.includes(project));
+
+			// Clear the gallery
+			while (projectGallery.firstChild) {
+				projectGallery.removeChild(projectGallery.firstChild);
+			}
+
+			// Add filtered images to the gallery
+			projectImages.forEach(img => {
+				let article = document.createElement("article");
+				article.innerHTML = `
+					<img src="${img.src}" alt="${img.alt}" class="py-16 max-h-screen max-w-sm md:max-w-lg lg:max-w-2xl" />
+				`;
+				projectGallery.appendChild(article);
+			});	
+		}
+	})
+</script>
+
+
+<dialog 
+    id="project-dialog" 
+    class="fixed bg-(--background-secondary) border-t-2 border-gray-500/50 hidden flex flex-col 
+    justify-between mx-auto w-screen h-screen z-2000"
+>
+	<span class="inline-flex justify-between items-center w-full p-8 max-h-[40px]">
+		<h2 id="project-name" class="primary-header-3 text-white max-w-sm"></h2>
+		<button 
+		id="escape-project-dialog" 
+		class="w-fit h-fit p-1 rounded-md border-1 border-(--color-gray) 
+		text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">
+			{<X size={16}/>}
+		</button>
+	</span>
+	
+	<hr class="w-full text-gray-500/50"/>
+	<div class="flex flex-row items-center justify-evenly w-full h-full overflow-y-scroll">
+		<button id="prev-image"><ChevronLeft class="text-white absolute top-1/2 left-0 translate-x-[50%]"/></button>
+		<ul id="project-preview-gallery" class="flex flex-row h-screen items-center justify-between max-w-md lg:max-w-2xl"></ul>
+		<button id="next-image"><ChevronRight  class="text-white absolute top-1/2 right-0 translate-x-[-50%] mr-4"/></button>
+	</div>
+</dialog>
+
 
 <Layout >
+
     <section data-lag class="flex flex-col w-full px-4 pt-20 xl:px-40">
         <header class="py-24 lg:py-40">
             <h1 id="hero" class="primary-header-1 text-left max-w-lg">
@@ -23,9 +129,7 @@ import stacked from "../../../public/images/projects/stacked.png";
         </header>
     </section>
 
-	
     <section class="flex flex-col gap-24 w-full px-4 xl:px-40">
-
 
 		<article id="solo" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
@@ -40,12 +144,12 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="solo-running" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={solo}
 					alt="solo running app"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-1"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
@@ -66,17 +170,16 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="twoframe" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={twoFrameBracket}
-					alt="solo running app"
+					alt="twoframe bracket"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-2"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
-
 
 		<article id="stacked" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
@@ -92,12 +195,12 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="stacked-habits" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={stacked}
 					alt="stacked ai habit tracker app"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-3"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl brightness-150"
 				/>
 			</div>
@@ -119,18 +222,18 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="vgdc" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={vgdc}
 					alt="vgdc website"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-4"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
 
-		<article id="acm" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
+		<article id="acm-ai" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">ACM AI Website</h2>
 				<p class="primary-body text-(--color-gray)">
@@ -144,12 +247,12 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="acm-ai" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={acm}
 					alt="acm ai website"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-5"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
@@ -171,12 +274,12 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="tabemaps" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={tabeMaps}
 					alt="tabeMaps website"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-6"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
@@ -197,12 +300,12 @@ import stacked from "../../../public/images/projects/stacked.png";
 				</span>
 			</header>
 
-			<div class="rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="bloom-book" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
 				<Image
 					src={bloomBook}
 					alt="bloom book android app"
 					fit="contain"
-					id="project-image-4"
+					id="project-preview-7"
 					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
