@@ -33,21 +33,25 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		const escapeSearchDialog = document.querySelector("#escape-search-dialog") as HTMLButtonElement;
 
 		escapeSearchDialog.addEventListener("click", () => {
-			toggleDialogView();
+			toggleSearchDialogView();
 		})
 
         document.addEventListener("keydown", (e: KeyboardEvent) => {
             if ((e.ctrlKey || e.metaKey) && e.key == "k") {
-				toggleDialogView();
+				toggleSearchDialogView();
             }
 
 			if (e.key == "Escape") {
 				e.preventDefault();
-				toggleDialogView();
+				toggleSearchDialogView();
 			}
         })
 
-		function toggleDialogView() {
+		/**
+		 * toggleDialogView will open the search dialog and
+		 * blur the app's background for visual focus.
+		 */
+		function toggleSearchDialogView() {
 			searchDialog.classList.toggle("hidden");
 				
 			if (!searchDialog.classList.contains("hidden")) {
@@ -241,7 +245,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 
 <!doctype html>
 <html lang="en">
-	<head transition:animate="none">
+	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

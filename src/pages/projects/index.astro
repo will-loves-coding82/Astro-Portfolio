@@ -16,6 +16,7 @@ const images = Object.values(
     import.meta.glob<{ default: ImageMetadata }>('../../../public/images/projects/*', { eager: true })
 ).map(file => file.default);
 
+// The serialized data is saved in a custom astro-images component
 const imagesJSON = JSON.stringify(images);
 ---
 
@@ -54,20 +55,23 @@ const imagesJSON = JSON.stringify(images);
 		// Controls the scale of the displayed image
 		let zoomLevel = 1;
 
-		// Helper class to access the frontmatter images metadata
+		/**
+		 *  Helper class to access the frontmatter images metadata
+		 */
 		class AstroImages extends HTMLElement {
 			getImages() {
 				// Read the frontmatter images from the data attribute.
 				return this.dataset.images;
 			}
 		}
+
 		if (!customElements.get("astro-images")) {
-		customElements.define("astro-images", AstroImages);
+			customElements.define("astro-images", AstroImages);
 		}
 
-		let astroImagesComponent = document.querySelector("astro-images") as AstroImages;
+		let astroImagesComponent : AstroImages = document.querySelector("astro-images") as AstroImages;
 		let projectImages : ImageMetadata[] = []; 
-		let numProjectImages = 0;
+		let numProjectImages: number = 0;
 		let project : string = "";
 
 		// Dialog carousel current index for displayed image
@@ -111,7 +115,7 @@ const imagesJSON = JSON.stringify(images);
 
 		/**
 		 * showNextImage will jump to the next image
-		 * in the project dialog carousel.
+		 * in the project dialog image carousel.
 		 */
 		function showNextImage() {
 			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
@@ -125,7 +129,7 @@ const imagesJSON = JSON.stringify(images);
 
 		/**
 		 * showPrevImage will jump to the previous image
-		 * in the project dialog carousel.
+		 * in the project dialog image carousel.
 		 */
 		function showPrevImage() {
 			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
@@ -137,6 +141,11 @@ const imagesJSON = JSON.stringify(images);
 			} 
 		}
 
+		/**
+		 * minimizeImage will reduce the current display 
+		 * image's scale property in increments of 0.25 by
+		 * updating a global `zoomLevel` variable.
+		 */
 		function minimizeImage() {
 			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
 			if (zoomLevel - 0.25 > 0) {
@@ -146,6 +155,12 @@ const imagesJSON = JSON.stringify(images);
 			}
 		}
 
+		/**
+		 * enlargeImage will increment the current display 
+		 * image's scale property in increments of 0.25 by 
+		 * updating a global `zoomLevel` variable.
+		 * 
+		 */
 		function enlargeImage() {
 			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
 			if (zoomLevel + 0.25 <= 1) {
@@ -157,7 +172,7 @@ const imagesJSON = JSON.stringify(images);
 
 		/**
 		 * toggleProjectDialogView will open a full screen dialog with
-		 * an interactive carousel for a specific project's gallery.
+		 * an interactive carousel for a specific project's image gallery.
 		 * @param project the project-data attribute derived from each image
 		 */
 		function toggleProjectDialogView(project: string) {
@@ -199,10 +214,12 @@ const imagesJSON = JSON.stringify(images);
 				numProjectImages = projectImages.length;
 				previewIndex = 0;
 
+				// Set the content
 				projectImageContainer.innerHTML =  `<img id="project-display-image" src=${projectImages[previewIndex].src} class="py-16 origin-top w-full mx-auto absolute top-1/4 z-0"/>`;
 				carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 				zoomLevelDisplay.innerText = `${zoomLevel * 100}%`;
 
+				// Always gray-out the prev button when first opening the dialog
 				prevImageButton.style.opacity ="0.5";
 				if (numProjectImages == 1) {
 					nextImageButton.style.opacity ="0.5";
@@ -213,7 +230,7 @@ const imagesJSON = JSON.stringify(images);
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
 
-				// Reset the state
+				// Reset the state when exiting the dialog
 				previewIndex = 0;
 				projectImages = [];
 				prevImageButton.style.opacity ="0.5";
@@ -273,7 +290,6 @@ const imagesJSON = JSON.stringify(images);
 		<p id="carousel-index-display" class="text-white secondary-body"></p>
 	</aside>
 </dialog>
-
 
 <Layout >
     <section data-lag class="flex flex-col w-full px-4 pt-20 xl:px-40 mx-auto">

@@ -24,7 +24,7 @@ const images = Object.values(
           pinned.addEventListener('click', ()=> {
                 gsap.to(window, { duration: 0.5,ease: "expo.out", scrollTo: { y: `#scrollable-${idx}`, offsetY: 50 } });
             })
-        })
+        });
 
         scrollableImages.forEach((_, idx) => {
             const pinnedImage = document.querySelector(`#pinned-${idx}`) as HTMLElement;
