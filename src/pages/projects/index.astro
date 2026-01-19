@@ -19,13 +19,11 @@ const images = Object.values(
 const imagesJSON = JSON.stringify(images);
 ---
 
-
 <script>
 	import { gsap } from "gsap";
 	import { SplitText } from "gsap/SplitText";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
-
 
 	document.addEventListener("astro:page-load", () => {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
@@ -56,9 +54,11 @@ const imagesJSON = JSON.stringify(images);
 				return this.dataset.images;
 			}
 		}
+		if (!customElements.get("astro-images")) {
 		customElements.define("astro-images", AstroImages);
-		let astroImagesComponent = document.querySelector("astro-images") as AstroImages;
+		}
 
+		let astroImagesComponent = document.querySelector("astro-images") as AstroImages;
 		let projectImages : ImageMetadata[] = []; 
 		let numProjectImages = 0;
 		let project : string = "";
@@ -88,7 +88,7 @@ const imagesJSON = JSON.stringify(images);
 			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 		});
 
-		prevImageButton.addEventListener("click", () => {
+		prevImageButton?.addEventListener("click", () => {
 			showPrevImage();
 			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 		});	
@@ -203,8 +203,8 @@ const imagesJSON = JSON.stringify(images);
 
 <dialog 
     id="project-dialog" 
-    class="fixed bg-(--background-primary) border-t-2 border-gray-500/50 hidden flex flex-col 
-    justify-between mx-auto w-screen h-screen z-2000"
+    class="fixed bg-(--background-primary) border-t-2 border-gray-500/50 hidden 
+	flex flex-col justify-between mx-auto w-screen h-screen z-2000"
 >
 	<span class="bg-(--background-primary) inline-flex justify-between items-center w-full p-8 max-h-[40px] z-2">
 		<h2 id="project-name" class="primary-header-3 text-white max-w-lg"></h2>
@@ -223,7 +223,7 @@ const imagesJSON = JSON.stringify(images);
 			<ChevronLeft class="text-white"/>
 		</button>
 		<div id="project-image-container" class="flex flex-row items-center w-full h-screen absolute overflow-y-scroll"></div>
-		<button id="next-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%] mr-4">
+		<button id="next-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%]">
 			<ChevronRight  class="text-white"/>
 		</button>
 	</div>
@@ -233,7 +233,6 @@ const imagesJSON = JSON.stringify(images);
 
 
 <Layout >
-
     <section data-lag class="flex flex-col w-full px-4 pt-20 xl:px-40 mx-auto">
         <header class="py-24 lg:py-40">
             <h1 id="hero" class="primary-header-1 text-left max-w-lg">
@@ -243,7 +242,6 @@ const imagesJSON = JSON.stringify(images);
     </section>
 
     <section class="flex flex-col gap-24 w-full px-4 xl:px-40">
-
 		<article id="solo" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Solo Running App</h2>
@@ -267,7 +265,6 @@ const imagesJSON = JSON.stringify(images);
 				/>
 			</div>
 		</article>
-
 
 		<article id="twoframe" class="flex flex-col gap-4 w-full justify-between h-[600px] lg:h-[480px] lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
@@ -319,7 +316,6 @@ const imagesJSON = JSON.stringify(images);
 			</div>
 		</article>
 
-
 		<article id="vgdc" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">VGDC Website</h2>
@@ -370,7 +366,6 @@ const imagesJSON = JSON.stringify(images);
 				/>
 			</div>
 		</article>
-
 
 		<article id="tabemaps" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
@@ -430,29 +425,28 @@ const imagesJSON = JSON.stringify(images);
 		<header><h1 class="primary-header-1">Skills and Tools</h1></header>
 		<div class="flex flex-col md:flex-row md:justify-start md:gap-[33%] ">
 			<ul class="flex flex-col mt-8 gap-4">
-				<p class="text-(--color-gray) primary-header-3">Docker</p>
-				<p class="text-(--color-gray) primary-header-3">Linux</p>
-				<p class="text-(--color-gray) primary-header-3">XCode</p>
-				<p class="text-(--color-gray) primary-header-3">VSCode</p>
-				<p class="text-(--color-gray) primary-header-3">Git / Gitlab</p>
-				<p class="text-(--color-gray) primary-header-3">Postman</p>
-				<p class="text-(--color-gray) primary-header-3">Supabase</p>
-				<p class="text-(--color-gray) primary-header-3">Firebase</p>
-				<p class="text-(--color-gray) primary-header-3">MySQL / PostgreSQL</p>			
+				<li class="text-(--color-gray) primary-header-3">Docker</li>
+				<li class="text-(--color-gray) primary-header-3">Linux</li>
+				<li class="text-(--color-gray) primary-header-3">XCode</li>
+				<li class="text-(--color-gray) primary-header-3">VSCode</li>
+				<li class="text-(--color-gray) primary-header-3">Git / Gitlab</li>
+				<li class="text-(--color-gray) primary-header-3">Postman</li>
+				<li class="text-(--color-gray) primary-header-3">Supabase</li>
+				<li class="text-(--color-gray) primary-header-3">Firebase</li>
+				<li class="text-(--color-gray) primary-header-3">MySQL / PostgreSQL</li>			
 			</ul>
 
 			<ul class="flex flex-col mt-4 gap-4">
-				<p class="text-(--color-gray) primary-header-3">Golang</p>
-				<p class="text-(--color-gray) primary-header-3">Node.js</p>
-				<p class="text-(--color-gray) primary-header-3">TypeScript</p>
-				<p class="text-(--color-gray) primary-header-3">JavaScript</p>
-				<p class="text-(--color-gray) primary-header-3">Tailwind CSS</p>
-				<p class="text-(--color-gray) primary-header-3">Python</p>			
-				<p class="text-(--color-gray) primary-header-3">C++</p>
-				<p class="text-(--color-gray) primary-header-3">Kotlin</p>
-				<p class="text-(--color-gray) primary-header-3">Bash</p>
+				<li class="text-(--color-gray) primary-header-3">Golang</li>
+				<li class="text-(--color-gray) primary-header-3">Node.js</li>
+				<li class="text-(--color-gray) primary-header-3">TypeScript</li>
+				<li class="text-(--color-gray) primary-header-3">JavaScript</li>
+				<li class="text-(--color-gray) primary-header-3">Tailwind CSS</li>
+				<li class="text-(--color-gray) primary-header-3">Python</li>			
+				<li class="text-(--color-gray) primary-header-3">C++</li>
+				<li class="text-(--color-gray) primary-header-3">Kotlin</li>
+				<li class="text-(--color-gray) primary-header-3">Bash</li>
 			</ul>
 		</div>
-		
 	</section>
 </Layout>

@@ -8,7 +8,6 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit transition-
 ---
 
 <style>
-
     .nav-group {
         display: inline-flex;
         flex-wrap: wrap;
@@ -17,20 +16,17 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit transition-
 
     .disabled-interaction {
         pointer-events: none; /* Prevents mouse events like clicks, hovers */
-        user-select: none;   /* Prevents text selection */
-        opacity: 0.6;        /* Optional: Visually indicate disabled state */
-        cursor: default;     /* Optional: Change cursor to default */
+        user-select: none;    /* Prevents text selection */
+        opacity: 0.6;         /* Visually indicate disabled state */
+        cursor: default;      /* Change cursor to default */
     }
 </style>
 
-
 <script>
-
     import { gsap } from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-    
     document.addEventListener("astro:page-load", () =>{
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -100,7 +96,6 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit transition-
     })
 </script>
 
-
 <nav id="desktop-nav" class="fixed z-100 w-full flex justify-between h-20 items-center px-4 box-border bg-(--background-primary) border-b-2 border-(--background-secondary) opacity-[95%] xl:px-40">
     <a class="primary-header-3 text-white text-left w-24" href="/">MYUNG</a>
 
@@ -112,22 +107,20 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit transition-
     </menu>
 
     <menu class="w-24 flex justify-end gap-8">
-        <button id="search-btn" class="inline-flex items-center gap-1 hover:cursor-pointer">
+        <button id="search-btn" aria-label="search" class="inline-flex items-center gap-1 hover:cursor-pointer">
             <Search size={12}/>
             <Command size={12}/>
             <p class="text-white text-sm">k</p>
         </button>
 
-        <button id="toggle-menu" class="hover:cursor-pointer lg:hidden">
+        <button id="toggle-menu" aria-label="side-menu" class="hover:cursor-pointer lg:hidden">
             <PanelRight size={16} />
         </button>
     </menu>
 </nav>
 
-
 <section id="side-bar-menu" class="fixed right-0 z-30 h-screen w-full bg-(--background-primary) sm:w-[45vw] border-l-2 border-(--background-secondary) translate-x-full  transition-all duration-500 ease-in-out lg:hidden">
     <menu class="flex flex-col gap-12 w-fit h-screen mt-32 sm:text-left px-4">
-
         <span class="group flex items-center">
             <ArrowRight size={24} class="mr-2 rounded-full w-0 opacity-0 group-hover:w-[24px] group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
             <a class={sideBarLinkStyle}  href="/about">About</a>

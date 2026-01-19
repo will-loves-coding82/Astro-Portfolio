@@ -10,8 +10,6 @@ const allBlogPosts = await getCollection(BLOG_COLLECTION)
 allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<script src="../../scripts/gsap.min.js"></script>
-
 <script>
     import { gsap } from "gsap";
 	import { SplitText } from "gsap/SplitText";
@@ -30,7 +28,6 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
         scrollTrigger: { trigger: "#hero" },
     });
 
-    init();
     document.addEventListener("astro:after-swap", init)
 
     function init() {    
@@ -88,16 +85,9 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
                 // Save selection in browser
                 localStorage.setItem("view", view)
             }
-
         })
     }
-
-
 </script>
-
-<style>
-
-</style>
 
 <Layout>
     <section data-lag class="flex flex-col w-full px-4 mx-auto pt-20 xl:px-0">
@@ -109,7 +99,6 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     </section>
 
     <section class="px-4 xl:px-0">
-
         <div id="options" class="flex justify-between gap-16  w-full max-w-5xl mx-auto pb-12 items-center">
             <span class="hidden w-fit gap-4 lg:flex">
                 <label class="hover:cursor-pointer">
@@ -122,7 +111,6 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
                 </label>
             </span>
         </div>
-
 
         <ul id="blog-list" class="opacity-100 flex flex-col gap-8 w-full min-h-[600px] max-w-5xl mx-auto transition-opacity duration-500 ">
             {allBlogPosts.map((post) => (
@@ -143,14 +131,9 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
                         <p class="primary-body text-(--color-gray)">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
                     </header>
                 </a>
-
             )}
         </div>
-
-
     </section>
-            
-
 </Layout>
 
 

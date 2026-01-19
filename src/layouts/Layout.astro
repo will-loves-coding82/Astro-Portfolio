@@ -1,11 +1,13 @@
 ---
 import "../styles/global.css";
 import NavBar from "../components/NavBar.astro";
-import {ClientRouter} from "astro:transitions";
+import ClientRouter from "astro/components/ClientRouter.astro";
 import Footer from "../components/Footer.astro";
 import  PageFindLogo  from "../assets/pagefind-dark.svg";
 ---
+
 <script src="../scripts/gsap.min.js"></script>
+
 <script>
 	import { gsap } from "gsap";
 	import { SplitText } from "gsap/SplitText";
@@ -13,13 +15,10 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
 	import { Flip } from "gsap/Flip";
 
-
 	document.addEventListener("astro:page-load", setUpAnimations);
 	
-
 	// Animations are set up in the order that they appear on the page
 	function setUpAnimations() {	
-
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
 
 		ScrollSmoother.create({
@@ -133,7 +132,6 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 				yTo(y - pos.y + 64);
 			});
 
-	
 			projectImage?.addEventListener("mouseleave", (e: MouseEvent) => {
 				gsap.to(tooltip, {
 					duration: 0.3,
@@ -141,7 +139,6 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 					scale: 0
 				});
 			});
-		
 		}		
 
 		// Image carousel horizontal scroll animation
@@ -181,7 +178,6 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		);
 	}
 </script>
-
 
 <script>
 	const pagefind = await import("../../public/pagefind/pagefind.js");

@@ -1,14 +1,14 @@
 ---
-import { getCollection, render } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro'; 
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: CollectionEntry<"blog">;
 }
- 
+
 export async function getStaticPaths() {
-  const blogPosts = await getCollection('blog');
+  const blogPosts = await getCollection("blog");
   return blogPosts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -18,45 +18,35 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
+
 <Layout>
+  <section data-lag class="flex flex-col w-full px-4 max-w-4xl mx-auto">
+    <article class="my-40 w-full max-w-4xl mx-auto">
+      <a
+        id="back"
+        href="/blog"
+        class="primary-body text-(--color-gray) text-left hover:cursor-pointer"
+        >blog / {post.id}</a
+      >
 
-      <section data-lag class="flex flex-col w-full px-4 max-w-4xl mx-auto">
-    
-        <article class="my-40 w-full max-w-4xl mx-auto">
-          
-          <a id="back" href="/blog" class="primary-body text-(--color-gray) text-left hover:cursor-pointer">blog / {post.id}</a>
+      <header class="flex flex-col gap-20 mt08">
+        <h1 class="primary-header-1 max-w-xl">{post.data.title}</h1>
+        <span class="inline-flex gap-3 mt-8">
+          {
+            post.data.tags.map((tag) => (
+              <p class="primary-body  text-(--color-gray) px-4 py-1 bg-(--background-secondary) w-fit rounded-lg">
+                {tag}
+              </p>
+            ))
+          }
+        </span>
+      </header>
 
-          <header class="flex flex-col gap-20">
+      <hr class="my-4 text-(--line-gray)" />
 
-            <header class="mt-8">
-              <h1 class="primary-header-1 max-w-xl">{post.data.title}</h1>
-
-              <span class="inline-flex gap-3 mt-8">
-                {post.data.tags.map((tag)=> (
-                  <p class="primary-body  text-(--color-gray) px-4 py-1 bg-(--background-secondary) w-fit rounded-lg">{tag}</p>
-                ))}
-              </span>
-              
-            </header>
-
-            <!-- <header>
-              <h3 class="primary-header-3 text-white">Overview</h3>
-              <p class="text-(--color-gray) max-w-lg">{post.data.description}</p>
-            </header> -->
-            
-          </header>
-       
-          <hr class="my-4 text-(--line-gray)">
-<!-- 
-          {post.data.cover && 
-            <Image src={post.data.cover} alt="cover image for blog" fit="fill" width="700" height="400" class="object-cover object-center !m-0 aspect-square block w-full h-[440px] rounded-xl"/>
-          } -->
-
-          <div id="content" class="primary-body text-white mt-12">
-            <Content />
-          </div>
-
-        </article>
-      </section>  
-
+      <div id="content" class="primary-body text-white mt-12">
+        <Content />
+      </div>
+    </article>
+  </section>
 </Layout>
