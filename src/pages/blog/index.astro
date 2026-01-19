@@ -28,65 +28,68 @@ allBlogPosts.sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
         scrollTrigger: { trigger: "#hero" },
     });
 
-    document.addEventListener("astro:after-swap", init)
+    document.addEventListener("astro:page-load", function() {
 
-    function init() {    
         /* Toggle the view between list and grid modes */
         const viewToggles = document.querySelectorAll(".view-toggle") as NodeListOf<HTMLInputElement>;
         const blogList = document.querySelector("#blog-list");
         const blogGrid = document.querySelector("#blog-grid");
         const savedView = localStorage.getItem("view") || 'list';
 
-        document.addEventListener('astro:page-load', () => {
-            // Initialize states for toggles
-            viewToggles.forEach(toggle => {
-                if (toggle.dataset.view == savedView) {
-                    toggle.checked = true;
+
+        // Initialize states for toggles
+        viewToggles.forEach(toggle => {
+            if (toggle.dataset.view == savedView) {
+                toggle.checked = true;
+            } else {
+                toggle.checked = false;
+            }
+        });
+
+        updateView(savedView);
+
+        viewToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            const target = e.target as HTMLInputElement;
+            const selectedView = target.dataset.view;
+
+            if (!target.checked) return;
+
+            // Sync with other toggle
+            viewToggles.forEach((other) => {
+                if (other.dataset.view == selectedView) {
+                    other.checked = true;
                 }
-            });
-
-            updateView(savedView);
-
-            viewToggles.forEach(toggle => {
-            toggle.addEventListener('click', (e) => {
-                const target = e.target as HTMLInputElement;
-                const selectedView = target.dataset.view;
-
-                if (!target.checked) return;
-
-                // Sync with other toggle
-                viewToggles.forEach((other) => {
-                    if (other.dataset.view == selectedView) {
-                        other.checked = true;
-                    }
-                })
-
-                if (selectedView) {
-                    updateView(selectedView);
-                }
-                })
             })
 
-            function updateView(view: string) {
-                if (view == "list") {
-                    blogGrid?.classList.add("hidden");
-                    blogList?.classList.remove("hidden");
-                    blogGrid?.classList.add("md:hidden"); 
-                    blogGrid?.classList.add("lg:hidden");
-                    
-                }
-                if (view == "grid") {
-                    blogList?.classList.add("hidden");
-                    blogGrid?.classList.remove("hidden"); 
-                    blogGrid?.classList.remove("md:hidden"); 
-                    blogGrid?.classList.remove("lg:hidden"); 
-                }
-
-                // Save selection in browser
-                localStorage.setItem("view", view)
+            if (selectedView) {
+                updateView(selectedView);
             }
+            })
         })
-    }
+
+        function updateView(view: string) {
+            // Save selection in local storage
+            localStorage.setItem("view", view)
+
+            if (view == "list") {
+                blogGrid?.classList.add("hidden");
+                blogList?.classList.remove("hidden");
+                blogGrid?.classList.add("md:hidden"); 
+                blogGrid?.classList.add("lg:hidden");
+                
+            }
+            if (view == "grid") {
+                blogList?.classList.add("hidden");
+                blogGrid?.classList.remove("hidden"); 
+                blogGrid?.classList.remove("md:hidden"); 
+                blogGrid?.classList.remove("lg:hidden"); 
+            }
+
+        }
+
+    });
+
 </script>
 
 <Layout>
