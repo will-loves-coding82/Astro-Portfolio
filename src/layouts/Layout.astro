@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import NavBar from "../components/NavBar.astro";
-import ClientRouter from "astro/components/ClientRouter.astro";
+import {ClientRouter} from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import  PageFindLogo  from "../assets/pagefind-dark.svg";
 ---
@@ -244,14 +244,14 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 </script>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate="none">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
-		<ClientRouter />
+		<ClientRouter fallback="none" />
 	</head>
 
 	<body class="flex flex-col justify-between">

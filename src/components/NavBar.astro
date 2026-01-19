@@ -3,9 +3,8 @@ import "../styles/global.css";
 import "@fontsource/crimson-text"
 import {ArrowRight, Command, Search, PanelRight} from "@lucide/astro";
 
-
 const desktopLinkStyle = "primary-body text-white px-3 py-1 w-fit rounded-lg hover:text-white hover:bg-gray-500/50 transition-color duration-500";
-const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-all duration-300 text-center sm:text-left"
+const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit transition-all duration-300 text-center sm:text-left"
 ---
 
 <style>
@@ -105,7 +104,7 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fittransition-a
 <nav id="desktop-nav" class="fixed z-100 w-full flex justify-between h-20 items-center px-4 box-border bg-(--background-primary) border-b-2 border-(--background-secondary) opacity-[95%] xl:px-40">
     <a class="primary-header-3 text-white text-left w-24" href="/">MYUNG</a>
 
-    <menu class="hidden gap-8 items-center w-fit lg:flex">
+    <menu class="hidden gap-8 items-center w-fit lg:flex" >
         <a class={desktopLinkStyle} href="/about/">About</a>
         <a class={desktopLinkStyle} href="/projects/">Projects</a>
         <a class={desktopLinkStyle} href="/gallery">Gallery</a> 
