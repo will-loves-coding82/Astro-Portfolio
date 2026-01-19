@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 
 import solo from "../../../public/images/projects/solo-running.png";
-import acm from "../../../public/images/projects/acm-ai-portal.png";
+import acm from "../../../public/images/projects/acm-ai-portal-myteam-mockup.png";
 import vgdc from "../../../public/images/projects/vgdc.png";
 import bloomBook from "../../../public/images/projects/bloom-book.png";
 import tabeMaps from "../../../public/images/projects/tabemaps-1.png";
@@ -34,22 +34,30 @@ const images = Object.values(
 		const smoother = ScrollSmoother.get();
 		const smoothWrapper = document.querySelector("#smooth-wrapper");
 
-		const projectPreviews = document.querySelectorAll(".project-preview")
-		const projectDialog = document.querySelector("#project-dialog")
-		const projectGallery = document.querySelector("ul#project-preview-gallery");
+		// Interactive images that open the project dialog
+		const projectPreviews = document.querySelectorAll(".project-preview");
+		const projectDialog = document.querySelector("#project-dialog");
 
+		// Dialog components
 		const projectName =document.querySelector("#project-name");
 		const escapeProjectDialog = document.querySelector("#escape-project-dialog");
+		const projectImageContainer = document.querySelector("div#project-image-container");
+		const prevImageButton = document.querySelector("button#prev-image");
+		const nextImageButton = document.querySelector("button#next-image");
+		const carouselIndexDisplay = document.querySelector("p#carousel-index-display");
 
-		escapeProjectDialog.addEventListener("click", () => {
-			toggleProjectDialogView();
-		})
+		// Mutable array that stores the images related to a project
+		let projectImages = [];
+		let numProjectImages = 0;
 
+		// Dialog carousel current index for displayed image
+		let previewIndex = 0;
+
+		// Register event listeners
 		projectPreviews.forEach(preview => {
 			preview.addEventListener("click", (e) => {
-				const clickedElement = e.target.closest(".project-preview"); // Ensure we get the parent with data-project
-				const project = clickedElement?.dataset.project; // Safely access data-project
-
+				const clickedElement = e.target.closest(".project-preview"); 
+				const project = clickedElement?.dataset.project;
 				if (project) {
 					toggleProjectDialogView(project);
 				} else {
@@ -58,50 +66,131 @@ const images = Object.values(
 			});
 		});
 
+		escapeProjectDialog.addEventListener("click", () => {
+			toggleProjectDialogView();
+		});
+
+		nextImageButton.addEventListener("click", () => {
+			showNextImage();
+			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
+		});
+
+		prevImageButton.addEventListener("click", () => {
+			showPrevImage();
+			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
+		});	
+
+		/**
+		 * showNextImage will jump to the next image
+		 * in the project dialog carousel.
+		 */
+		function showNextImage() {
+			if (previewIndex + 1 < numProjectImages) {
+				previewIndex += 1;
+				projectImageContainer.firstChild.src = projectImages[previewIndex].src;
+				prevImageButton.style.opacity = "1.0";
+       			nextImageButton.style.opacity = previewIndex === projectImages.length - 1 ? "0.5" : "1.0";
+			} 
+		}
+
+		/**
+		 * showPrevImage will jump to the previous image
+		 * in the project dialog carousel.
+		 */
+		function showPrevImage() {
+			if (previewIndex - 1 >= 0) {
+				previewIndex -= 1;
+				projectImageContainer.firstChild.src = projectImages[previewIndex].src;
+				nextImageButton.style.opacity ="1.0";
+				prevImageButton.style.opacity = previewIndex === 0 ? "0.5" : "1.0";
+			} 
+		}
+
+		/**
+		 * toggleProjectDialogView will open a full screen dialog with
+		 * an interactive carousel for a specific project's gallery.
+		 * @param project the project-data attribute derived from each image
+		 */
 		function toggleProjectDialogView(project) {
 			projectDialog.classList.toggle("hidden");
-			projectName.innerText = project;
+
 
 			if (!projectDialog.classList.contains("hidden")) {
 				smoother.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
+
+
+				// Update the dialog header with a user friendly title
+				switch (project) {
+					case "acm-ai":
+						projectName.innerText = "ACM AI Website";	 
+						break;
+					case "solo-running":
+						projectName.innerText = "Solo Running";	 
+						break;
+					case "twoframe":
+						projectName.innerText = "TwoFrame.gg";	 
+						break;
+					case "vgdc":
+						projectName.innerText = "VGDC Website";	 
+						break;
+					case "stacked-habits":
+						projectName.innerText = "Stacked AI Habit Tracker";	 
+						break;
+					case "tabemaps":
+						projectName.innerText = "TabeMaps";	 
+						break;
+					case "bloom-book":
+						projectName.innerText = "Bloom Book";	 
+						break;
+				}
+
+				// Filter images based on the project name
+				projectImages = images.filter(image => image.src.includes(project));
+				numProjectImages = projectImages.length;
+				previewIndex = 0;
+
+				projectImageContainer.innerHTML =  `<img src=${projectImages[previewIndex].src} class="py-16 w-full mx-auto absolute top-1/4 z-0"/>`;
+				carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
+
+				prevImageButton.style.opacity ="0.5";
+				if (numProjectImages == 1) {
+					nextImageButton.style.opacity ="0.5";
+				}
+
 			}
 			else {
 				smoother.paused(false);
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
+
+				// Reset the state
+				previewIndex = 0;
+				projectImages = [];
+				prevImageButton.style.opacity ="0.5";
+				nextImageButton.style.opacity ="1.0";
 			}
-
-
-			// Filter images based on the project name
-			const projectImages = images.filter(image => image.src.includes(project));
-
-			// Clear the gallery
-			while (projectGallery.firstChild) {
-				projectGallery.removeChild(projectGallery.firstChild);
-			}
-
-			// Add filtered images to the gallery
-			projectImages.forEach(img => {
-				let article = document.createElement("article");
-				article.innerHTML = `
-					<img src="${img.src}" alt="${img.alt}" class="py-16 max-h-screen max-w-sm md:max-w-lg lg:max-w-2xl" />
-				`;
-				projectGallery.appendChild(article);
-			});	
 		}
 	})
 </script>
 
+<style>
+	div#project-image-container {		
+		/* Hide scrollbar visually across browsers */
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none;     /* Firefox */
+	}
+</style>
+
 
 <dialog 
     id="project-dialog" 
-    class="fixed bg-(--background-secondary) border-t-2 border-gray-500/50 hidden flex flex-col 
+    class="fixed bg-(--background-primary) border-t-2 border-gray-500/50 hidden flex flex-col 
     justify-between mx-auto w-screen h-screen z-2000"
 >
-	<span class="inline-flex justify-between items-center w-full p-8 max-h-[40px]">
-		<h2 id="project-name" class="primary-header-3 text-white max-w-sm"></h2>
+	<span class="bg-(--background-primary) inline-flex justify-between items-center w-full p-8 max-h-[40px] z-2">
+		<h2 id="project-name" class="primary-header-3 text-white max-w-lg"></h2>
 		<button 
 		id="escape-project-dialog" 
 		class="w-fit h-fit p-1 rounded-md border-1 border-(--color-gray) 
@@ -110,18 +199,25 @@ const images = Object.values(
 		</button>
 	</span>
 	
-	<hr class="w-full text-gray-500/50"/>
-	<div class="flex flex-row items-center justify-evenly w-full h-full overflow-y-scroll">
-		<button id="prev-image"><ChevronLeft class="text-white absolute top-1/2 left-0 translate-x-[50%]"/></button>
-		<ul id="project-preview-gallery" class="flex flex-row h-screen items-center justify-between max-w-md lg:max-w-2xl"></ul>
-		<button id="next-image"><ChevronRight  class="text-white absolute top-1/2 right-0 translate-x-[-50%] mr-4"/></button>
+	<hr class="w-full text-gray-500/50 z-3"/>
+
+	<div id="project-image-carousel" class="flex flex-row relative items-center justify-between mx-auto w-full h-full max-w-4xl z-1">
+		<button id="prev-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 left-0 translate-x-[50%]">
+			<ChevronLeft class="text-white"/>
+		</button>
+		<div id="project-image-container" class="flex flex-row items-center w-full h-screen absolute overflow-y-scroll"></div>
+		<button id="next-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%] mr-4">
+			<ChevronRight  class="text-white"/>
+		</button>
 	</div>
+
+	<p id="carousel-index-display" class="text-white secondary-body absolute z-4 bottom-0 right-0 p-12"></p>
 </dialog>
 
 
 <Layout >
 
-    <section data-lag class="flex flex-col w-full px-4 pt-20 xl:px-40">
+    <section data-lag class="flex flex-col w-full px-4 pt-20 xl:px-40 mx-auto">
         <header class="py-24 lg:py-40">
             <h1 id="hero" class="primary-header-1 text-left max-w-lg">
                 Projects <span class="text-(--color-gray)">From Web to Mobile</span>
