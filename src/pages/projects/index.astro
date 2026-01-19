@@ -19,11 +19,11 @@ const images = Object.values(
 ---
 
 <script type="module" define:vars={{images}}>
-	import { gsap } from "../../../node_modules/gsap";
-	import { SplitText } from "../../../node_modules/gsap/SplitText";
-	import { ScrollTrigger } from "../../../node_modules/gsap/ScrollTrigger";
-	import { ScrollSmoother } from "../../../node_modules/gsap/ScrollSmoother";
-
+	import { gsap } from "gsap";
+	import { SplitText } from "gsap/SplitText";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { ScrollSmoother } from "gsap/ScrollSmoother";
+	
 	document.addEventListener("astro:page-load", () => {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
 		ScrollSmoother.create({
