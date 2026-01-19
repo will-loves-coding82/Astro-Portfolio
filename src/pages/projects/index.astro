@@ -16,14 +16,17 @@ const images = Object.values(
     import.meta.glob<{ default: ImageMetadata }>('../../../public/images/projects/*', { eager: true })
 ).map(file => file.default);
 
+const imagesJSON = JSON.stringify(images);
 ---
 
-<script type="module" define:vars={{images}}>
+
+<script>
 	import { gsap } from "gsap";
 	import { SplitText } from "gsap/SplitText";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
-	
+
+
 	document.addEventListener("astro:page-load", () => {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
 		ScrollSmoother.create({
@@ -32,32 +35,42 @@ const images = Object.values(
 		});
 
 		const smoother = ScrollSmoother.get();
-		const smoothWrapper = document.querySelector("#smooth-wrapper");
+		const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
 
 		// Interactive images that open the project dialog
-		const projectPreviews = document.querySelectorAll(".project-preview");
-		const projectDialog = document.querySelector("#project-dialog");
-
+		const projectPreviews = document.querySelectorAll(".project-preview") as NodeListOf<HTMLElement>;
+		const projectDialog = document.querySelector("#project-dialog")as HTMLElement;
+		
 		// Dialog components
-		const projectName =document.querySelector("#project-name");
-		const escapeProjectDialog = document.querySelector("#escape-project-dialog");
-		const projectImageContainer = document.querySelector("div#project-image-container");
-		const prevImageButton = document.querySelector("button#prev-image");
-		const nextImageButton = document.querySelector("button#next-image");
-		const carouselIndexDisplay = document.querySelector("p#carousel-index-display");
+		const projectName =document.querySelector("#project-name") as HTMLElement;
+		const escapeProjectDialog = document.querySelector("#escape-project-dialog") as HTMLElement;
+		const projectImageContainer = document.querySelector("div#project-image-container") as HTMLElement;
+		const prevImageButton = document.querySelector("button#prev-image") as HTMLElement;
+		const nextImageButton = document.querySelector("button#next-image") as HTMLElement
+		const carouselIndexDisplay = document.querySelector("p#carousel-index-display") as HTMLElement;
 
-		// Mutable array that stores the images related to a project
-		let projectImages = [];
+		// Helper class to access the frontmatter images metadata
+		class AstroImages extends HTMLElement {
+			getImages() {
+				// Read the frontmatter images from the data attribute.
+				return this.dataset.images;
+			}
+		}
+		customElements.define("astro-images", AstroImages);
+		let astroImagesComponent = document.querySelector("astro-images") as AstroImages;
+
+		let projectImages : ImageMetadata[] = []; 
 		let numProjectImages = 0;
+		let project : string = "";
 
 		// Dialog carousel current index for displayed image
 		let previewIndex = 0;
 
-		// Register event listeners
+		// Register event listeners foreach preview image
 		projectPreviews.forEach(preview => {
 			preview.addEventListener("click", (e) => {
-				const clickedElement = e.target.closest(".project-preview"); 
-				const project = clickedElement?.dataset.project;
+				const clickedElement = e.target as HTMLElement;
+				project = (clickedElement?.closest(".project-preview") as HTMLElement)?.dataset.project || "";
 				if (project) {
 					toggleProjectDialogView(project);
 				} else {
@@ -66,11 +79,11 @@ const images = Object.values(
 			});
 		});
 
-		escapeProjectDialog.addEventListener("click", () => {
-			toggleProjectDialogView();
+		escapeProjectDialog?.addEventListener("click", () => {
+			toggleProjectDialogView(project);
 		});
 
-		nextImageButton.addEventListener("click", () => {
+		nextImageButton?.addEventListener("click", () => {
 			showNextImage();
 			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 		});
@@ -85,9 +98,10 @@ const images = Object.values(
 		 * in the project dialog carousel.
 		 */
 		function showNextImage() {
+			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
 			if (previewIndex + 1 < numProjectImages) {
 				previewIndex += 1;
-				projectImageContainer.firstChild.src = projectImages[previewIndex].src;
+				displayImage.src = projectImages[previewIndex].src;
 				prevImageButton.style.opacity = "1.0";
        			nextImageButton.style.opacity = previewIndex === projectImages.length - 1 ? "0.5" : "1.0";
 			} 
@@ -98,9 +112,10 @@ const images = Object.values(
 		 * in the project dialog carousel.
 		 */
 		function showPrevImage() {
+			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
 			if (previewIndex - 1 >= 0) {
 				previewIndex -= 1;
-				projectImageContainer.firstChild.src = projectImages[previewIndex].src;
+				displayImage.src = projectImages[previewIndex].src;
 				nextImageButton.style.opacity ="1.0";
 				prevImageButton.style.opacity = previewIndex === 0 ? "0.5" : "1.0";
 			} 
@@ -111,12 +126,12 @@ const images = Object.values(
 		 * an interactive carousel for a specific project's gallery.
 		 * @param project the project-data attribute derived from each image
 		 */
-		function toggleProjectDialogView(project) {
+		function toggleProjectDialogView(project: string) {
 			projectDialog.classList.toggle("hidden");
 
 
 			if (!projectDialog.classList.contains("hidden")) {
-				smoother.paused(true);
+				smoother?.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
 
@@ -147,21 +162,21 @@ const images = Object.values(
 				}
 
 				// Filter images based on the project name
-				projectImages = images.filter(image => image.src.includes(project));
+				let astroImagesData = JSON.parse(astroImagesComponent.getImages() || "");
+				projectImages = astroImagesData.filter((image : ImageMetadata) => image.src.includes(project));
 				numProjectImages = projectImages.length;
 				previewIndex = 0;
 
-				projectImageContainer.innerHTML =  `<img src=${projectImages[previewIndex].src} class="py-16 w-full mx-auto absolute top-1/4 z-0"/>`;
+				projectImageContainer.innerHTML =  `<img id="project-display-image" src=${projectImages[previewIndex].src} class="py-16 w-full mx-auto absolute top-1/4 z-0"/>`;
 				carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 
 				prevImageButton.style.opacity ="0.5";
 				if (numProjectImages == 1) {
 					nextImageButton.style.opacity ="0.5";
 				}
-
 			}
 			else {
-				smoother.paused(false);
+				smoother?.paused(false);
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
 
@@ -183,6 +198,8 @@ const images = Object.values(
 	}
 </style>
 
+<!-- https://docs.astro.build/en/guides/client-side-scripts/#pass-frontmatter-variables-to-scripts -->
+<astro-images data-images={imagesJSON}></astro-images>
 
 <dialog 
     id="project-dialog" 
