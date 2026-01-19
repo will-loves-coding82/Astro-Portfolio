@@ -10,7 +10,7 @@ import bloomBook from "../../../public/images/projects/bloom-book.png";
 import tabeMaps from "../../../public/images/projects/tabemaps-1.png";
 import twoFrameBracket from "../../../public/images/projects/twoframe-bracket.png";
 import stacked from "../../../public/images/projects/stacked-habits.png";
-import { ChevronLeft, ChevronRight, X } from "@lucide/astro";
+import { ChevronLeft, ChevronRight, Expand, X, ZoomIn, ZoomOut } from "@lucide/astro";
 
 const images = Object.values(
     import.meta.glob<{ default: ImageMetadata }>('../../../public/images/projects/*', { eager: true })
@@ -43,9 +43,16 @@ const imagesJSON = JSON.stringify(images);
 		const projectName =document.querySelector("#project-name") as HTMLElement;
 		const escapeProjectDialog = document.querySelector("#escape-project-dialog") as HTMLElement;
 		const projectImageContainer = document.querySelector("div#project-image-container") as HTMLElement;
-		const prevImageButton = document.querySelector("button#prev-image") as HTMLElement;
-		const nextImageButton = document.querySelector("button#next-image") as HTMLElement
+		const prevImageButton = document.querySelector("button#prev-image") as HTMLButtonElement;
+		const nextImageButton = document.querySelector("button#next-image") as HTMLButtonElement
 		const carouselIndexDisplay = document.querySelector("p#carousel-index-display") as HTMLElement;
+
+		const zoomLevelDisplay = document.querySelector("p#zoom-level-display") as HTMLElement;
+		const zoomInButton = document.querySelector("button#zoom-in") as HTMLButtonElement;
+		const zoomOutButton = document.querySelector("button#zoom-out") as HTMLButtonElement;
+
+		// Controls the scale of the displayed image
+		let zoomLevel = 1;
 
 		// Helper class to access the frontmatter images metadata
 		class AstroImages extends HTMLElement {
@@ -80,6 +87,7 @@ const imagesJSON = JSON.stringify(images);
 		});
 
 		escapeProjectDialog?.addEventListener("click", () => {
+			zoomLevel = 1;
 			toggleProjectDialogView(project);
 		});
 
@@ -92,6 +100,14 @@ const imagesJSON = JSON.stringify(images);
 			showPrevImage();
 			carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
 		});	
+
+		zoomInButton?.addEventListener("click", () => {
+			enlargeImage();
+		});
+
+		zoomOutButton?.addEventListener("click", () => {
+			minimizeImage();
+		});
 
 		/**
 		 * showNextImage will jump to the next image
@@ -121,6 +137,24 @@ const imagesJSON = JSON.stringify(images);
 			} 
 		}
 
+		function minimizeImage() {
+			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
+			if (zoomLevel - 0.25 > 0) {
+				zoomLevel -= 0.25;
+				zoomLevelDisplay.innerText = `${zoomLevel * 100}%`;
+				displayImage.style.scale = `${zoomLevel}`;
+			}
+		}
+
+		function enlargeImage() {
+			const displayImage = document.querySelector("#project-display-image") as HTMLImageElement;
+			if (zoomLevel + 0.25 <= 1) {
+				zoomLevel += 0.25;
+				zoomLevelDisplay.innerText = `${zoomLevel * 100}%`;
+				displayImage.style.scale = `${zoomLevel}`;
+			}
+		}
+
 		/**
 		 * toggleProjectDialogView will open a full screen dialog with
 		 * an interactive carousel for a specific project's gallery.
@@ -129,12 +163,10 @@ const imagesJSON = JSON.stringify(images);
 		function toggleProjectDialogView(project: string) {
 			projectDialog.classList.toggle("hidden");
 
-
 			if (!projectDialog.classList.contains("hidden")) {
 				smoother?.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
-
 
 				// Update the dialog header with a user friendly title
 				switch (project) {
@@ -167,8 +199,9 @@ const imagesJSON = JSON.stringify(images);
 				numProjectImages = projectImages.length;
 				previewIndex = 0;
 
-				projectImageContainer.innerHTML =  `<img id="project-display-image" src=${projectImages[previewIndex].src} class="py-16 w-full mx-auto absolute top-1/4 z-0"/>`;
+				projectImageContainer.innerHTML =  `<img id="project-display-image" src=${projectImages[previewIndex].src} class="py-16 origin-top w-full mx-auto absolute top-1/4 z-0"/>`;
 				carouselIndexDisplay.innerText = `${previewIndex + 1}/${numProjectImages}`
+				zoomLevelDisplay.innerText = `${zoomLevel * 100}%`;
 
 				prevImageButton.style.opacity ="0.5";
 				if (numProjectImages == 1) {
@@ -222,13 +255,23 @@ const imagesJSON = JSON.stringify(images);
 		<button id="prev-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 left-0 translate-x-[50%]">
 			<ChevronLeft class="text-white"/>
 		</button>
-		<div id="project-image-container" class="flex flex-row items-center w-full h-screen absolute overflow-y-scroll"></div>
+		<div id="project-image-container" class="flex flex-row items-start w-full h-screen absolute overflow-y-scroll"></div>
 		<button id="next-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%]">
 			<ChevronRight  class="text-white"/>
 		</button>
 	</div>
+	
+	<aside class="flex flex-col justify-center gap-4 text-center absolute z-4 bottom-0 right-0 p-8">
+		<p id="zoom-level-display" class="text-gray-500 text-xs"></p>
 
-	<p id="carousel-index-display" class="text-white secondary-body absolute z-4 bottom-0 right-0 p-12"></p>
+		<button id="zoom-in" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
+			<ZoomIn size={24} class="text-white"/>
+		</button>
+		<button id="zoom-out" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
+			<ZoomOut size={24} class="text-white"/>
+		</button>
+		<p id="carousel-index-display" class="text-white secondary-body"></p>
+	</aside>
 </dialog>
 
 
@@ -255,13 +298,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="solo-running" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="solo-running" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4"/>
 				<Image
 					src={solo}
 					alt="solo running app"
 					fit="contain"
 					id="project-preview-1"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
@@ -280,18 +324,19 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="twoframe" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="twoframe" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4"/>
 				<Image
 					src={twoFrameBracket}
 					alt="twoframe bracket"
 					fit="contain"
 					id="project-preview-2"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 max-w-3xl p-8 lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
 
-		<article id="stacked" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
+		<article id="stacked-habits" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Stacked AI Habit Tracker</h2>
 				<p class="primary-body text-(--color-gray)">
@@ -305,13 +350,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="stacked-habits" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="stacked-habits" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/>
 				<Image
 					src={stacked}
 					alt="stacked ai habit tracker app"
 					fit="contain"
 					id="project-preview-3"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl brightness-150"
+					class="z-0 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl brightness-150"
 				/>
 			</div>
 		</article>
@@ -331,13 +377,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="vgdc" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="vgdc" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 			
 				<Image
 					src={vgdc}
 					alt="vgdc website"
 					fit="contain"
 					id="project-preview-4"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
@@ -356,13 +403,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="acm-ai" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="acm-ai" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 					
 				<Image
 					src={acm}
 					alt="acm ai website"
 					fit="contain"
 					id="project-preview-5"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 p-8 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
@@ -382,13 +430,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="tabemaps" class="project-preview rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="tabemaps" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 								
 				<Image
 					src={tabeMaps}
 					alt="tabeMaps website"
 					fit="contain"
 					id="project-preview-6"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
@@ -408,13 +457,14 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="bloom-book" class="project-preview rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto p-8 hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="bloom-book" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 					
 				<Image
 					src={bloomBook}
 					alt="bloom book android app"
 					fit="contain"
 					id="project-preview-7"
-					class="max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
+					class="z-0 p-8 max-w-3xl lg:w-full h-full max-w-full max-h-full object-contain rounded-2xl"
 				/>
 			</div>
 		</article>
