@@ -5,8 +5,6 @@
  * https://tailwindcss.com/docs/upgrade-guide#variables-in-arbitrary-values
  */
 :root {
-    /* Root font size. All relative units use this as their reference */
-    
     --background-primary: #0f0f0f;
     --background-secondary: #1d1d1d;
     --background-footer: #141414;
@@ -45,12 +43,12 @@
     --margin-3xl: 36rem;
 
     /* Screen width values */
-    --xs: 320px;
-    --sm: 640px;
-    --md: 768px;
-    --lg: 1024px;
-    --xl: 1280px;
-    --2xl: 1536px;
+    --width-xs: 320px; 
+    --width-sm: 640px;
+    --width-md: 768px;
+    --width-lg: 1024px;
+    --width-xl: 1340px;
+    --width-2xl: 1536px;
 
     --pagefind-ui-scale: 0.8;
     --pagefind-ui-primary: var(--color-gray);
@@ -63,15 +61,14 @@
     --pagefind-ui-image-border-radius: 4px;
     --pagefind-ui-image-box-ratio: 3 / 2;
     --pagefind-ui-font: "Helvetica";
-
 }
 
 html {
     background-color: var(--background-primary);
     font-size: 16px;
     color: #fffcf5;
+    overflow-x: hidden;
 }
-
 
 [type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
@@ -93,12 +90,11 @@ pre {
     overflow-x: auto;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 640px) {
     html {
         font-size: 14px;
     }
 }
-
 
 .primary-title {
     font-family: "Helvetica", "Arial";
@@ -123,7 +119,6 @@ pre {
     font-size: 1.4rem;
     line-height: 2rem;
 }
-
 
 .primary-body {
     font-family: "Helvetica", "Arial";
@@ -159,7 +154,6 @@ pre {
         font-size: 1.5rem;
         line-height: 1.8rem;
     }
-
 }
 
 .secondary-title {
@@ -192,7 +186,6 @@ pre {
     }
 }
 
-
 /* General styling */
 .card {
     background-color: var(--background-secondary);
@@ -203,8 +196,6 @@ pre {
     background-color: var(--background-secondary);
     color: white;
 }
-
-
 
 #smooth-content {
     background-image: linear-gradient(
