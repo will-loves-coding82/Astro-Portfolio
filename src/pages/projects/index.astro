@@ -84,8 +84,23 @@ const imagesJSON = JSON.stringify(images);
 				project = (clickedElement?.closest(".project-preview") as HTMLElement)?.dataset.project || "";
 				if (project) {
 					toggleProjectDialogView(project);
+					nextImageButton.focus();
 				} else {
 					console.error("No project data found for clicked element.");
+				}
+			});
+
+			// Accessible interaction via keyboard inputs
+			preview.addEventListener("keydown", (e) => {
+				if (e.key == "Enter") {
+					const clickedElement = e.target as HTMLElement;
+					project = (clickedElement?.closest(".project-preview") as HTMLElement)?.dataset.project || "";
+					if (project) {
+						toggleProjectDialogView(project);
+						nextImageButton.focus();
+					} else {
+						console.error("No project data found for clicked element.");
+					}
 				}
 			});
 		});
@@ -182,6 +197,7 @@ const imagesJSON = JSON.stringify(images);
 				smoother?.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
+				smoothWrapper.classList.add('hidden');
 
 				// Update the dialog header with a user friendly title
 				switch (project) {
@@ -227,6 +243,7 @@ const imagesJSON = JSON.stringify(images);
 			}
 			else {
 				smoother?.paused(false);
+				smoothWrapper.classList.remove('hidden');
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
 
@@ -237,6 +254,7 @@ const imagesJSON = JSON.stringify(images);
 				nextImageButton.style.opacity ="1.0";
 			}
 		}
+
 	})
 </script>
 
@@ -260,6 +278,7 @@ const imagesJSON = JSON.stringify(images);
 		<h2 id="project-name" class="primary-header-3 text-white max-w-lg"></h2>
 		<button 
 		id="escape-project-dialog" 
+		tabindex="12"
 		class="w-fit h-fit p-1 rounded-md border-1 border-(--color-gray) 
 		text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">
 			{<X size={16}/>}
@@ -269,22 +288,21 @@ const imagesJSON = JSON.stringify(images);
 	<hr class="w-full text-gray-500/50 z-3"/>
 
 	<div id="project-image-carousel" class="flex flex-row relative items-center justify-between mx-auto w-full h-full max-w-4xl z-1">
-		<button id="prev-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 left-0 translate-x-[50%]">
+		<button id="prev-image" tabindex="8" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 left-0 translate-x-[50%]">
 			<ChevronLeft class="text-white"/>
 		</button>
 		<div id="project-image-container" class="flex flex-row items-start w-full h-screen absolute overflow-y-scroll"></div>
-		<button id="next-image" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%]">
+		<button id="next-image" tabindex="9" class="hover:cursor-pointer hover:opacity-50 p-4 flex items-center justify-center rounded-full bg-black opacity-90 z-10 absolute top-1/2 right-0 translate-x-[-50%]">
 			<ChevronRight  class="text-white"/>
 		</button>
 	</div>
 	
 	<aside class="flex flex-col justify-center gap-4 text-center absolute z-4 bottom-0 right-0 p-8">
 		<p id="zoom-level-display" class="text-gray-500 text-xs"></p>
-
-		<button id="zoom-in" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
+		<button id="zoom-in" tabindex="10" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
 			<ZoomIn size={24} class="text-white"/>
 		</button>
-		<button id="zoom-out" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
+		<button id="zoom-out" tabindex="11" class="hover:cursor-pointer bg-(--background-secondary) opacity-80 p-2 rounded-full">
 			<ZoomOut size={24} class="text-white"/>
 		</button>
 		<p id="carousel-index-display" class="text-white secondary-body"></p>
@@ -314,7 +332,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="solo-running" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="solo-running" tabindex="1" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4"/>
 				<Image
 					src={solo}
@@ -340,7 +358,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="twoframe" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="twoframe" tabindex="2" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4"/>
 				<Image
 					src={twoFrameBracket}
@@ -366,7 +384,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="stacked-habits" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="stacked-habits" tabindex="3" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/>
 				<Image
 					src={stacked}
@@ -393,7 +411,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="vgdc" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="vgdc" tabindex="4" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 			
 				<Image
 					src={vgdc}
@@ -419,7 +437,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="acm-ai" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="acm-ai" tabindex="5" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 					
 				<Image
 					src={acm}
@@ -446,7 +464,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="tabemaps" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="tabemaps" tabindex="6" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 								
 				<Image
 					src={tabeMaps}
@@ -473,7 +491,7 @@ const imagesJSON = JSON.stringify(images);
 				</span>
 			</header>
 
-			<div data-project="bloom-book" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
+			<div data-project="bloom-book" tabindex="7" role="button" class="project-preview relative rounded-2xl bg-(--background-secondary) overflow-hidden h-full w-full max-w-[800px] mx-auto hover:cursor-pointer lg:order-last lg:mx-0">
 				<Expand size={24} class="text-white absolute right-0 m-4 z-1"/> 					
 				<Image
 					src={bloomBook}

@@ -259,10 +259,14 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			id="search-dialog" 
 			class="fixed bg-(--background-secondary) border-t-2 border-gray-500/50 hidden flex flex-col justify-between overflow-hidden justify-between mx-auto top-1/2 left-1/2 translate-x-[-50%] translate-y-[-56%] w-[92vw] h-[80vh] lg:w-[50vw] lg:translate-y-[-50%] m-8 rounded-xl z-1000 m-8"
 		>
-			<span class="inline-flex justify-between items-center gap-8 w-full p-5">
-				<input id="search-input" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
+			<form class="inline-flex justify-between items-center gap-8 w-full p-5">
+				<label for="search-input" class="w-full">
+					<input id="search-input" aria-label="search" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
+				</label>
 				<button id="escape-search-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
-			</span>
+			</form>
+				</label>
+				
 			<hr class="w-full text-gray-500/50"/>
 
 			{/* List to display search results  */}
