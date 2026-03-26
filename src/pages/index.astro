@@ -284,7 +284,7 @@ blogPosts = blogPosts.slice(0,3);
 								<p class="text-blue-400 mt-2 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 ease-in-out">{new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long',day: 'numeric',})}</p>
 							</section>
 
-							<a href="blog-post-button" href={BLOG_URL + post.id} class="primary-body text-white py-2 px-3 mb-8 bg-(--background-secondary) text-(--color-gray) rounded-lg h-fit w-fit hidden lg:block">
+							<a href={BLOG_URL + post.id} class="primary-body text-white py-2 px-3 mb-8 bg-(--background-secondary) text-(--color-gray) rounded-lg h-fit w-fit hidden lg:block">
 								<p class=" text-white">see more</p>
 							</a>
 						</li>
