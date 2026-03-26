@@ -28,13 +28,6 @@ const imagesJSON = JSON.stringify(images);
 
 	document.addEventListener("astro:page-load", () => {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
-		ScrollSmoother.create({
-			smooth: 2, // how long (in seconds) it takes to "catch up" to the native scroll position
-			effects: true, // looks for data-speed and data-lag attributes on elements
-		});
-
-		const smoother = ScrollSmoother.get();
-		const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
 
 		// Interactive images that open the project dialog
 		const projectPreviews = document.querySelectorAll(".project-preview") as NodeListOf<HTMLElement>;
@@ -194,10 +187,6 @@ const imagesJSON = JSON.stringify(images);
 			projectDialog.classList.toggle("hidden");
 
 			if (!projectDialog.classList.contains("hidden")) {
-				smoother?.paused(true);
-				smoothWrapper.classList.add('opacity-50');
-				smoothWrapper.classList.add('blur-sm');
-				smoothWrapper.classList.add('hidden');
 
 				// Update the dialog header with a user friendly title
 				switch (project) {
@@ -242,11 +231,7 @@ const imagesJSON = JSON.stringify(images);
 				}
 			}
 			else {
-				smoother?.paused(false);
-				smoothWrapper.classList.remove('hidden');
-				smoothWrapper.classList.remove('opacity-50');
-				smoothWrapper.classList.remove('blur-sm');
-
+	
 				// Reset the state when exiting the dialog
 				previewIndex = 0;
 				projectImages = [];

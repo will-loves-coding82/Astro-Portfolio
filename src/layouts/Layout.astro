@@ -16,9 +16,18 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 	import { Flip } from "gsap/Flip";
 
 	document.addEventListener("astro:page-load", setUpAnimations);
-	
+
+	// Kill stale GSAP instances and hide animated elements after DOM swap,
+	// before astro:page-load fires so newly-created triggers are never affected.
+	document.addEventListener("astro:after-swap", () => {
+		ScrollSmoother.get()?.kill();
+		ScrollTrigger.getAll().forEach(t => t.kill());
+		gsap.set(["#hero", "#my-background", "#projects-header"], { visibility: "hidden" });
+		gsap.set("#gallery-header", { opacity: 0, xPercent: -100, filter: "blur(10px)" });
+	});
+
 	// Animations are set up in the order that they appear on the page
-	function setUpAnimations() {	
+	function setUpAnimations() {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
 
 		ScrollSmoother.create({
@@ -27,7 +36,6 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		});
 
 		let width = window.innerWidth;
-		const smoother = ScrollSmoother.get();
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
 	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
 		const escapeSearchDialog = document.querySelector("#escape-search-dialog") as HTMLButtonElement;
@@ -53,30 +61,34 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		 */
 		function toggleSearchDialogView() {
 			searchDialog.classList.toggle("hidden");
-				
+
 			if (!searchDialog.classList.contains("hidden")) {
-				smoother?.paused(true);
 				smoothWrapper.classList.add('opacity-50');
 				smoothWrapper.classList.add('blur-sm');
 			}
 			else {
-				smoother?.paused(false);
+				smoothWrapper.toggleAttribute("inert", false);
 				smoothWrapper.classList.remove('opacity-50');
 				smoothWrapper.classList.remove('blur-sm');
+				ScrollSmoother.get()?.paused(false);
+				(document.activeElement as HTMLElement)?.blur();
 			}
 		}
 
+		gsap.set("#hero", { visibility: "visible" });
 		let splitHero = SplitText.create("#hero", {
 			type: "words",
 			autoSplit: true,
 		});
 
+		gsap.set("#my-background", { visibility: "visible" });
 		let backgroundText = SplitText.create("#my-background", {
 			type: "words, lines",
 			autoSplit: true,
 			reduceWhiteSpace: false,
 		});
 
+		gsap.set("#projects-header", { visibility: "visible" });
 		let splitProjectHeader = SplitText.create("#projects-header", {
 			type: "lines",
 			autoSplit: true,
@@ -115,7 +127,20 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 			let tooltip = document.querySelector(`#project-tooltip-${i}`) as HTMLElement;
 			let projectImage = document.querySelector(`#project-image-${i}`) as HTMLElement;
 
-			gsap.set(tooltip, {opacity: 0, scale: 0, xPercent: -50, yPercent: -50});
+			const isDesktop = width >= 1024;
+			gsap.from(projectImage, {
+				x: isDesktop ? 150 : 0,
+				y: isDesktop ? 0 : 80,
+				opacity: 0,
+				duration: 1.2,
+				ease: "expo.out",
+				scrollTrigger: {
+					trigger: projectImage,
+					start: "top bottom-=100px",
+				},
+			});
+
+			gsap.set(tooltip, {opacity: 0, scale: 0, xPercent: -50, yPercent: -50, zIndex: 50});
 			let xTo = gsap.quickTo(tooltip, "x", {duration: 0.6, ease: "expo.out"});
 			let yTo = gsap.quickTo(tooltip, "y", {duration: 0.6, ease: "expo.out"});
 
@@ -157,16 +182,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 
 		gsap.fromTo(
 			"#gallery-header",
-			{
-				xPercent: -100,
-				opacity: 0,
-				filter: "blur(10px)",
-				scrollTrigger: {
-					trigger: "#gallery-header",
-					start: "top-=940px top",
-					scrub: true,
-				},
-			},
+			{ xPercent: -100, opacity: 0, filter: "blur(10px)" },
 			{
 				duration: 1,
 				xPercent: 0,
@@ -263,7 +279,7 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 				<label for="search-input" class="w-full">
 					<input id="search-input" aria-label="search" placeholder="search" type="search" class="text-white border-0 bg-(--background-secondary) w-full rounded-lg"/>
 				</label>
-				<button id="escape-search-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
+				<button type="button" id="escape-search-dialog" class="w-fit h-fit py-[2px] px-[6px] rounded-md border-1 border-(--color-gray) text-white text-sm hover:cursor-pointer hover:bg-gray-500/50">esc</button>
 			</form>
 				</label>
 				

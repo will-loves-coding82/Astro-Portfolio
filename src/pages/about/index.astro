@@ -7,6 +7,31 @@ import Layout from "../../layouts/Layout.astro";
 import Circle from "@lucide/astro/icons/circle";
 ---
 
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	document.addEventListener("astro:page-load", () => {
+		gsap.registerPlugin(ScrollTrigger);
+
+		const items = document.querySelectorAll(".timeline-item");
+
+		items.forEach((item, i) => {
+			gsap.from(item, {
+				y: 48,
+				opacity: 0,
+				duration: 0.8,
+				ease: "expo.out",
+				delay: i * 0.1,
+				scrollTrigger: {
+					trigger: item,
+					start: "top bottom-=80px",
+				},
+			});
+		});
+	});
+</script>
+
 <Layout >
 	<section class="relative h-[540px] overflow-hidden w-full pt-32 px-4 lgl:px-40 xl:h-[90vh]">
         <header class="absolute top-1/2 left-1/2 translate-x-[-50%] w-full mx-auto max-w-lg text-center z-1">
@@ -40,8 +65,8 @@ import Circle from "@lucide/astro/icons/circle";
         </header>
 
         <ul class="flex flex-col w-full xl:max-w-md xl:justify-center xl:mt-0">
-            <li>
-                <article class="flex gap-4"> 
+            <li class="timeline-item">
+                <article class="flex gap-4">
                     <p class="translate-y-[-8px]">2023</p>
                     <div class="flex flex-col items-center flex-shrink-0">
                         <Circle class="rounded-full mx-auto transition-all duration-300" size={8}/>
@@ -57,8 +82,8 @@ import Circle from "@lucide/astro/icons/circle";
                 </article>
             </li>
 
-            <li>
-                <article class="flex items-start gap-4"> 
+            <li class="timeline-item">
+                <article class="flex items-start gap-4">
                     <p class="translate-y-[-8px]">2024</p>
                     <div class="flex flex-col justify-center">
                         <Circle class="bg-(background-secondary)rounded-full mx-auto" size={8}/>
@@ -77,8 +102,8 @@ import Circle from "@lucide/astro/icons/circle";
                 </article>
             </li>
 
-             <li>
-                <article class="flex items-start gap-4 h-48"> 
+            <li class="timeline-item">
+                <article class="flex items-start gap-4 h-48">
                     <p class="translate-y-[-8px]">2025</p>
                     <div class="flex flex-col justify-center">
                         <Circle class="bg-(background-secondary) rounded-full mx-auto" size={8}/>
