@@ -24,6 +24,9 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		ScrollTrigger.getAll().forEach(t => t.kill());
 		gsap.set(["#hero", "#my-background", "#projects-header"], { visibility: "hidden" });
 		gsap.set("#gallery-header", { opacity: 0, xPercent: -100, filter: "blur(10px)" });
+		const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
+		smoothWrapper?.toggleAttribute("inert", false);
+		smoothWrapper?.classList.remove("opacity-50", "blur-sm");
 	});
 
 	// Animations are set up in the order that they appear on the page
@@ -255,7 +258,8 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 <script>
 	const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
 	document.addEventListener("astro:after-preparation", () =>{
-		sideBarMenu.classList.add('hidden');
+		sideBarMenu.classList.remove('hidden');
+		sideBarMenu.classList.add('translate-x-full');
 	});
 
 </script>

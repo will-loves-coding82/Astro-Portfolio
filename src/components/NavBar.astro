@@ -27,8 +27,14 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit text-center
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollSmoother } from "gsap/ScrollSmoother";
 
+	let navAbortController: AbortController | null = null;
+
     document.addEventListener("astro:page-load", () =>{
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+		navAbortController?.abort();
+		navAbortController = new AbortController();
+		const signal = navAbortController.signal;
 
     	const smoother = ScrollSmoother.get();
         const menuButton = document.querySelector("button#toggle-menu") as HTMLElement;
@@ -53,10 +59,10 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit text-center
                 smoothWrapper.classList.remove("opacity-50");
                 smoothWrapper.classList.remove("blur-sm");
             }
-        })
+        }, { signal })
 
         menuButton?.addEventListener("click", (e) => {
-            
+
             // Animates the sidebar translating in/out the view
             // By default, it is translated far to the right
             searchDialog.classList.remove("block");
@@ -67,7 +73,7 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit text-center
                 smoothWrapper.toggleAttribute("inert", true);
                 smoothWrapper.classList.add("opacity-50");
                 smoothWrapper.classList.add("blur-sm");
-                
+
             }
             else {
                 smoother!!.paused(false);
@@ -75,7 +81,7 @@ const sideBarLinkStyle = "primary-header-3 text-(--color-gray) w-fit text-center
                 smoothWrapper.classList.remove("opacity-50");
                 smoothWrapper.classList.remove("blur-sm");
             }
-        })
+        }, { signal })
 
         window.addEventListener("resize", () => {
 			var width = window.innerWidth;
