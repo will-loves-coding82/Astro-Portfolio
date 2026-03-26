@@ -254,9 +254,10 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 
 <script>
 	const sideBarMenu = document.querySelector("section#side-bar-menu") as HTMLElement;
-		document.addEventListener("astro:after-preparation", () =>{
+	document.addEventListener("astro:after-preparation", () =>{
 		sideBarMenu.classList.add('hidden');
-	})
+	});
+
 </script>
 
 <!doctype html>
@@ -268,6 +269,14 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
 		<ClientRouter fallback="none" />
+		<style>
+			:root {
+				--background-primary: #0f0f0f;
+				--background-secondary: #1d1d1d;
+			}
+			html { background-color: #0f0f0f; }
+			#desktop-nav { background-color: #0f0f0f; opacity: 0.95; }
+		</style>
 	</head>
 
 	<body class="flex flex-col justify-between">

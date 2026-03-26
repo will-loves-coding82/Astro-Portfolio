@@ -76,11 +76,11 @@ blogPosts = blogPosts.slice(0,3);
 		<header class="text-left">
 			<h2 class="primary-header-1">My</h2>
 			<h2 class="secondary-header-1">Background</h2>
-			<div class="w-full h-[480px] overflow-hidden rounded-lg my-12 lg:w-[340px] lg:h-fit">
+			<div class="relative w-full h-[480px] overflow-hidden rounded-lg my-12 lg:w-[340px] lg:h-[500px]">
 				<Image
 					id="san-diego"
-					fit="fill"
-					class="hover:scale-125 transition-all h-full  duration-500 sm:translate-y-[-200px] lg:translate-0"
+					fit="cover"
+					class="absolute inset-0 hover:scale-125 transition-all h-full w-full object-cover duration-500"
 					src={sandiego}
 					alt="photo of me at UCSD"
 				/>
@@ -179,7 +179,7 @@ blogPosts = blogPosts.slice(0,3);
 		<div class="flex flex-col gap-[40px] sm:gap-[100px] md:gap-[160px] w-full relative">
 			<p id="project-tooltip-1" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[400px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between min-h-[400px] w-full mx-auto px-4 2xl:flex-row 2xl:h-[400px] 2xl:gap-16 2xl:px-40">					
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Solo Running</h2>
 					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
@@ -205,7 +205,7 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-2" class="py-1 px-3 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[480px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between min-h-[480px] w-full mx-auto px-4 2xl:flex-row 2xl:h-[480px] 2xl:gap-16 2xl:px-40">					
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">VGDC Website</h2>
 					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
@@ -234,7 +234,7 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-3" class="py-1 px-3 z-1 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between h-[340px] w-full mx-auto px-4 2xl:flex-row 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between min-h-[340px] w-full mx-auto px-4 2xl:flex-row 2xl:h-[340px] 2xl:gap-16 2xl:px-40">					
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Stacked Habits</h2>
 					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
