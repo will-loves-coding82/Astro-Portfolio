@@ -29,9 +29,9 @@ const { Content } = await render(post);
         >blog / {post.id}</a
       >
 
-      <header class="flex flex-col gap-20 mt08">
+      <header class="flex flex-col gap-8 mt-8">
         <h1 class="primary-header-1 max-w-xl">{post.data.title}</h1>
-        <span class="inline-flex gap-3 mt-8">
+        <span class="inline-flex gap-3">
           {
             post.data.tags.map((tag) => (
               <p class="primary-body  text-(--color-gray) px-4 py-1 bg-(--background-secondary) w-fit rounded-lg">
@@ -42,9 +42,7 @@ const { Content } = await render(post);
         </span>
       </header>
 
-      <hr class="my-4 text-(--line-gray)" />
-
-      <div id="content" class="primary-body text-white mt-12">
+      <div id="content" class="primary-body text-white mt-16">
         <Content />
       </div>
     </article>

@@ -33,14 +33,23 @@ import  PageFindLogo  from "../assets/pagefind-dark.svg";
 	function setUpAnimations() {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother, Flip);
 
-		ScrollSmoother.create({
+		const smoother = ScrollSmoother.create({
 			smooth: 2, // how long (in seconds) it takes to "catch up" to the native scroll position
 			effects: true, // looks for data-speed and data-lag attributes on elements
 		});
 
+		if (window.location.hash) {
+			const hash = window.location.hash;
+			requestAnimationFrame(() => {
+				ScrollTrigger.refresh();
+				const target = document.querySelector(hash) as HTMLElement;
+				if (target) smoother.scrollTo(target, false)
+			});
+		}
+		
 		let width = window.innerWidth;
 		const searchDialog = document.querySelector("#search-dialog") as HTMLElement;
-	    const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
+	  const smoothWrapper = document.querySelector("#smooth-wrapper") as HTMLElement;
 		const escapeSearchDialog = document.querySelector("#escape-search-dialog") as HTMLButtonElement;
 
 		escapeSearchDialog.addEventListener("click", () => {

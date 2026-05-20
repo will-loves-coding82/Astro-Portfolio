@@ -29,6 +29,20 @@ const imagesJSON = JSON.stringify(images);
 	document.addEventListener("astro:page-load", () => {
 		gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother);
 
+		document.querySelectorAll("section.flex.flex-col.gap-40 article").forEach((article) => {
+			gsap.from(article, {
+				opacity: 0,
+				y: 60,
+				duration: 1,
+				ease: "expo.out",
+				scrollTrigger: {
+					trigger: article,
+					start: "top bottom-=100px",
+					toggleActions: "play none none reverse",
+				},
+			});
+		});
+
 		// Interactive images that open the project dialog
 		const projectPreviews = document.querySelectorAll(".project-preview") as NodeListOf<HTMLElement>;
 		const projectDialog = document.querySelector("#project-dialog")as HTMLElement;
@@ -303,7 +317,7 @@ const imagesJSON = JSON.stringify(images);
         </header>
     </section>
 
-    <section class="flex flex-col gap-24 w-full px-4 xl:px-40">
+    <section class="flex flex-col gap-40 w-full px-4 xl:px-40">
 		<article id="solo" class="flex flex-col gap-4 w-full justify-between lg:flex-row">
 			<header class="order-last flex flex-col gap-4 mt-4 w-full max-w-3xl mx-auto text-left lg:max-w-sm lg:order-first lg:mx-0">
 				<h2 class="primary-header-2">Solo Running App</h2>

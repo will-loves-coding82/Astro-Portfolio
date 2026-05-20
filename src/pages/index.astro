@@ -12,7 +12,7 @@ import korea1 from "../../public/images/gallery/korea-1.png";
 import korea2 from "../../public/images/gallery/korea-2.png";
 import monterray from "../../public/images/gallery/monterray.png";
 
-import {ArrowRight, CircleIcon} from "@lucide/astro";
+import {ArrowRight} from "@lucide/astro";
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
@@ -123,48 +123,24 @@ blogPosts = blogPosts.slice(0,3);
 		</span>
 
 		<figure id="carousel" class="flex mx-auto justify-center gap-4 h-[200px] mt-24 lg:h-[300px] mx-auto">
-			<Image
-				src={arrow}
-				alt="arrow"
-				fit="cover"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={korea1}
-				alt="korea-1"
-				fit="contain"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={falling}
-				alt="falling"
-				fit="cover"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={korea2}
-				alt="korea-2"
-				fit="contain"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={cambria}
-				alt="cambria"
-				fit="contain"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={cartoon}
-				alt="cartoon"
-				fit="contain"
-				class="rounded-md h-full w-fit z-0"
-			/>
-			<Image
-				src={monterray}
-				alt="monterray"
-				fit="contain"
-				class="rounded-md h-full w-fit z-0"
-			/>
+			{[
+				{ src: arrow, alt: "arrow" },
+				{ src: korea1, alt: "korea-1" },
+				{ src: falling, alt: "falling" },
+				{ src: korea2, alt: "korea-2" },
+				{ src: cambria, alt: "cambria" },
+				{ src: cartoon, alt: "cartoon" },
+				{ src: monterray, alt: "monterray" },
+			].map(({ src, alt }) => (
+				<div class="rounded-md h-full overflow-hidden">
+					<Image
+						src={src}
+						alt={alt}
+						fit="contain"
+						class="h-full w-fit z-0 hover:scale-110 transition-transform duration-300"
+					/>
+				</div>
+			))}
 		</figure>
 	</section>
 
@@ -234,7 +210,7 @@ blogPosts = blogPosts.slice(0,3);
 
 			<p id="project-tooltip-3" class="py-1 px-3 z-1 w-fit h-fit rounded-lg pointer-events-none opacity-0 transition-opacity duration-200">view more</p>
 
-			<article class="flex flex-col gap-4 justify-between min-h-[340px] w-full mx-auto px-4 2xl:flex-row 2xl:h-[340px] 2xl:gap-16 2xl:px-40">					
+			<article class="flex flex-col gap-4 justify-between min-h-[340px] w-full mx-auto px-4 2xl:flex-row 2xl:h-[480px] 2xl:gap-16 2xl:px-40">					
 				<summary class="order-last flex flex-col gap-4 mt-4 w-full mx-auto max-w-4xl 2xl:order-first">
 					<h2 class="primary-header-2">Stacked Habits</h2>
 					<p class="primary-body text-(--color-gray) 2xl:max-w-md">
@@ -264,8 +240,7 @@ blogPosts = blogPosts.slice(0,3);
 	<section class="flex flex-col w-full mx-auto px-4 min-h-[600px] mt-[240px] 2xl:px-40">
 		<section class="group flex justify-between items-center bg-(--background-secondary) rounded-lg px-4 py-3">
 			<span class="flex items-center">
-				<CircleIcon size={12} class="bg-white rounded-full w-0 scale-0 opacity-0 group-hover:mr-2 group-hover:w-[12px] group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden"/>
-				<h2 class="primary-header-3 text-white transition-all duration-300 ease-in-out">Blog</h2>
+				<h2 class="primary-header-3 text-white">Blog</h2>
 				<p class="primary-header-3 text-(--color-gray) ml-2 opacity-0 group-hover:opacity-100  transition-all duration-300 ease-in-out text-ellipsis line-clamp-1">news, experiences and insights</p>
 			</span>
 			<a aria-label="navigate-to-blog" href={BLOG_URL}>
