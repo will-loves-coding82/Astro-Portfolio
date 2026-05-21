@@ -1,0 +1,75 @@
+---
+title: "Designing Potlucky"
+description: "Learn more about how two college friends built a simple potluck application for friends and family."
+cover: "/images/blog/potlucky/potlucky_dashboard_mockup.png"
+pubDate: 2026-05-20
+tags: [TanStack, React, MantineUI, AWS DynamoDB]
+relatedPosts: []
+---
+import {Image} from 'astro:assets';
+
+<h3 class="primary-header-3 font-medium">What is Potlucky?</h3>
+
+<p class="primary-body mt-2">
+Potlucky is a web application that lets you create, share, and track your potluck progress. A couple of months ago, I had the privilege of redesigning
+the UI/UX alongside my former college roommate, <a class="text-blue-400" target="_blank" href="https://gavyn-ezell.github.io/">Gavyn Ezell</a>. 
+From the start, one of our core goals was to preserve the unique charm and personality he had built into the original experience.
+</p>
+
+<Image src="/images/blog/potlucky/potlucky_dashboard_mockup.png" alt="design dashboard mockup" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+<br/>
+
+<h3 class="primary-header-3 font-medium">Prototyping</h3>
+<p class="primary-body mt-2">
+After getting up to speed on Gavyn's vision, we compiled our notes and dove straight into prototyping. While my Figma skills are far from professional,
+I focused on building a more consistent design system — establishing clear rules for elements, typography, and spacing across the interface.
+Not everything shown below made it into the final product, but working through those explorations was essential for narrowing down what actually worked.
+</p>
+
+<Image src="/images/blog/potlucky/potlucky_design_system.png" alt="potlucky design system" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+
+<p class="primary-body">
+The color theme was deliberately minimal — a restrained range of greys anchored by a primary orange for high contrast. Rather than introducing new colors,
+the goal was to give the existing palette clear purpose and intent, ensuring each hue was applied only where it added the most value.
+</p>
+
+<Image src="/images/blog/potlucky/potlucky_colors.png" alt="potlucky colors" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+<br/>
+
+<h3 class="primary-header-3 font-medium">Core Features</h3>
+<p class="primary-body mt-2">
+A pain point we both knew firsthand was not having a clear picture of where the group stood on dishes. As development progressed, we made it a priority
+to solve this. The result was our dish goal modal — a breakdown of progress by category that makes it easy to see what still needs to be covered at a glance.
+</p>
+
+<Image src="/images/blog/potlucky/potlucky_dish_goals.png" alt="potlucky dish goals mockup" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+<br/>
+
+<p class="primary-body mt-2">
+Taking inspiration from tools like When2Meet, we also explored what a sign-in experience could look like. We briefly considered building a custom auth flow,
+but given the scope of the project, we opted for something lighter. Potlucky simply asks for your name before you can add a dish — our frontend logic
+handles the rest, tying any additions or deletions to that name for the session. The tradeoff is that refreshing the page requires signing in again,
+but it was a conscious choice that kept things simple without compromising the core experience.
+</p>
+
+<Image src="/images/blog/potlucky/potlucky_add_dish.png" alt="potlucky add dish mockup" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+<Image src="/images/blog/potlucky/potlucky_signin.png" alt="potlucky sign in mockup" fit="cover" width="700" height="400" class="w-full my-4 rounded-xl"/>
+
+<br/>
+
+<p class="primary-body mt-2">
+Here's a quick demo of an early version of the app. The UI has evolved since then, but the core behavior is largely the same.
+</p>
+<video src="/images/blog/potlucky/potlucky_demo.mp4" controls preload="metadata" width="100%" height="auto"></video>
+
+<br/>
+
+<h3 class="primary-header-3 font-medium">Conclusion</h3>
+<p class="primary-body mt-2">
+Looking back, Potlucky was a genuinely rewarding project — a chance to get back into design thinking and build something people can actually use.
+If you're planning your next potluck, give it a try at the <a class="text-blue-400" target="_blank" href="https://pot-lucky.vercel.app/">live site</a>,
+or take a peek at the <a class="text-blue-400" target="_blank" href="https://github.com/gavyn-ezell/potlucky">GitHub repository</a> if you're curious about how it's built.
+
+<br/>
+And a huge shoutout to Gavyn, the original creator of Potlucky. Be sure to check out his <a class="text-blue-400" target="_blank" href="https://gavyn-ezell.github.io/blog/">blog</a> too!
+</p>
